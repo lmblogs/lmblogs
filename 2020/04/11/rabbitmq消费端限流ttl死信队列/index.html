@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="消费端限流1. 为什么要对消费端限流假设一个场景，首先，我们 Rabbitmq 服务器积压了有上万条未处理的消息，我们随便打开一个消费者客户端，会出现这样情况: 巨量的消息瞬间全部推送过来，但是我们单个客户端无法同时处理这么多数据! 当数据量特别大的时候，我们对生产端限流肯定是不科学的，因为有时候并发量就是特别大，有时候并发量又特别少，我们无法约束生产端，这是用户的行为。所以我们应该对消费端限流，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ 消费端限流、TTL、死信队列">
+<meta property="og:url" content="http://example.com/2020/04/11/rabbitmq%E6%B6%88%E8%B4%B9%E7%AB%AF%E9%99%90%E6%B5%81ttl%E6%AD%BB%E4%BF%A1%E9%98%9F%E5%88%97/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="消费端限流1. 为什么要对消费端限流假设一个场景，首先，我们 Rabbitmq 服务器积压了有上万条未处理的消息，我们随便打开一个消费者客户端，会出现这样情况: 巨量的消息瞬间全部推送过来，但是我们单个客户端无法同时处理这么多数据! 当数据量特别大的时候，我们对生产端限流肯定是不科学的，因为有时候并发量就是特别大，有时候并发量又特别少，我们无法约束生产端，这是用户的行为。所以我们应该对消费端限流，">
+<meta property="og:locale">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1543774/201906/1543774-20190601135236406-1764031047.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1543774/201905/1543774-20190522121234090-1048197586.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1543774/201905/1543774-20190522121311523-815458531.png">
+<meta property="article:published_time" content="2020-04-11T03:02:03.000Z">
+<meta property="article:modified_time" content="2021-01-10T09:25:45.223Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2018.cnblogs.com/blog/1543774/201906/1543774-20190601135236406-1764031047.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/04/11/rabbitmq消费端限流ttl死信队列/"/>
+
+
+
+
+
+  <title>RabbitMQ 消费端限流、TTL、死信队列 | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/11/rabbitmq%E6%B6%88%E8%B4%B9%E7%AB%AF%E9%99%90%E6%B5%81ttl%E6%AD%BB%E4%BF%A1%E9%98%9F%E5%88%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RabbitMQ 消费端限流、TTL、死信队列</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-11T11:02:03+08:00">
+                2020-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="消费端限流"><a href="#消费端限流" class="headerlink" title="消费端限流"></a>消费端限流</h2><h3 id="1-为什么要对消费端限流"><a href="#1-为什么要对消费端限流" class="headerlink" title="1. 为什么要对消费端限流"></a>1. 为什么要对消费端限流</h3><p>假设一个场景，首先，我们 Rabbitmq 服务器积压了有上万条未处理的消息，我们随便打开一个消费者客户端，会出现这样情况: 巨量的消息瞬间全部推送过来，但是我们单个客户端无法同时处理这么多数据!</p>
+<p>当数据量特别大的时候，我们对生产端限流肯定是不科学的，因为有时候并发量就是特别大，有时候并发量又特别少，我们无法约束生产端，这是用户的行为。所以我们应该对消费端限流，用于保持消费端的稳定，当消息数量激增的时候很有可能造成资源耗尽，以及影响服务的性能，导致系统的卡顿甚至直接崩溃。</p>
+<h3 id="2-限流的-api-讲解"><a href="#2-限流的-api-讲解" class="headerlink" title="2.限流的 api 讲解#"></a>2.限流的 api 讲解#</h3><p>RabbitMQ 提供了一种 qos （服务质量保证）功能，即在非自动确认消息的前提下，如果一定数目的消息（通过基于 consume 或者 channel 设置 Qos 的值）未被确认前，不进行消费新的消息。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* Request specific <span class="string">&quot;quality of service&quot;</span> settings.</span><br><span class="line">* These settings impose limits on the amount of data the server</span><br><span class="line">* will deliver to consumers before requiring acknowledgements.</span><br><span class="line">* Thus they provide a means of consumer-initiated flow control.</span><br><span class="line">* @param prefetchSize maximum amount of content (measured <span class="keyword">in</span></span><br><span class="line">* octets) that the server will deliver, 0 <span class="keyword">if</span> unlimited</span><br><span class="line">* @param prefetchCount maximum number of messages that the server</span><br><span class="line">* will deliver, 0 <span class="keyword">if</span> unlimited</span><br><span class="line">* @param global <span class="literal">true</span> <span class="keyword">if</span> the settings should be applied to the</span><br><span class="line">* entire channel rather than each consumer</span><br><span class="line">* @throws java.io.IOException <span class="keyword">if</span> an error is encountered</span><br><span class="line">*/</span><br><span class="line">void basicQos(int prefetchSize, int prefetchCount, boolean global) throws IOException;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>prefetchSize：0，单条消息大小限制，0代表不限制</p>
+</li>
+<li><p>prefetchCount：一次性消费的消息数量。会告诉 RabbitMQ 不要同时给一个消费者推送多于 N 个消息，即一旦有 N 个消息还没有 ack，则该 consumer 将 block 掉，直到有消息 ack。</p>
+</li>
+<li><p>global：true、false 是否将上面设置应用于 channel，简单点说，就是上面限制是 channel 级别的还是 consumer 级别。当我们设置为 false 的时候生效，设置为 true 的时候没有了限流功能，因为 channel 级别尚未实现。</p>
+</li>
+<li><p>注意：prefetchSize 和 global 这两项，rabbitmq 没有实现，暂且不研究。特别注意一点，prefetchCount 在 no_ask=false 的情况下才生效，即在自动应答的情况下这两个值是不生效的。</p>
+</li>
+</ul>
+<h3 id="3-如何对消费端进行限流"><a href="#3-如何对消费端进行限流" class="headerlink" title="3.如何对消费端进行限流"></a>3.如何对消费端进行限流</h3><p>首先第一步，我们既然要使用消费端限流，我们需要关闭自动 ack，将 autoAck 设置为 falsechannel.basicConsume(queueName, false, consumer);</p>
+<p>第二步我们来设置具体的限流大小以及数量。channel.basicQos(0, 15, false);</p>
+<p>第三步在消费者的 handleDelivery 消费方法中手动 ack，并且设置批量处理 ack 回应为 </p>
+<p>truechannel.basicAck(envelope.getDeliveryTag(), true);</p>
+<p>这是生产端代码，与前几章的生产端代码没有做任何改变，主要的操作集中在消费端。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.rabbitmq.client.Channel;</span><br><span class="line"><span class="keyword">import</span> com.rabbitmq.client.Connection;</span><br><span class="line"><span class="keyword">import</span> com.rabbitmq.client.ConnectionFactory;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QosProducer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//1. 创建一个 ConnectionFactory 并进行设置</span></span><br><span class="line">        ConnectionFactory factory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">        factory.setHost(<span class="string">&quot;localhost&quot;</span>);</span><br><span class="line">        factory.setVirtualHost(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">        factory.setUsername(<span class="string">&quot;guest&quot;</span>);</span><br><span class="line">        factory.setPassword(<span class="string">&quot;guest&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//2. 通过连接工厂来创建连接</span></span><br><span class="line">        Connection connection = factory.newConnection();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//3. 通过 Connection 来创建 Channel</span></span><br><span class="line">        Channel channel = connection.createChannel();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//4. 声明</span></span><br><span class="line">        String exchangeName = <span class="string">&quot;test_qos_exchange&quot;</span>;</span><br><span class="line">        String routingKey = <span class="string">&quot;item.add&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//5. 发送</span></span><br><span class="line">        String msg = <span class="string">&quot;this is qos msg&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            String tem = msg + <span class="string">&quot; : &quot;</span> + i;</span><br><span class="line">            channel.basicPublish(exchangeName, routingKey, <span class="keyword">null</span>, tem.getBytes());</span><br><span class="line">            System.out.println(<span class="string">&quot;Send message : &quot;</span> + tem);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//6. 关闭连接</span></span><br><span class="line">        channel.close();</span><br><span class="line">        connection.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们创建一个消费者，通过以下代码来验证限流效果以及 global 参数设置为 true 时不起作用.。我们通过Thread.sleep(5000); 来让 ack 即处理消息的过程慢一些，这样我们就可以从后台管理工具中清晰观察到限流情况。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">import com.rabbitmq.client.*;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">public class QosConsumer &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        //1. 创建一个 ConnectionFactory 并进行设置</span><br><span class="line">        ConnectionFactory factory = new ConnectionFactory();</span><br><span class="line">        factory.setHost(<span class="string">&quot;localhost&quot;</span>);</span><br><span class="line">        factory.setVirtualHost(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">        factory.setUsername(<span class="string">&quot;guest&quot;</span>);</span><br><span class="line">        factory.setPassword(<span class="string">&quot;guest&quot;</span>);</span><br><span class="line">        factory.setAutomaticRecoveryEnabled(<span class="literal">true</span>);</span><br><span class="line">        factory.setNetworkRecoveryInterval(3000);</span><br><span class="line"></span><br><span class="line">        //2. 通过连接工厂来创建连接</span><br><span class="line">        Connection connection = factory.newConnection();</span><br><span class="line"></span><br><span class="line">        //3. 通过 Connection 来创建 Channel</span><br><span class="line">        final Channel channel = connection.createChannel();</span><br><span class="line"></span><br><span class="line">        //4. 声明</span><br><span class="line">        String exchangeName = <span class="string">&quot;test_qos_exchange&quot;</span>;</span><br><span class="line">        String queueName = <span class="string">&quot;test_qos_queue&quot;</span>;</span><br><span class="line">        String routingKey = <span class="string">&quot;item.#&quot;</span>;</span><br><span class="line">        channel.exchangeDeclare(exchangeName, <span class="string">&quot;topic&quot;</span>, <span class="literal">true</span>, <span class="literal">false</span>, null);</span><br><span class="line">        channel.queueDeclare(queueName, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, null);</span><br><span class="line"></span><br><span class="line">        channel.basicQos(0, 3, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        //一般不用代码绑定，在管理界面手动绑定</span><br><span class="line">        channel.queueBind(queueName, exchangeName, routingKey);</span><br><span class="line"></span><br><span class="line">        //5. 创建消费者并接收消息</span><br><span class="line">        Consumer consumer = new DefaultConsumer(channel) &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void handleDelivery(String consumerTag, Envelope envelope,</span><br><span class="line">                                       AMQP.BasicProperties properties, byte[] body)</span><br><span class="line">                    throws IOException &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    Thread.sleep(5000);</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                String message = new String(body, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">                System.out.println(<span class="string">&quot;[x] Received &#x27;&quot;</span> + message + <span class="string">&quot;&#x27;&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.basicAck(envelope.getDeliveryTag(), <span class="literal">true</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        //6. 设置 Channel 消费者绑定队列</span><br><span class="line">        channel.basicConsume(queueName, <span class="literal">false</span>, consumer);</span><br><span class="line">        channel.basicConsume(queueName, <span class="literal">false</span>, consumer1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们从下图中发现 Unacked值一直都是 3 ，每过 5 秒 消费一条消息即 Ready 和 Total 都减少 3，而 Unacked的值在这里代表消费者正在处理的消息，通过我们的实验发现了消费者一次性最多处理 3 条消息，达到了消费者限流的预期功能。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1543774/201906/1543774-20190601135236406-1764031047.png"></p>
+<p>当我们将void basicQos(int prefetchSize, int prefetchCount, boolean global)中的 global 设置为 true的时候我们发现并没有了限流的作用。</p>
+<h2 id="TTL"><a href="#TTL" class="headerlink" title="TTL"></a>TTL</h2><p>TTL是Time To Live的缩写，也就是生存时间。RabbitMQ支持消息的过期时间，在消息发送时可以进行指定。<br>RabbitMQ支持队列的过期时间，从消息入队列开始计算，只要超过了队列的超时时间配置，那么消息会自动的清除。</p>
+<p>这与 Redis 中的过期时间概念类似。我们应该合理使用 TTL 技术，可以有效的处理过期垃圾消息，从而降低服务器的负载，最大化的发挥服务器的性能。</p>
+<blockquote>
+<p>RabbitMQ allows you to set TTL (time to live) for both messages and queues. This can be done using optional queue arguments or policies (the latter option is recommended). Message TTL can be enforced for a single queue, a group of queues or applied for individual messages.<br>RabbitMQ允许您为消息和队列设置TTL（生存时间）。 这可以使用可选的队列参数或策略来完成（建议使用后一个选项）。 可以对单个队列，一组队列强制执行消息TTL，也可以为单个消息应用消息TTL。​——摘自 RabbitMQ 官方文档</p>
+</blockquote>
+<h3 id="1-消息的-TTL"><a href="#1-消息的-TTL" class="headerlink" title="1.消息的 TTL"></a>1.消息的 TTL</h3><p>我们在生产端发送消息的时候可以在 properties 中指定 expiration属性来对消息过期时间进行设置，单位为毫秒(ms)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * deliverMode 设置为 2 的时候代表持久化消息</span></span><br><span class="line"><span class="comment"> * expiration 意思是设置消息的有效期，超过10秒没有被消费者接收后会被自动删除</span></span><br><span class="line"><span class="comment"> * headers 自定义的一些属性</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="comment">//5. 发送</span></span><br><span class="line">Map&lt;String, Object&gt; headers = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">    headers.put(<span class="string">&quot;myhead1&quot;</span>, <span class="string">&quot;111&quot;</span>);</span><br><span class="line">            headers.put(<span class="string">&quot;myhead2&quot;</span>, <span class="string">&quot;222&quot;</span>);</span><br><span class="line"></span><br><span class="line">            AMQP.BasicProperties properties = <span class="keyword">new</span> AMQP.BasicProperties().builder()</span><br><span class="line">            .deliveryMode(<span class="number">2</span>)</span><br><span class="line">            .contentEncoding(<span class="string">&quot;UTF-8&quot;</span>)</span><br><span class="line">            .expiration(<span class="string">&quot;100000&quot;</span>)</span><br><span class="line">            .headers(headers)</span><br><span class="line">            .build();</span><br><span class="line">            String msg = <span class="string">&quot;test message&quot;</span>;</span><br><span class="line">            channel.basicPublish(<span class="string">&quot;&quot;</span>, queueName, properties, msg.getBytes());</span><br></pre></td></tr></table></figure>
+<p>我们也可以后台管理页面中进入 Exchange 发送消息指定expiration</p>
+<p><img src="https://img2018.cnblogs.com/blog/1543774/201905/1543774-20190522121234090-1048197586.png"></p>
+<h3 id="2-队列的-TTL"><a href="#2-队列的-TTL" class="headerlink" title="2.队列的 TTL"></a>2.队列的 TTL</h3><p>我们也可以在后台管理界面中新增一个 queue，创建时可以设置 ttl，对于队列中超过该时间的消息将会被移除。</p>
+<p><img src="https://img2018.cnblogs.com/blog/1543774/201905/1543774-20190522121311523-815458531.png"></p>
+<h2 id="死信队列"><a href="#死信队列" class="headerlink" title="死信队列"></a>死信队列</h2><p>死信队列：没有被及时消费的消息存放的队列</p>
+<p>消息没有被及时消费的原因：</p>
+<ul>
+<li>a.消息被拒绝（basic.reject/ basic.nack）并且不再重新投递 requeue=false</li>
+<li>b.TTL(time-to-live) 消息超时未消费</li>
+<li>c.达到最大队列长度</li>
+</ul>
+<h3 id="实现死信队列步骤"><a href="#实现死信队列步骤" class="headerlink" title="实现死信队列步骤"></a>实现死信队列步骤</h3><ul>
+<li>首先需要设置死信队列的 exchange 和 queue，然后进行绑定:</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Exchange: dlx.exchange</span><br><span class="line">Queue: dlx.queue</span><br><span class="line">RoutingKey: <span class="comment"># 代表接收所有路由 key</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后我们进行正常声明交换机、队列、绑定，只不过我们需要在普通队列加上一个参数即可: </li>
+</ul>
+<p>arguments.put(“x-dead-letter-exchange”,’ dlx.exchange’ )</p>
+<ul>
+<li>这样消息在过期、requeue失败、 队列在达到最大长度时，消息就可以直接路由到死信队列!</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import com.rabbitmq.client.AMQP;</span><br><span class="line">import com.rabbitmq.client.Channel;</span><br><span class="line">import com.rabbitmq.client.Connection;</span><br><span class="line">import com.rabbitmq.client.ConnectionFactory;</span><br><span class="line">public class DlxProducer &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">				//设置连接以及创建 channel 湖绿</span><br><span class="line">        String exchangeName = <span class="string">&quot;test_dlx_exchange&quot;</span>;</span><br><span class="line">        String routingKey = <span class="string">&quot;item.update&quot;</span>;</span><br><span class="line">      </span><br><span class="line">        String msg = <span class="string">&quot;this is dlx msg&quot;</span>;</span><br><span class="line"></span><br><span class="line">        //我们设置消息过期时间，10秒后再消费 让消息进入死信队列</span><br><span class="line">        AMQP.BasicProperties properties = new AMQP.BasicProperties().builder()</span><br><span class="line">                .deliveryMode(2)</span><br><span class="line">                .expiration(<span class="string">&quot;10000&quot;</span>)</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">        channel.basicPublish(exchangeName, routingKey, <span class="literal">true</span>, properties, msg.getBytes());</span><br><span class="line">        System.out.println(<span class="string">&quot;Send message : &quot;</span> + msg);</span><br><span class="line"></span><br><span class="line">        channel.close();</span><br><span class="line">        connection.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/11/rabbitmq-confirm/" rel="next" title="RabbitMQ 消息确认机制">
+                <i class="fa fa-chevron-left"></i> RabbitMQ 消息确认机制
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/13/san-qrode/" rel="prev" title="聊一聊二维码扫描登录原理">
+                聊一聊二维码扫描登录原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E7%AB%AF%E9%99%90%E6%B5%81"><span class="nav-text">消费端限流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AF%B9%E6%B6%88%E8%B4%B9%E7%AB%AF%E9%99%90%E6%B5%81"><span class="nav-text">1. 为什么要对消费端限流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%99%90%E6%B5%81%E7%9A%84-api-%E8%AE%B2%E8%A7%A3"><span class="nav-text">2.限流的 api 讲解#</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%A6%82%E4%BD%95%E5%AF%B9%E6%B6%88%E8%B4%B9%E7%AB%AF%E8%BF%9B%E8%A1%8C%E9%99%90%E6%B5%81"><span class="nav-text">3.如何对消费端进行限流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TTL"><span class="nav-text">TTL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%B6%88%E6%81%AF%E7%9A%84-TTL"><span class="nav-text">1.消息的 TTL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%98%9F%E5%88%97%E7%9A%84-TTL"><span class="nav-text">2.队列的 TTL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%BB%E4%BF%A1%E9%98%9F%E5%88%97"><span class="nav-text">死信队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%BB%E4%BF%A1%E9%98%9F%E5%88%97%E6%AD%A5%E9%AA%A4"><span class="nav-text">实现死信队列步骤</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

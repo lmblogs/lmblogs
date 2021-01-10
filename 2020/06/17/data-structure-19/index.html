@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第五章：图（图的基本操作）1.Adjacent(G,x,y)Adjacent(G,x,y) 判断图G是否存在边&lt;x,y&gt;或(x,y)  如上 无向图 的邻接矩阵和邻接表表示方法，判断方法分别为：  邻接矩阵：判断该边是否存在直接判断对应邻接矩阵中的值即可，如果是1存在否则不存在 邻接表：判断对应顶点的边表是否存在这样一条边的边表结点    因为无向图的邻接矩阵和邻接表我们会存储两遍，所">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习数据结构--第五章：图（图的基本操作）">
+<meta property="og:url" content="http://example.com/2020/06/17/data-structure-19/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="第五章：图（图的基本操作）1.Adjacent(G,x,y)Adjacent(G,x,y) 判断图G是否存在边&lt;x,y&gt;或(x,y)  如上 无向图 的邻接矩阵和邻接表表示方法，判断方法分别为：  邻接矩阵：判断该边是否存在直接判断对应邻接矩阵中的值即可，如果是1存在否则不存在 邻接表：判断对应顶点的边表是否存在这样一条边的边表结点    因为无向图的邻接矩阵和邻接表我们会存储两遍，所">
+<meta property="og:locale">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTgyMDE1MTI4LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTgyMDE1MTI4LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTg1OTEwMDQ1LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MjEwMTA5OTkzLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MjExMjI2MDgwLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MjExMzI1Nzc4LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MjEyOTQ2MTUxLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200505182018216.jpg">
+<meta property="article:published_time" content="2020-06-16T22:58:49.000Z">
+<meta property="article:modified_time" content="2021-01-10T13:19:47.869Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/06/17/data-structure-19/"/>
+
+
+
+
+
+  <title>学习数据结构--第五章：图（图的基本操作） | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/06/17/data-structure-19/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">学习数据结构--第五章：图（图的基本操作）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-17T06:58:49+08:00">
+                2020-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">王道数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="第五章：图（图的基本操作）"><a href="#第五章：图（图的基本操作）" class="headerlink" title="第五章：图（图的基本操作）"></a>第五章：图（图的基本操作）</h1><h2 id="1-Adjacent-G-x-y"><a href="#1-Adjacent-G-x-y" class="headerlink" title="1.Adjacent(G,x,y)"></a>1.Adjacent(G,x,y)</h2><p><code>Adjacent(G,x,y)</code> 判断图G是否存在边<code>&lt;x,y&gt;</code>或<code>(x,y)</code></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png"></p>
+<p>如上 <strong>无向图</strong> 的邻接矩阵和邻接表表示方法，判断方法分别为：</p>
+<ul>
+<li>邻接矩阵：判断该边是否存在直接判断对应邻接矩阵中的值即可，如果是1存在否则不存在</li>
+<li>邻接表：判断对应顶点的边表是否存在这样一条边的边表结点</li>
+</ul>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTgyMDE1MTI4LnBuZw?x-oss-process=image/format,png"></p>
+<blockquote>
+<p>因为无向图的邻接矩阵和邻接表我们会存储两遍，所以无论第一个结点x做行号，还是y做行号都可以进行查找</p>
+</blockquote>
+<p>如上 <strong>有向图</strong> 的邻接矩阵和邻接表表示方法，判断方法分别为：</p>
+<ul>
+<li>邻接矩阵：判断该边是否存在直接判断对应<code>A[x][y]</code>邻接矩阵中的值即可，如果是1存在否则不存在</li>
+<li>邻接表：判断第一个端点x对应的顶点的边表是否存在这样一条边的表结点</li>
+</ul>
+<blockquote>
+<p>因为是有向图所以每个对于邻接矩阵和邻接表都只会存储一此，所以传入的参数第一个x为边的起点的下标</p>
+</blockquote>
+<h2 id="2-Neighbors-G-x"><a href="#2-Neighbors-G-x" class="headerlink" title="2.Neighbors(G,x)"></a>2.Neighbors(G,x)</h2><p><code>Neighbors(G,x)</code>列出图G中与结点x(顶点)邻接的边</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png"></p>
+<p>如上 <strong>无向图</strong> 列出对应结点邻接边</p>
+<ul>
+<li>邻接矩阵：直接搜索邻接矩阵中该顶点的 <code>行或列</code> 中值为1的，值为1都代表某一个边的存在</li>
+<li>邻接表：遍历对于顶点的边表，所有边表结点都代表一个邻接的边</li>
+</ul>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTgyMDE1MTI4LnBuZw?x-oss-process=image/format,png"></p>
+<p>如上 <strong>有向图</strong> 列出对应结点邻接边</p>
+<ul>
+<li>邻接矩阵：我们需要遍历该顶点对应的 <code>行和列</code> 中值为1的，值为1都代表某一个边的存在（行代表出边，列代表入边）</li>
+<li>邻接表：首先遍历对应顶点的边表，找到所有的以该顶点为头节点的边（出边），然后遍历整个邻接表找到以该顶点为尾结点的边（入边）</li>
+</ul>
+<h2 id="3-InsertVertex-G-x"><a href="#3-InsertVertex-G-x" class="headerlink" title="3.InsertVertex(G,x)"></a>3.InsertVertex(G,x)</h2><p><code>InsertVertex(G,x)</code> 在图G中插入顶点x</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png"></p>
+<p>其实关于插入顶点有向图和无向图差不多，这里我们要插入一个顶点F</p>
+<p><strong>无向图</strong>：首先我们需要将顶点F插入到顶点表中，顶点表是一个数组无法扩充所以我们需要新建立一个数组把之前的顶点插入进来，然后加上顶点F，接着我们需要修改邻接矩阵，我们依旧需要扩充二维数组(同样创建一个二维数组把旧的值和新的值都添加进去)。这里只是插入一个顶点，并未确定连接关系</p>
+<p><strong>有向图</strong>：同样我们新建立一个顶点表，将旧值和新值都添加进去，边表置为空即可</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTg1OTEwMDQ1LnBuZw?x-oss-process=image/format,png"></p>
+<h2 id="4-DeleteVertex-G-x"><a href="#4-DeleteVertex-G-x" class="headerlink" title="4.DeleteVertex(G,x)"></a>4.DeleteVertex(G,x)</h2><p><code>DeleteVertex(G,x)</code>从图G中删除顶点x</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png"></p>
+<p><strong>删除一个顶点还需要删除与该顶点有关所有的边</strong></p>
+<ul>
+<li>邻接矩阵：将顶点表对应的结点的值设为空，矩阵二维数组该顶点对应的行和列设为空，所以我们有时也可以采用缩小数组来删除结点。</li>
+<li>邻接表：我们需要删除顶点表对应的顶点，接着清空该顶点表对应的边表</li>
+</ul>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MjEwMTA5OTkzLnBuZw?x-oss-process=image/format,png"></p>
+<h2 id="5-AddEdge-G-x-y"><a href="#5-AddEdge-G-x-y" class="headerlink" title="5.AddEdge(G,x,y)"></a>5.AddEdge(G,x,y)</h2><p><code>AddEdge(G,x,y)</code>若无向边(x,y)或者有向边&lt;x,y&gt;不存在，则向图G中添加该边</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png"></p>
+<p>如上<strong>无向图</strong> 添加一条边</p>
+<ul>
+<li>邻接矩阵：添加一条边，我们需要修改该边在矩阵中的值为1，例如增加AD边，我们需要修改<code>A[0][3]=1</code>和<code>A[3][0]=1</code></li>
+<li>邻接表：添加一条边，我们需要在两个顶点对应的边表中分别增加彼此结点</li>
+</ul>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MjExMjI2MDgwLnBuZw?x-oss-process=image/format,png"></p>
+<h2 id="6-RemoveEdge-G-x-y"><a href="#6-RemoveEdge-G-x-y" class="headerlink" title="6.RemoveEdge(G,x,y)"></a>6.RemoveEdge(G,x,y)</h2><p><strong>RemoveEdge(G,x,y)</strong> 若无向边(x,y)或者有向边&lt;x,y&gt;存在，则在图G中删除该边</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png"></p>
+<p>如上<strong>无向图</strong> 删除一条边</p>
+<ul>
+<li>邻接矩阵：删除一条边，则需要修改该边对应的值为0，例如删除BC边，我们需要修改<code>A[1][2]=0</code>和<code>A[2][1]=0</code></li>
+<li>邻接表：删除一条边，则需要删除两个顶点对应边表中的彼此结点</li>
+</ul>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MjExMzI1Nzc4LnBuZw?x-oss-process=image/format,png"></p>
+<h2 id="7-XxxxNeighbor-G-x"><a href="#7-XxxxNeighbor-G-x" class="headerlink" title="7.XxxxNeighbor(G,x)"></a>7.XxxxNeighbor(G,x)</h2><p><code>FirstNeighbor(G,x)</code> 求图G中顶点x的第一个邻接点，若有则返回顶点号。若没有邻接点或者图不存在x，则返回-1</p>
+<p><code>NextNeighbor(G,x)</code>  假设图G中顶点y是顶点x的一个邻接点，返回除y之外顶点x的下一个邻接点的顶点号，若y是x的最后一个邻接点，则返回-1</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MTcyMjMzNjEyLnBuZw?x-oss-process=image/format,png"></p>
+<p>例如我们找B顶点的</p>
+<ul>
+<li><code>FirstNeighbor(G,x)</code>第一个邻接点</li>
+<li><ul>
+<li>邻接矩阵：我们按照邻接矩阵顺序查找，搜索B对应的行，我们发现这一行第一个值不为1的点为它的第一个邻接点为A（即对应列号较小且值为1的结点）</li>
+<li>邻接表：遍历对应顶点的边表，第一个结点即为它的第一个邻接点</li>
+</ul>
+</li>
+<li><code>NextNeighbor(G,x)</code> 下一个邻接点</li>
+<li><ul>
+<li>邻接矩阵：同理我们按照上面的规律继续往后查找，找到下一个值为1的即为它的下一个邻接点</li>
+<li>邻接表：遍历对应顶点的边表，第一个结点的下一个结点即为它的下一个邻接点</li>
+</ul>
+</li>
+</ul>
+<h2 id="8-Xxx-edge-value-G-x-y"><a href="#8-Xxx-edge-value-G-x-y" class="headerlink" title="8.Xxx_edge_value(G,x,y)"></a>8.Xxx_edge_value(G,x,y)</h2><p>我们知道当边有权值时的图我们叫做网，对于网我们有获取和设置该边权值的操作</p>
+<p><code>Get_edge_value(G,x,y)</code> 获取图G中边(x,y)或&lt;x,y&gt;对应的权值 v</p>
+<p><code>Set_edge_value(G,x,y)</code> 设置图G中边(x,y)或&lt;x,y&gt;对应的权值 v</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE1MjEyOTQ2MTUxLnBuZw?x-oss-process=image/format,png"></p>
+<ul>
+<li>获取边的权值</li>
+<li><ul>
+<li>邻接矩阵：直接找到该边对应的二维数组的值即为该边的权重</li>
+<li>邻接表：遍历邻接矩阵找到对应结点的存储的权重</li>
+</ul>
+</li>
+<li>设置边的权值</li>
+<li><ul>
+<li>邻接表矩阵：同理</li>
+<li>邻接表：同理</li>
+</ul>
+</li>
+</ul>
+<h2 id="7-理木客"><a href="#7-理木客" class="headerlink" title="7.理木客"></a>7.理木客</h2><p>数据结构相关知识，公众号理木客同步更新中，欢迎关注<br><img src="https://img-blog.csdnimg.cn/20200505182018216.jpg"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/13/gitee-tc-java/" rel="next" title="【白嫖】使用码云(gitee)整个一个免费图床加到项目中">
+                <i class="fa fa-chevron-left"></i> 【白嫖】使用码云(gitee)整个一个免费图床加到项目中
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/18/data-structure-20/" rel="prev" title="学习数据结构--第五章：图（图的遍历操作）">
+                学习数据结构--第五章：图（图的遍历操作） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0%EF%BC%9A%E5%9B%BE%EF%BC%88%E5%9B%BE%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%EF%BC%89"><span class="nav-text">第五章：图（图的基本操作）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Adjacent-G-x-y"><span class="nav-text">1.Adjacent(G,x,y)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Neighbors-G-x"><span class="nav-text">2.Neighbors(G,x)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-InsertVertex-G-x"><span class="nav-text">3.InsertVertex(G,x)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-DeleteVertex-G-x"><span class="nav-text">4.DeleteVertex(G,x)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-AddEdge-G-x-y"><span class="nav-text">5.AddEdge(G,x,y)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-RemoveEdge-G-x-y"><span class="nav-text">6.RemoveEdge(G,x,y)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-XxxxNeighbor-G-x"><span class="nav-text">7.XxxxNeighbor(G,x)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-Xxx-edge-value-G-x-y"><span class="nav-text">8.Xxx_edge_value(G,x,y)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E7%90%86%E6%9C%A8%E5%AE%A2"><span class="nav-text">7.理木客</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

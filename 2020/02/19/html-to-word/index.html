@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="演示视频   1.描述想必很多人在开发项目的时候都遇到过这种需求，就是将一个html一键转成word，然后发现无论如何都没法将界面中的图片给保存下来，其实这是因为图片存在跨域的问题，目前我的解决办法是自己的图片保存在 七牛云 中，就不会出现这个问题了。如何你存储到其他的地方，比如自己的服务器，可能就需要开放自己的跨域(自行解决)，如果你的图片是外部连接，比如csdn，这样是没法保存的，csdn上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Html转Word解决转存图片时候的跨域问题、视图问题">
+<meta property="og:url" content="http://example.com/2020/02/19/html-to-word/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="演示视频   1.描述想必很多人在开发项目的时候都遇到过这种需求，就是将一个html一键转成word，然后发现无论如何都没法将界面中的图片给保存下来，其实这是因为图片存在跨域的问题，目前我的解决办法是自己的图片保存在 七牛云 中，就不会出现这个问题了。如何你存储到其他的地方，比如自己的服务器，可能就需要开放自己的跨域(自行解决)，如果你的图片是外部连接，比如csdn，这样是没法保存的，csdn上">
+<meta property="og:locale">
+<meta property="og:image" content="http://xzjsbk.toptech.top/lmk1_1585361332855.png">
+<meta property="article:published_time" content="2020-02-18T22:42:35.000Z">
+<meta property="article:modified_time" content="2021-01-10T13:19:47.683Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://xzjsbk.toptech.top/lmk1_1585361332855.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/02/19/html-to-word/"/>
+
+
+
+
+
+  <title>Html转Word解决转存图片时候的跨域问题、视图问题 | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/02/19/html-to-word/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Html转Word解决转存图片时候的跨域问题、视图问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-19T06:42:35+08:00">
+                2020-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JS/" itemprop="url" rel="index">
+                    <span itemprop="name">JS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://xzjsbk.toptech.top/lmk1_1585361332855.png" alt="lmk1"></p>
+<h3 id="演示视频"><a href="#演示视频" class="headerlink" title="演示视频"></a>演示视频</h3><iframe src="//player.bilibili.com/player.html?aid=90167084&cid=153995320&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="100%" height="670"> </iframe>
+
+<h3 id="1-描述"><a href="#1-描述" class="headerlink" title="1.描述"></a>1.描述</h3><p>想必很多人在开发项目的时候都遇到过这种需求，就是将一个html一键转成word，然后发现无论如何都没法将界面中的图片给保存下来，其实这是因为图片存在跨域的问题，目前我的解决办法是自己的图片保存在 <strong>七牛云</strong> 中，就不会出现这个问题了。如何你存储到其他的地方，比如自己的服务器，可能就需要开放自己的跨域(自行解决)，如果你的图片是外部连接，比如csdn，这样是没法保存的，csdn上的图片不支持跨域请求。</p>
+<h3 id="2-Js代码"><a href="#2-Js代码" class="headerlink" title="2.Js代码"></a>2.Js代码</h3><h4 id="2-1-启动Js"><a href="#2-1-启动Js" class="headerlink" title="2.1.启动Js"></a>2.1.启动Js</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">downloadword</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    $(<span class="string">&quot;#paperque&quot;</span>).wordExport(papername);  <span class="comment">//fileName为导出的word文件的命名</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-wordexport-js"><a href="#2-2-wordexport-js" class="headerlink" title="2.2.wordexport.js"></a>2.2.wordexport.js</h4><p>主要是下面这行代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">relimg.setAttribute(<span class="string">&quot;crossOrigin&quot;</span>,<span class="string">&#x27;Anonymous&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> jQuery !== <span class="string">&quot;undefined&quot;</span> &amp;&amp; <span class="keyword">typeof</span> saveAs !== <span class="string">&quot;undefined&quot;</span>) &#123;</span><br><span class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params">$</span>) </span>&#123;</span><br><span class="line">        $.fn.wordExport = <span class="function"><span class="keyword">function</span>(<span class="params">fileName</span>) </span>&#123;</span><br><span class="line">            fileName = <span class="keyword">typeof</span> fileName !== <span class="string">&#x27;undefined&#x27;</span> ? fileName : <span class="string">&quot;jQuery-Word-Export&quot;</span>;</span><br><span class="line">            <span class="keyword">var</span> <span class="keyword">static</span> = &#123;</span><br><span class="line">                mhtml: &#123;</span><br><span class="line">                    top: <span class="string">&quot;Mime-Version: 1.0\nContent-Base: &quot;</span> + location.href + <span class="string">&quot;\nContent-Type: Multipart/related; boundary=\&quot;NEXT.ITEM-BOUNDARY\&quot;;type=\&quot;text/html\&quot;\n\n--NEXT.ITEM-BOUNDARY\nContent-Type: text/html; charset=\&quot;utf-8\&quot;\nContent-Location: &quot;</span> + location.href + <span class="string">&quot;\n\n&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n_html_&lt;/html&gt;&quot;</span>,</span><br><span class="line">                    head: <span class="string">&quot;&lt;head&gt;\n&lt;meta http-equiv=\&quot;Content-Type\&quot; content=\&quot;text/html; charset=utf-8\&quot;&gt;\n&lt;style&gt;\n_styles_\n&lt;/style&gt;\n&lt;/head&gt;\n&quot;</span>,</span><br><span class="line">                    body: <span class="string">&quot;&lt;body&gt;_body_&lt;/body&gt;&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="keyword">var</span> options = &#123;</span><br><span class="line">                maxWidth: <span class="number">624</span></span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="comment">// Clone selected element before manipulating it</span></span><br><span class="line">            <span class="keyword">var</span> markup = $(<span class="built_in">this</span>).clone();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Remove hidden elements from the output</span></span><br><span class="line">            markup.each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">var</span> self = $(<span class="built_in">this</span>);</span><br><span class="line">                <span class="keyword">if</span> (self.is(<span class="string">&#x27;:hidden&#x27;</span>))</span><br><span class="line">                    self.remove();</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Embed all images using Data URLs</span></span><br><span class="line">            <span class="keyword">var</span> images = <span class="built_in">Array</span>();</span><br><span class="line">            <span class="keyword">var</span> img = markup.find(<span class="string">&#x27;img&#x27;</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; img.length; i++) &#123;</span><br><span class="line">                <span class="comment">// Calculate dimensions of output image</span></span><br><span class="line">                <span class="keyword">var</span> w = <span class="built_in">Math</span>.min(img[i].width, options.maxWidth);</span><br><span class="line">                <span class="keyword">var</span> h = img[i].height * (w / img[i].width);</span><br><span class="line">                <span class="comment">// Create canvas for converting image to data URL</span></span><br><span class="line">                <span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">&quot;CANVAS&quot;</span>);</span><br><span class="line">                canvas.width = w;</span><br><span class="line">                canvas.height = h;</span><br><span class="line">                <span class="comment">// Draw image to canvas</span></span><br><span class="line">                <span class="keyword">var</span> context = canvas.getContext(<span class="string">&#x27;2d&#x27;</span>),</span><br><span class="line">                    relimg = <span class="keyword">new</span> Image(),<span class="comment">//创建新的图片对象</span></span><br><span class="line">                    base64 = <span class="string">&#x27;&#x27;</span> ;<span class="comment">//base64</span></span><br><span class="line">                relimg.src = img[i].src;</span><br><span class="line">                relimg.setAttribute(<span class="string">&quot;crossOrigin&quot;</span>,<span class="string">&#x27;Anonymous&#x27;</span>); <span class="comment">//设置图片的跨域属性</span></span><br><span class="line">                relimg.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="comment">//图片加载完，再draw 和 toDataURL</span></span><br><span class="line">                    context.drawImage(relimg,<span class="number">0</span>, <span class="number">0</span>, w, h);</span><br><span class="line">                    base64 = canvas.toDataURL(<span class="string">&quot;image/png&quot;</span>);</span><br><span class="line">                &#125;;</span><br><span class="line">                <span class="comment">// Get data URL encoding of image</span></span><br><span class="line">                <span class="keyword">var</span> uri = canvas.toDataURL(<span class="string">&quot;image/png&quot;</span>);</span><br><span class="line">                $(img[i]).attr(<span class="string">&quot;src&quot;</span>, img[i].src);</span><br><span class="line">                img[i].width = w;</span><br><span class="line">                img[i].height = h;</span><br><span class="line">                <span class="comment">// Save encoded image to array</span></span><br><span class="line">                images[i] = &#123;</span><br><span class="line">                    type: uri.substring(uri.indexOf(<span class="string">&quot;:&quot;</span>) + <span class="number">1</span>, uri.indexOf(<span class="string">&quot;;&quot;</span>)),</span><br><span class="line">                    encoding: uri.substring(uri.indexOf(<span class="string">&quot;;&quot;</span>) + <span class="number">1</span>, uri.indexOf(<span class="string">&quot;,&quot;</span>)),</span><br><span class="line">                    location: $(img[i]).attr(<span class="string">&quot;src&quot;</span>),</span><br><span class="line">                    data: uri.substring(uri.indexOf(<span class="string">&quot;,&quot;</span>) + <span class="number">1</span>)</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Prepare bottom of mhtml file with image data</span></span><br><span class="line">            <span class="keyword">var</span> mhtmlBottom = <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; images.length; i++) &#123;</span><br><span class="line">                mhtmlBottom += <span class="string">&quot;--NEXT.ITEM-BOUNDARY\n&quot;</span>;</span><br><span class="line">                mhtmlBottom += <span class="string">&quot;Content-Location: &quot;</span> + images[i].location + <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">                mhtmlBottom += <span class="string">&quot;Content-Type: &quot;</span> + images[i].type + <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">                mhtmlBottom += <span class="string">&quot;Content-Transfer-Encoding: &quot;</span> + images[i].encoding + <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line">                mhtmlBottom += images[i].data + <span class="string">&quot;\n\n&quot;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            mhtmlBottom += <span class="string">&quot;--NEXT.ITEM-BOUNDARY--&quot;</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//<span class="doctag">TODO:</span> load css from included stylesheet</span></span><br><span class="line">            <span class="keyword">var</span> styles = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Aggregate parts of the file together</span></span><br><span class="line">            <span class="keyword">var</span> fileContent = <span class="keyword">static</span>.mhtml.top.replace(<span class="string">&quot;_html_&quot;</span>, <span class="keyword">static</span>.mhtml.head.replace(<span class="string">&quot;_styles_&quot;</span>, styles) + <span class="keyword">static</span>.mhtml.body.replace(<span class="string">&quot;_body_&quot;</span>, markup.html())) + mhtmlBottom;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Create a Blob with the file contents</span></span><br><span class="line">            <span class="keyword">var</span> blob = <span class="keyword">new</span> Blob([fileContent], &#123;</span><br><span class="line">                type: <span class="string">&quot;application/msword;charset=utf-8&quot;</span></span><br><span class="line">            &#125;);</span><br><span class="line">            saveAs(blob, fileName + <span class="string">&quot;.doc&quot;</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;)(jQuery);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> jQuery === <span class="string">&quot;undefined&quot;</span>) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">&quot;jQuery Word Export: missing dependency (jQuery)&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> saveAs === <span class="string">&quot;undefined&quot;</span>) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">&quot;jQuery Word Export: missing dependency (FileSaver.js)&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-fileSavers-js"><a href="#2-2-fileSavers-js" class="headerlink" title="2.2.fileSavers.js"></a>2.2.fileSavers.js</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* FileSaver.js</span></span><br><span class="line"><span class="comment"> * A saveAs() FileSaver implementation.</span></span><br><span class="line"><span class="comment"> * 1.3.2</span></span><br><span class="line"><span class="comment"> * 2016-06-16 18:25:19</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * By Eli Grey, http://eligrey.com</span></span><br><span class="line"><span class="comment"> * License: MIT</span></span><br><span class="line"><span class="comment"> *   See https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*global self */</span></span><br><span class="line"><span class="comment">/*jslint bitwise: true, indent: 4, laxbreak: true, laxcomma: true, smarttabs: true, plusplus: true */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> saveAs = saveAs || (<span class="function"><span class="keyword">function</span>(<span class="params">view</span>) </span>&#123;</span><br><span class="line"><span class="meta">    &quot;use strict&quot;</span>;</span><br><span class="line">    <span class="comment">// IE &lt;10 is explicitly unsupported</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> view === <span class="string">&quot;undefined&quot;</span> || <span class="keyword">typeof</span> navigator !== <span class="string">&quot;undefined&quot;</span> &amp;&amp; <span class="regexp">/MSIE [1-9]\./</span>.test(navigator.userAgent)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span></span><br><span class="line">        doc = view.document</span><br><span class="line">        <span class="comment">// only get URL when necessary in case Blob.js hasn&#x27;t overridden it yet</span></span><br><span class="line">        , get_URL = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> view.URL || view.webkitURL || view;</span><br><span class="line">        &#125;</span><br><span class="line">        , save_link = doc.createElementNS(<span class="string">&quot;http://www.w3.org/1999/xhtml&quot;</span>, <span class="string">&quot;a&quot;</span>)</span><br><span class="line">        , can_use_save_link = <span class="string">&quot;download&quot;</span> <span class="keyword">in</span> save_link</span><br><span class="line">        , click = <span class="function"><span class="keyword">function</span>(<span class="params">node</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> event = <span class="keyword">new</span> MouseEvent(<span class="string">&quot;click&quot;</span>);</span><br><span class="line">            node.dispatchEvent(event);</span><br><span class="line">        &#125;</span><br><span class="line">        , is_safari = <span class="regexp">/constructor/i</span>.test(view.HTMLElement)</span><br><span class="line">        , is_chrome_ios =<span class="regexp">/CriOS\/[\d]+/</span>.test(navigator.userAgent)</span><br><span class="line">        , throw_outside = <span class="function"><span class="keyword">function</span>(<span class="params">ex</span>) </span>&#123;</span><br><span class="line">            (view.setImmediate || view.setTimeout)(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">throw</span> ex;</span><br><span class="line">            &#125;, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        , force_saveable_type = <span class="string">&quot;application/octet-stream&quot;</span></span><br><span class="line">        <span class="comment">// the Blob API is fundamentally broken as there is no &quot;downloadfinished&quot; event to subscribe to</span></span><br><span class="line">        , arbitrary_revoke_timeout = <span class="number">1000</span> * <span class="number">40</span> <span class="comment">// in ms</span></span><br><span class="line">        , revoke = <span class="function"><span class="keyword">function</span>(<span class="params">file</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> revoker = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">typeof</span> file === <span class="string">&quot;string&quot;</span>) &#123; <span class="comment">// file is an object URL</span></span><br><span class="line">                    get_URL().revokeObjectURL(file);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123; <span class="comment">// file is a File</span></span><br><span class="line">                    file.remove();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            <span class="built_in">setTimeout</span>(revoker, arbitrary_revoke_timeout);</span><br><span class="line">        &#125;</span><br><span class="line">        , dispatch = <span class="function"><span class="keyword">function</span>(<span class="params">filesaver, event_types, event</span>) </span>&#123;</span><br><span class="line">            event_types = [].concat(event_types);</span><br><span class="line">            <span class="keyword">var</span> i = event_types.length;</span><br><span class="line">            <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">                <span class="keyword">var</span> listener = filesaver[<span class="string">&quot;on&quot;</span> + event_types[i]];</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">typeof</span> listener === <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        listener.call(filesaver, event || filesaver);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (ex) &#123;</span><br><span class="line">                        throw_outside(ex);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        , auto_bom = <span class="function"><span class="keyword">function</span>(<span class="params">blob</span>) </span>&#123;</span><br><span class="line">            <span class="comment">// prepend BOM for UTF-8 XML and text/* types (including HTML)</span></span><br><span class="line">            <span class="comment">// note: your browser will automatically convert UTF-16 U+FEFF to EF BB BF</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="regexp">/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i</span>.test(blob.type)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Blob([<span class="built_in">String</span>.fromCharCode(<span class="number">0xFEFF</span>), blob], &#123;<span class="attr">type</span>: blob.type&#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> blob;</span><br><span class="line">        &#125;</span><br><span class="line">        , FileSaver = <span class="function"><span class="keyword">function</span>(<span class="params">blob, name, no_auto_bom</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (!no_auto_bom) &#123;</span><br><span class="line">                blob = auto_bom(blob);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// First try a.download, then web filesystem, then object URLs</span></span><br><span class="line">            <span class="keyword">var</span></span><br><span class="line">                filesaver = <span class="built_in">this</span></span><br><span class="line">                , type = blob.type</span><br><span class="line">                , force = type === force_saveable_type</span><br><span class="line">                , object_url</span><br><span class="line">                , dispatch_all = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                    dispatch(filesaver, <span class="string">&quot;writestart progress write writeend&quot;</span>.split(<span class="string">&quot; &quot;</span>));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// on any filesys errors revert to saving with object URLs</span></span><br><span class="line">                , fs_error = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                    <span class="keyword">if</span> ((is_chrome_ios || (force &amp;&amp; is_safari)) &amp;&amp; view.FileReader) &#123;</span><br><span class="line">                        <span class="comment">// Safari doesn&#x27;t allow downloading of blob urls</span></span><br><span class="line">                        <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();</span><br><span class="line">                        reader.onloadend = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                            <span class="keyword">var</span> url = is_chrome_ios ? reader.result : reader.result.replace(<span class="regexp">/^data:[^;]*;/</span>, <span class="string">&#x27;data:attachment/file;&#x27;</span>);</span><br><span class="line">                            <span class="keyword">var</span> popup = view.open(url, <span class="string">&#x27;_blank&#x27;</span>);</span><br><span class="line">                            <span class="keyword">if</span>(!popup) view.location.href = url;</span><br><span class="line">                            url=<span class="literal">undefined</span>; <span class="comment">// release reference before dispatching</span></span><br><span class="line">                            filesaver.readyState = filesaver.DONE;</span><br><span class="line">                            dispatch_all();</span><br><span class="line">                        &#125;;</span><br><span class="line">                        reader.readAsDataURL(blob);</span><br><span class="line">                        filesaver.readyState = filesaver.INIT;</span><br><span class="line">                        <span class="keyword">return</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// don&#x27;t create more object URLs than needed</span></span><br><span class="line">                    <span class="keyword">if</span> (!object_url) &#123;</span><br><span class="line">                        object_url = get_URL().createObjectURL(blob);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (force) &#123;</span><br><span class="line">                        view.location.href = object_url;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">var</span> opened = view.open(object_url, <span class="string">&quot;_blank&quot;</span>);</span><br><span class="line">                        <span class="keyword">if</span> (!opened) &#123;</span><br><span class="line">                            <span class="comment">// Apple does not allow window.open, see https://developer.apple.com/library/safari/documentation/Tools/Conceptual/SafariExtensionGuide/WorkingwithWindowsandTabs/WorkingwithWindowsandTabs.html</span></span><br><span class="line">                            view.location.href = object_url;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    filesaver.readyState = filesaver.DONE;</span><br><span class="line">                    dispatch_all();</span><br><span class="line">                    revoke(object_url);</span><br><span class="line">                &#125;</span><br><span class="line">            ;</span><br><span class="line">            filesaver.readyState = filesaver.INIT;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (can_use_save_link) &#123;</span><br><span class="line">                object_url = get_URL().createObjectURL(blob);</span><br><span class="line">                <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                    save_link.href = object_url;</span><br><span class="line">                    save_link.download = name;</span><br><span class="line">                    click(save_link);</span><br><span class="line">                    dispatch_all();</span><br><span class="line">                    revoke(object_url);</span><br><span class="line">                    filesaver.readyState = filesaver.DONE;</span><br><span class="line">                &#125;);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fs_error();</span><br><span class="line">        &#125;</span><br><span class="line">        , FS_proto = FileSaver.prototype</span><br><span class="line">        , saveAs = <span class="function"><span class="keyword">function</span>(<span class="params">blob, name, no_auto_bom</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> FileSaver(blob, name || blob.name || <span class="string">&quot;download&quot;</span>, no_auto_bom);</span><br><span class="line">        &#125;</span><br><span class="line">    ;</span><br><span class="line">    <span class="comment">// IE 10+ (native saveAs)</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> navigator !== <span class="string">&quot;undefined&quot;</span> &amp;&amp; navigator.msSaveOrOpenBlob) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">blob, name, no_auto_bom</span>) </span>&#123;</span><br><span class="line">            name = name || blob.name || <span class="string">&quot;download&quot;</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!no_auto_bom) &#123;</span><br><span class="line">                blob = auto_bom(blob);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> navigator.msSaveOrOpenBlob(blob, name);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    FS_proto.abort = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">    FS_proto.readyState = FS_proto.INIT = <span class="number">0</span>;</span><br><span class="line">    FS_proto.WRITING = <span class="number">1</span>;</span><br><span class="line">    FS_proto.DONE = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    FS_proto.error =</span><br><span class="line">        FS_proto.onwritestart =</span><br><span class="line">            FS_proto.onprogress =</span><br><span class="line">                FS_proto.onwrite =</span><br><span class="line">                    FS_proto.onabort =</span><br><span class="line">                        FS_proto.onerror =</span><br><span class="line">                            FS_proto.onwriteend =</span><br><span class="line">                                <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> saveAs;</span><br><span class="line">&#125;(</span><br><span class="line">    <span class="keyword">typeof</span> self !== <span class="string">&quot;undefined&quot;</span> &amp;&amp; self</span><br><span class="line">    || <span class="keyword">typeof</span> <span class="built_in">window</span> !== <span class="string">&quot;undefined&quot;</span> &amp;&amp; <span class="built_in">window</span></span><br><span class="line">    || <span class="built_in">this</span>.content</span><br><span class="line">));</span><br><span class="line"><span class="comment">// `self` is undefined in Firefox for Android content script context</span></span><br><span class="line"><span class="comment">// while `this` is nsIContentFrameMessageManager</span></span><br><span class="line"><span class="comment">// with an attribute `content` that corresponds to the window</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">module</span> !== <span class="string">&quot;undefined&quot;</span> &amp;&amp; <span class="built_in">module</span>.exports) &#123;</span><br><span class="line">    <span class="built_in">module</span>.exports.saveAs = saveAs;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> ((<span class="keyword">typeof</span> define !== <span class="string">&quot;undefined&quot;</span> &amp;&amp; define !== <span class="literal">null</span>) &amp;&amp; (define.amd !== <span class="literal">null</span>)) &#123;</span><br><span class="line">    define([], <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> saveAs;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="3-使用"><a href="#3-使用" class="headerlink" title="3.使用"></a>3.使用</h3><p>引入上面的js，网页中一个按钮，点击这个按钮调用downloadword函数即可，其中文件导出的文件名字可以自定义。</p>
+<h3 id="4-视图问题"><a href="#4-视图问题" class="headerlink" title="4.视图问题"></a>4.视图问题</h3><p>上面运行后发现文档打开的页面不是 <strong>页面视图</strong> ，而是 <strong>web视图</strong> ，其实还需要修改wordexport.js。其中var static = {} 修改成如下内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var static = &#123;</span><br><span class="line">    mhtml: &#123;</span><br><span class="line">        top: <span class="string">&quot;Mime-Version: 1.0\nContent-Base: &quot;</span> + location.href + <span class="string">&quot;\nContent-Type: Multipart/related; boundary=\&quot;NEXT.ITEM-BOUNDARY\&quot;;type=\&quot;text/html\&quot;\n\n--NEXT.ITEM-BOUNDARY\nContent-Type: text/html; charset=\&quot;utf-8\&quot;\nContent-Location: &quot;</span> + location.href + <span class="string">&quot;\n\n&lt;!DOCTYPE html&gt;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&lt;html xmlns:v=\&quot;urn:schemas-microsoft-com:vml\&quot; xmlns:o=\&quot;urn:schemas-microsoft-com:office:office\&quot; xmlns:w=\&quot;urn:schemas-microsoft-com:office:word\&quot; xmlns:m=\&quot;http://schemas.microsoft.com/office/2004/12/omml\&quot; xmlns=\&quot;http://www.w3.org/TR/REC-html40\&quot;&gt;\n_html_&lt;/html&gt;&quot;</span>,</span><br><span class="line">        head: <span class="string">&quot;&lt;head&gt;\n&lt;meta http-equiv=\&quot;Content-Type\&quot; content=\&quot;text/html; charset=utf-8\&quot;&gt;\n&lt;style&gt;\n_styles_\n&lt;/style&gt;\n&lt;!--[if gte mso 9]&gt;&lt;xml&gt;&lt;w:WordDocument&gt;&lt;w:View&gt;Print&lt;/w:View&gt;&lt;w:TrackMoves&gt;false&lt;/w:TrackMoves&gt;&lt;w:TrackFormatting/&gt;&lt;w:ValidateAgainstSchemas/&gt;&lt;w:SaveIfXMLInvalid&gt;false&lt;/w:SaveIfXMLInvalid&gt;&lt;w:IgnoreMixedContent&gt;false&lt;/w:IgnoreMixedContent&gt;&lt;w:AlwaysShowPlaceholderText&gt;false&lt;/w:AlwaysShowPlaceholderText&gt;&lt;w:DoNotPromoteQF/&gt;&lt;w:LidThemeOther&gt;EN-US&lt;/w:LidThemeOther&gt;&lt;w:LidThemeAsian&gt;ZH-CN&lt;/w:LidThemeAsian&gt;&lt;w:LidThemeComplexScript&gt;X-NONE&lt;/w:LidThemeComplexScript&gt;&lt;w:Compatibility&gt;&lt;w:BreakWrappedTables/&gt;&lt;w:SnapToGridInCell/&gt;&lt;w:WrapTextWithPunct/&gt;&lt;w:UseAsianBreakRules/&gt;&lt;w:DontGrowAutofit/&gt;&lt;w:SplitPgBreakAndParaMark/&gt;&lt;w:DontVertAlignCellWithSp/&gt;&lt;w:DontBreakConstrainedForcedTables/&gt;&lt;w:DontVertAlignInTxbx/&gt;&lt;w:Word11KerningPairs/&gt;&lt;w:CachedColBalance/&gt;&lt;w:UseFELayout/&gt;&lt;/w:Compatibility&gt;&lt;w:BrowserLevel&gt;MicrosoftInternetExplorer4&lt;/w:BrowserLevel&gt;&lt;m:mathPr&gt;&lt;m:mathFont m:val=\&quot;Cambria Math\&quot;/&gt;&lt;m:brkBin m:val=\&quot;before\&quot;/&gt;&lt;m:brkBinSub m:val=\&quot;--\&quot;/&gt;&lt;m:smallFrac m:val=\&quot;off\&quot;/&gt;&lt;m:dispDef/&gt;&lt;m:lMargin m:val=\&quot;0\&quot;/&gt; &lt;m:rMargin m:val=\&quot;0\&quot;/&gt;&lt;m:defJc m:val=\&quot;centerGroup\&quot;/&gt;&lt;m:wrapIndent m:val=\&quot;1440\&quot;/&gt;&lt;m:intLim m:val=\&quot;subSup\&quot;/&gt;&lt;m:naryLim m:val=\&quot;undOvr\&quot;/&gt;&lt;/m:mathPr&gt;&lt;/w:WordDocument&gt;&lt;/xml&gt;&lt;![endif]--&gt;&lt;/head&gt;\n&quot;</span>,</span><br><span class="line">        body: <span class="string">&quot;&lt;body&gt;_body_&lt;/body&gt;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其实就是在html之间加入：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;html xmlns:v=<span class="string">&quot;urn:schemas-microsoft-com:vml&quot;</span> xmlns:o=<span class="string">&quot;urn:schemas-microsoft-com:office:office&quot;</span></span><br><span class="line">xmlns:w=<span class="string">&quot;urn:schemas-microsoft-com:office:word&quot;</span> xmlns:m=<span class="string">&quot;http://schemas.microsoft.com/office/2004/12/omml&quot;</span></span><br><span class="line">xmlns=<span class="string">&quot;http://www.w3.org/TR/REC-html40&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>在head中加入：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--[<span class="keyword">if</span> gte mso <span class="number">9</span>]&gt;<span class="xml"><span class="tag">&lt;<span class="name">xml</span>&gt;</span>&lt;w:WordDocument&gt;&lt;w:View&gt;Print&lt;/w:View&gt;&lt;w:TrackMoves&gt;false&lt;/w:TrackMoves&gt;&lt;w:TrackFormatting/&gt;&lt;w:ValidateAgainstSchemas/&gt;&lt;w:SaveIfXMLInvalid&gt;false&lt;/w:SaveIfXMLInvalid&gt;&lt;w:IgnoreMixedContent&gt;false&lt;/w:IgnoreMixedContent&gt;&lt;w:AlwaysShowPlaceholderText&gt;false&lt;/w:AlwaysShowPlaceholderText&gt;&lt;w:DoNotPromoteQF/&gt;&lt;w:LidThemeOther&gt;EN-US&lt;/w:LidThemeOther&gt;&lt;w:LidThemeAsian&gt;ZH-CN&lt;/w:LidThemeAsian&gt;&lt;w:LidThemeComplexScript&gt;X-NONE&lt;/w:LidThemeComplexScript&gt;&lt;w:Compatibility&gt;&lt;w:BreakWrappedTables/&gt;&lt;w:SnapToGridInCell/&gt;&lt;w:WrapTextWithPunct/&gt;&lt;w:UseAsianBreakRules/&gt;&lt;w:DontGrowAutofit/&gt;&lt;w:SplitPgBreakAndParaMark/&gt;&lt;w:DontVertAlignCellWithSp/&gt;&lt;w:DontBreakConstrainedForcedTables/&gt;&lt;w:DontVertAlignInTxbx/&gt;&lt;w:Word11KerningPairs/&gt;&lt;w:CachedColBalance/&gt;&lt;w:UseFELayout/&gt;&lt;/w:Compatibility&gt;&lt;w:BrowserLevel&gt;MicrosoftInternetExplorer4&lt;/w:BrowserLevel&gt;&lt;m:mathPr&gt;&lt;m:mathFont m:val=&quot;Cambria Math&quot;/&gt;&lt;m:brkBin m:val=&quot;before&quot;/&gt;&lt;m:brkBinSub m:val=&quot;--&quot;/&gt;&lt;m:smallFrac m:val=&quot;off&quot;/&gt;&lt;m:dispDef/&gt;&lt;m:lMargin m:val=&quot;0&quot;/&gt; &lt;m:rMargin m:val=&quot;0&quot;/&gt;&lt;m:defJc m:val=&quot;centerGroup&quot;/&gt;&lt;m:wrapIndent m:val=&quot;1440&quot;/&gt;&lt;m:intLim m:val=&quot;subSup&quot;/&gt;&lt;m:naryLim m:val=&quot;undOvr&quot;/&gt;&lt;/m:mathPr&gt;&lt;/w:WordDocument&gt;<span class="tag">&lt;/<span class="name">xml</span>&gt;</span></span>&lt;![endif]--&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/16/wordpress/" rel="next" title="基于 CentOS7 搭建 WordPress 个人博客">
+                <i class="fa fa-chevron-left"></i> 基于 CentOS7 搭建 WordPress 个人博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/23/java-jar-exe/" rel="prev" title="使用idea将Java项目打包Jar包，之后生成exe可执行文件">
+                使用idea将Java项目打包Jar包，之后生成exe可执行文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA%E8%A7%86%E9%A2%91"><span class="nav-text">演示视频</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%8F%8F%E8%BF%B0"><span class="nav-text">1.描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Js%E4%BB%A3%E7%A0%81"><span class="nav-text">2.Js代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E5%90%AF%E5%8A%A8Js"><span class="nav-text">2.1.启动Js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-wordexport-js"><span class="nav-text">2.2.wordexport.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-fileSavers-js"><span class="nav-text">2.2.fileSavers.js</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BD%BF%E7%94%A8"><span class="nav-text">3.使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%A7%86%E5%9B%BE%E9%97%AE%E9%A2%98"><span class="nav-text">4.视图问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、Java基础 java基础语法 集合 io 多线程 并发 反射 网络编程 注意：对于Java基础，其中集合和io是初学Java后端的时候最常用的，特别是集合。对于多线程、并发、反射和网络编程，初学后端的时候基本用不到，因为你初学的时候不会涉及到这么深的技术，当然不代表不需要会，如果你面试肯定还是要会的。    这里学习Java，建议学习Java8（windows下安装Java8并配置环境变量）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java后端自学学习计划（附带学习视频）">
+<meta property="og:url" content="http://example.com/2020/03/08/javaweb-learn/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="一、Java基础 java基础语法 集合 io 多线程 并发 反射 网络编程 注意：对于Java基础，其中集合和io是初学Java后端的时候最常用的，特别是集合。对于多线程、并发、反射和网络编程，初学后端的时候基本用不到，因为你初学的时候不会涉及到这么深的技术，当然不代表不需要会，如果你面试肯定还是要会的。    这里学习Java，建议学习Java8（windows下安装Java8并配置环境变量）">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200308091042614.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200308091110881.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200308091132990.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200308091150311.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020030809120881.png">
+<meta property="article:published_time" content="2020-03-08T15:15:50.000Z">
+<meta property="article:modified_time" content="2021-01-10T13:19:47.664Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200308091042614.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/03/08/javaweb-learn/"/>
+
+
+
+
+
+  <title>Java后端自学学习计划（附带学习视频） | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/03/08/javaweb-learn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java后端自学学习计划（附带学习视频）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-08T23:15:50+08:00">
+                2020-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、Java基础"><a href="#一、Java基础" class="headerlink" title="一、Java基础"></a>一、Java基础</h3><ul>
+<li>java基础语法</li>
+<li>集合</li>
+<li>io</li>
+<li>多线程</li>
+<li>并发</li>
+<li>反射</li>
+<li>网络编程<blockquote>
+<p>注意：对于Java基础，其中集合和io是初学Java后端的时候最常用的，特别是集合。对于多线程、并发、反射和网络编程，初学后端的时候基本用不到，因为你初学的时候不会涉及到这么深的技术，当然不代表不需要会，如果你面试肯定还是要会的。</p>
+</blockquote>
+</li>
+</ul>
+<p>这里学习Java，建议学习Java8（<a target="_blank" rel="noopener" href="https://www.toptech.top/archives/windows%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%8Bjava%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE">windows下安装Java8并配置环境变量</a>），因为这一块的社区比较成熟，如果你学习过程中出现问题，很快都能查找到问题所在。另外现在都已经 JDK 13 了，为什么还有这么多公司使用旧版本。Java 8 已经算好的了，有的公司还在使用 7，更有甚者还在用 6，你说是不是很 6。</p>
+<p>之所以会出现这种状况，是因为升级版本耗时费力，最重要的是有可能影响服务的稳定性，虽然说 Java 是向后兼容的，但是谁知道是不是有坑在里面。在没有重大安全漏洞或重大性能提升的情况下，大多数公司还是以稳定性为主，既然 Java 8 已经能满足业务需求了，那就用它好了。</p>
+<blockquote>
+<p> 如果你没有Java学习视频，请看文末，我会在文末写到 </p>
+</blockquote>
+<h3 id="二、数据库"><a href="#二、数据库" class="headerlink" title="二、数据库"></a>二、数据库</h3><p>对于数据库方面，现在基本上用的还是MySQL，所以我认为还是学习MySQL。对于MySQL版本的选择，建议选择MySQL5.7版本。现在普遍使用的仍然是5.5、5.6和5.7，对于MySQL8，不建议学习，一方面社区不成熟，而且未知的坑…..还没人踩过(O(∩_∩)O)<br>安装教程：<a target="_blank" rel="noopener" href="https://www.toptech.top/archives/windows%E4%B8%8B%E7%9A%84mysql57%E7%9A%84%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E4%BB%A5%E5%8F%8A%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">windows下的MySQL5.7的下载、安装以及配置环境变量</a><br>学习网站，其实 <a target="_blank" rel="noopener" href="https://www.runoob.com/mysql/mysql-tutorial.html">菜鸟教程</a> 也不错，用来入门MySQL。有一个软件叫做<code>NavicatforMySQL</code>（<a target="_blank" rel="noopener" href="https://www.toptech.top/s/file">下载NavicatforMySQL</a>），这个软件相当于MySQL的图形化界面，不用使用CMD来操作MySQL了，当然这个软件也可以使用命令行语句，初学MySQL还是不建议使用这个软件，一些MySQL语句还是多练习比较好，特别是多表复杂查询，在后来的学习过程中会经常用到。</p>
+<blockquote>
+<p> 如果你没有MySQL学习视频，请看文末，我会在文末写到 </p>
+</blockquote>
+<h3 id="三、web入门"><a href="#三、web入门" class="headerlink" title="三、web入门"></a>三、web入门</h3><p>在如今 Java 开发中，很多开发者只知道怎么使用框架，但根本不懂 Web 的一些知识点，其实框架很多，但都基本是一个套路，所以在你学习任何框架前，请把 Web 基础打好，把 Web 基础打好了，看框架真的是如鱼得水。</p>
+<p>关于<code>Http</code>协议，这篇文章就写得很清楚：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36894974/article/details/104044932">一文带你看清 HTTP 所有概念</a></p>
+<p>关于<code>JSP</code>，你只要了解它其实就是一个<code>Servlet</code>就行了，关于它的一些标签用法，我认为可以直接忽略，因为现在互联网几乎没哪间公司还用 JSP，除了一些老旧的项目。现在都是流行前后端分离，单页应用，后端只做 <code>API</code>接口的时代了，所以时间宝贵，把这些时间重点放在<code>Servlet</code>规范上面吧。</p>
+<p>关于<code>Tomcat</code>，它是一个<code>Web容器</code>，我们写的后端项目都要部署到<code>Web容器</code>才能运行，它其实是一个遵循 <code>Http</code>，通过<code>Socket</code>通信与客户端进行交互的服务端程序：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/hggen/p/6264475.html">TOMCAT原理详解及请求过程</a></p>
+<h3 id="四、Web主流框架（SSM）"><a href="#四、Web主流框架（SSM）" class="headerlink" title="四、Web主流框架（SSM）"></a>四、Web主流框架（SSM）</h3><p>当然也有一个ssh,ssh通常使用 Struts2为控制器(controller) ，spring 为事务层(service)， hibernate 负责持久层（dao）<br>ssm通常使用 springMVC为控制器(controller) ，spring 为事务层(service)， MyBatis 负责持久层（dao）</p>
+<blockquote>
+<p>注意：以下内容，没学过的可能有点蒙…主要看总结就行了。</p>
+</blockquote>
+<p><strong>SSH和SSM区别对比：</strong><br><strong>Struts2和SpringMVC</strong><br>相同：</p>
+<ul>
+<li>spring依赖注入（DI）来管理各层的组件，都是使用AOP切面编程 来管理事务，日志，权限等。</li>
+</ul>
+<p>不同：</p>
+<ul>
+<li>1.Struts2 和 SpringMVC 控制视图和模型的交互机制不同</li>
+<li>2.Strtus2是Action类级别，SpringMVC是方法级别，更容易实现RESTful风格。</li>
+</ul>
+<p><strong>Hibernate 和 MyBatis 两种ORM框架对比</strong></p>
+<p>相同：</p>
+<ul>
+<li>1.Hibernate与MyBatis都是可以通过SessionFactoryBuider由XML配置文件生成SessionFactory,然后由SessionFactory生成Session，最后由Session来开启事务和SQL语句。其中SessionFactoryBuider,SessionFactory,Session 的生命周期都差不多</li>
+<li>2.Hibernate和MyBatis都支持JDBC和JTA事务处理</li>
+</ul>
+<p>不同：</p>
+<ul>
+<li>1.MyBatis可以进行更为细致的SQL优化，可以减少查询字段</li>
+<li>2.MyBatis容易掌握,而Hibernate门槛较高</li>
+<li>3.Hibernate的Dao层开发比MyBatis简单，MyBatis需要维护SQL和结果映射</li>
+<li>4.Hibernate对 对象的维护和缓存要比MyBatis好,对增删改查的对象的维护要方便</li>
+<li>5.Hibernate数据库移植性很好，MyBatis的数据库移植性不好，不同的数据库需要写不同的SQL</li>
+<li>6.Hibernate有更好的二级缓存机制，可以使用第三方缓存。MyBatis本身提供的缓存机制不佳，更新操作不能指定刷新指定记录，会清空整个表，但是也可以使用第三方缓存</li>
+<li>7.Hibernate 封装性好 屏蔽了数据库差异，自动生成SQL语句。应对数据库变化能力较弱，SQL语句优化困难</li>
+<li>8.MyBatis仅实现了SQL语句和对象的映射，需要针对的数据库写SQL语句，应对数据库变化能力较强，SQL语句优化比较方便</li>
+</ul>
+<p>总结：SSM和SSH不同主要在MVC实现方式，以及ORM持久化方面不同（Hiibernate与Mybatis）<br>SSM越来越轻量级配置，将注解开发发挥到极致，且ORM实现更加灵活，SQL优化更简便；<br>SSH较注重配置开发，其中的Hiibernate对JDBC的完整封装更面向对象，对增删改查的数据维护更自动化，但SQL优化方面较弱，且入门门槛稍高。</p>
+<p>综上初学者建议SSM，当然目前很多项目已经不是用SSM开发了，但是为什么还要学习呢，因为很多古董级别的项目可能还是SSM开发的，你需要懂啊，另外对于SSM其中对重要的是Spring，Spring全家桶的很多框都是非常流行的，而且Spring是基础。You need to know！</p>
+<p><strong>Spring</strong> 其核心思想就是 IOC 和 AOP：</p>
+<p>参考博客：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhaozw/p/10857731.html">谈谈对 Spring IOC 的理解</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jiaweit/p/9986390.html">Spring面向切面编程</a></li>
+</ul>
+<p><strong>SpringMVC</strong> 它的思想是全部请求统一用一个 Servlet 去做请求转发与控制，这个 Servlet 叫 DispatcherServlet：</p>
+<p>参考博客：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hellowhy/p/9737885.html">SpringMVC初始化过程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hellowhy/p/9737885.html">SpringMVC处理请求过程</a></li>
+</ul>
+<p><strong>Mybatis</strong> 它可实现动态拼装 sql，避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集，这个Mybatis框架相对比较简单。多注意：动态拼接Sql。</p>
+<blockquote>
+<p> 如果你没有SSM学习视频，请看文末，我会在文末写到 </p>
+</blockquote>
+<h3 id="五、Web进阶-Spring-Boot、spring-Cloud"><a href="#五、Web进阶-Spring-Boot、spring-Cloud" class="headerlink" title="五、Web进阶(Spring Boot、spring Cloud)"></a>五、Web进阶(Spring Boot、spring Cloud)</h3><p>学完Spring你肯定有感觉，这配置也太复杂了，写一个项目，jing是xml文件。SpringBoot 弥补了 Spring 配置上的缺点，再也不用为繁杂的 xml 费劲精力了，堪称是 Java 后端开发的颠覆者，推荐书籍「Java EE 开发的颠覆者：SpringBoot实战」</p>
+<p>SpringCloud 是一个微服务架构，能够将项目按照业务分成一个个微服务，每个微服务都可独立部署，服务之间互相协调。当一个项目越来越大时，随之而来的是越来越难以维护，此时将项目拆分成若干个微服务、单独维护、单独部署，也可以降低项目不同业务间的耦合度。推荐书籍「Spring Cloud 与 Docker 微服务架构实战」，这本书将 Docker 与微服务完美地结合在一起，堪称完美！</p>
+<p>当你学到这一块的时候，特别是Spring Cloud的时候可能会感觉比较吃力，这一块比较复杂，但是新技术正在向此发展，也可以学学。</p>
+<blockquote>
+<p> 如果你没有Spring Boot、spring Cloud学习视频，请看文末，我会在文末写到 </p>
+</blockquote>
+<h3 id="六、你需要掌握的其他技术"><a href="#六、你需要掌握的其他技术" class="headerlink" title="六、你需要掌握的其他技术"></a>六、你需要掌握的其他技术</h3><p>尝试用git或者github，maven，shiro对你的项目进行升级.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/">git官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/git/git-tutorial.html">git教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/maven/maven-tutorial.html">maven</a><blockquote>
+<p>其实maven在学习SSM的时候都应该用了…比较方便</p>
+</blockquote>
+</li>
+<li>shiro不推荐学习SSM的时候就学习shiro，因为这个时候整合比较麻烦，建议学习Springboot的时候，再学习shiro，这个时候整合Shiro比较方便快捷、易懂。</li>
+</ul>
+<p>参考视频/博客：<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av40342174">SpringBoot与Shiro整合-权限管理实战视频</a><br><a target="_blank" rel="noopener" href="https://www.toptech.top/archives/springbootshiro%E4%B9%8B%E7%AE%80%E5%8D%95%E7%9A%84%E7%99%BB%E9%99%86%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83">SpringBoot+Shiro之简单的登陆(认证和授权)</a></p>
+<h3 id="七、开发工具"><a href="#七、开发工具" class="headerlink" title="七、开发工具"></a>七、开发工具</h3><p>工欲善其事，必先利其器，以下是我推荐的一些开发工具：</p>
+<ul>
+<li><p>Intellij IDEA：Java 开发最好的 IDE，这个是公认的最好的Java编辑器，不接受反驳。</p>
+</li>
+<li><p>Chrome：Chrome浏览器就不需要解释了吧，程序员必备浏览器….</p>
+</li>
+<li><p>Postman：很好用的一个接口调试工具。</p>
+</li>
+</ul>
+<h3 id="八、写在最后"><a href="#八、写在最后" class="headerlink" title="八、写在最后"></a>八、写在最后</h3><p>如果你准备走Java后端而不走前端的话也建议学习一些前端基础和框架，比如基础的h5、css、js，框架的话比如：layui、vue至少自己在写一下自己的小项目的时候不至于前端一点不懂…以上总结，只代表个人看法，只是想分享一下关于web后端的学习路线，让对此感兴趣的人有一个启蒙吧，毕竟修为有限哈哈,如有不足之处，欢迎大佬指出。<br>对于学习视频，个人搜集了很多视频，为了方便自己、方便大家查找个人写了一个网站可以直接搜索相关关键字的视频。网站地址：<a target="_blank" rel="noopener" href="http://toptech.top:88/learn-resource">理木客-资源搜索</a>。</p>
+<blockquote>
+<p>视频资源会不定期补充，也欢迎大家贡献资源。分享是一种美德，欢迎关注公众号：理木客。</p>
+</blockquote>
+<p>首页</p>
+<p><img src="https://img-blog.csdnimg.cn/20200308091042614.png" alt="在这里插入图片描述"></p>
+<p>Java</p>
+<p><img src="https://img-blog.csdnimg.cn/20200308091110881.png" alt="在这里插入图片描述"></p>
+<p>MySQL</p>
+<p><img src="https://img-blog.csdnimg.cn/20200308091132990.png" alt="在这里插入图片描述"></p>
+<p>SSM</p>
+<p><img src="https://img-blog.csdnimg.cn/20200308091150311.png" alt="在这里插入图片描述"></p>
+<p>Spring相关</p>
+<p><img src="https://img-blog.csdnimg.cn/2020030809120881.png" alt="在这里插入图片描述"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/01/data-structure-1/" rel="next" title="学习数据结构--第一章：绪论">
+                <i class="fa fa-chevron-left"></i> 学习数据结构--第一章：绪论
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/10/layui-im/" rel="prev" title="基于LayuiIM框架的聊天项目（群聊功能已实现）">
+                基于LayuiIM框架的聊天项目（群聊功能已实现） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81Java%E5%9F%BA%E7%A1%80"><span class="nav-text">一、Java基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-text">二、数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81web%E5%85%A5%E9%97%A8"><span class="nav-text">三、web入门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81Web%E4%B8%BB%E6%B5%81%E6%A1%86%E6%9E%B6%EF%BC%88SSM%EF%BC%89"><span class="nav-text">四、Web主流框架（SSM）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81Web%E8%BF%9B%E9%98%B6-Spring-Boot%E3%80%81spring-Cloud"><span class="nav-text">五、Web进阶(Spring Boot、spring Cloud)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E4%BD%A0%E9%9C%80%E8%A6%81%E6%8E%8C%E6%8F%A1%E7%9A%84%E5%85%B6%E4%BB%96%E6%8A%80%E6%9C%AF"><span class="nav-text">六、你需要掌握的其他技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="nav-text">七、开发工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-text">八、写在最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

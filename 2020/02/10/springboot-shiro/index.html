@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="SpringBoot+mybatis模块1、实体类12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061public class CLogin &amp;#123;    private Integer id;    private S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot+Shiro之简单的登陆(认证和授权)">
+<meta property="og:url" content="http://example.com/2020/02/10/springboot-shiro/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="SpringBoot+mybatis模块1、实体类12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061public class CLogin &amp;#123;    private Integer id;    private S">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-02-10T03:03:26.000Z">
+<meta property="article:modified_time" content="2021-01-10T13:19:47.782Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/02/10/springboot-shiro/"/>
+
+
+
+
+
+  <title>SpringBoot+Shiro之简单的登陆(认证和授权) | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/02/10/springboot-shiro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringBoot+Shiro之简单的登陆(认证和授权)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-10T11:03:26+08:00">
+                2020-02-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Shiro/" itemprop="url" rel="index">
+                    <span itemprop="name">Shiro</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="SpringBoot-mybatis模块"><a href="#SpringBoot-mybatis模块" class="headerlink" title="SpringBoot+mybatis模块"></a>SpringBoot+mybatis模块</h3><h4 id="1、实体类"><a href="#1、实体类" class="headerlink" title="1、实体类"></a>1、实体类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CLogin</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String userid;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CLogin</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CLogin</span><span class="params">(String username, String password)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">        <span class="keyword">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CLogin</span><span class="params">(String username, String userid, String password)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.userid = userid;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">        <span class="keyword">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUserid</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> userid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserid</span><span class="params">(String userid)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.userid = userid;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPassword</span><span class="params">(String password)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> “CLogin&#123;“ + “id=” + id + “, username=’” + username + ‘\’’ + “, userid=’” + userid + ‘\’’ + “, password=’” + password + ‘\’’ + ‘&#125;’;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、mapper"><a href="#2、mapper" class="headerlink" title="2、mapper"></a>2、mapper</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.shiro.bean.CLogin;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CLoginMapper</span> </span>&#123;</span><br><span class="line"><span class="keyword">package</span> com.shiro.mapper;</span><br><span class="line"><span class="keyword">import</span> com.shiro.bean.CLogin;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CLoginMapper</span> </span>&#123;</span><br><span class="line">    /通过账号查询用户信息*/</span><br><span class="line">    <span class="function">CLogin <span class="title">FindUserLogin</span><span class="params">(String username)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、service"><a href="#3、service" class="headerlink" title="3、service"></a>3、service</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.shiro.bean.CLogin;</span><br><span class="line"><span class="keyword">import</span> com.shiro.mapper.CLoginMapper;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"><span class="keyword">package</span> com.shiro.service;</span><br><span class="line"><span class="keyword">import</span> com.shiro.bean.CLogin;</span><br><span class="line"><span class="keyword">import</span> com.shiro.mapper.CLoginMapper;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CLoginService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    CLoginMapper cLoginMapper;</span><br><span class="line">    /通过账号查询用户信息/</span><br><span class="line">    <span class="function"><span class="keyword">public</span> CLogin <span class="title">FindUserLogin</span><span class="params">(String username)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> cLoginMapper.FindUserLogin(username);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4、controller"><a href="#4、controller" class="headerlink" title="4、controller"></a>4、controller</h4><p>其中用户提交的密码进行了MD5的加密，因为数据库中的密码是MD5加密过的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.shiro.util.TOMD5;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationException;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.IncorrectCredentialsException;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.UnknownAccountException;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.UsernamePasswordToken;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.Subject;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.ui.Model;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WellComController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(“/“)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">wellcom</span><span class="params">(Model model)</span></span>&#123;</span><br><span class="line">        model.addAttribute(“index”,”首页Hello world”);</span><br><span class="line">        <span class="keyword">return</span> “/index”;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">      跳转到添加用户信息</span></span><br><span class="line"><span class="comment">      /</span></span><br><span class="line"><span class="comment">    <span class="doctag">@RequestMapping</span>(“/user/add”)</span></span><br><span class="line"><span class="comment">    public String add()&#123;</span></span><br><span class="line"><span class="comment">        return “/user/add”;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    /</span></span><br><span class="line"><span class="comment">      跳转到更新用户信息</span></span><br><span class="line"><span class="comment">      */</span></span><br><span class="line">    <span class="meta">@RequestMapping(“/user/update”)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">update</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> “/user/update”;</span><br><span class="line">    &#125;</span><br><span class="line">    /</span><br><span class="line">      跳转到登陆界面</span><br><span class="line">      /</span><br><span class="line">    <span class="meta">@RequestMapping(“/tologin”)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">tologin</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> “/login”;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">      登陆+shiro处理逻辑</span></span><br><span class="line"><span class="comment">      /</span></span><br><span class="line"><span class="comment">    <span class="doctag">@RequestMapping</span>(“/login”)</span></span><br><span class="line"><span class="comment">    public String login(String name,String password,Model model)&#123;</span></span><br><span class="line"><span class="comment">        /</span></span><br><span class="line"><span class="comment">          使用Shiro编写认证操作</span></span><br><span class="line"><span class="comment">          1、获取Subject</span></span><br><span class="line"><span class="comment">               Subject subject= SecurityUtils.getSubject();</span></span><br><span class="line"><span class="comment">          2、封装用户数据</span></span><br><span class="line"><span class="comment">               UsernamePasswordToken token=new UsernamePasswordToken(name,password);</span></span><br><span class="line"><span class="comment">          3、执行登陆方法</span></span><br><span class="line"><span class="comment">               subject.login(token);</span></span><br><span class="line"><span class="comment">          /</span></span><br><span class="line"><span class="comment">        Subject subject= SecurityUtils.getSubject();</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        //这里使用import org.apache.shiro.crypto.hash.Md5Hash; shiro自带的MD5加密密码(因为数据库中的密码是md5的)，下面也有java代码将字符串进行md5加密代码</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        //这里加密其实有很多方法如下：</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        //使用MD5加密算法加密</span></span><br><span class="line"><span class="comment">        //Md5Hash md5=new Md5Hash(“xxx”);</span></span><br><span class="line"><span class="comment">        //System.out.println(“zyy233215===”+md5.toString());</span></span><br><span class="line"><span class="comment">        //加盐</span></span><br><span class="line"><span class="comment">        //md5=new Md5Hash(“xxx”,”sxt”);</span></span><br><span class="line"><span class="comment">        //System.out.println(“zyy233215===”+md5.toString());</span></span><br><span class="line"><span class="comment">        //迭代</span></span><br><span class="line"><span class="comment">        //md5=new Md5Hash(“xxx”,”sxt”,2);</span></span><br><span class="line"><span class="comment">        //System.out.println(“zyy233215===”+md5.toString());</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        UsernamePasswordToken token=new UsernamePasswordToken(name,new Md5Hash(password).toString());</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        try &#123;</span></span><br><span class="line"><span class="comment">            subject.login(token);</span></span><br><span class="line"><span class="comment">            //登陆成功</span></span><br><span class="line"><span class="comment">            return “redirect:/“;</span></span><br><span class="line"><span class="comment">        &#125;catch (UnknownAccountException e)&#123;</span></span><br><span class="line"><span class="comment">            //登陆失败：用户名不存在</span></span><br><span class="line"><span class="comment">            model.addAttribute(“msg”,”用户名不存在”);</span></span><br><span class="line"><span class="comment">            return “login”;</span></span><br><span class="line"><span class="comment">        &#125;catch (IncorrectCredentialsException e)&#123;</span></span><br><span class="line"><span class="comment">            model.addAttribute(“msg”,”密码错误”);</span></span><br><span class="line"><span class="comment">            return “login”;</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>MD5加密方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.security.MessageDigest;</span><br><span class="line"><span class="keyword">import</span> java.security.NoSuchAlgorithmException;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TOMD5</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">Md5</span><span class="params">(String sourceStr)</span> </span>&#123;</span><br><span class="line">        String result = “”;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            MessageDigest md = MessageDigest.getInstance(“MD5”);</span><br><span class="line">            md.update(sourceStr.getBytes());</span><br><span class="line">            <span class="keyword">byte</span> b[] = md.digest();</span><br><span class="line">            <span class="keyword">int</span> i;</span><br><span class="line">            StringBuffer buf = <span class="keyword">new</span> StringBuffer(“”);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> offset = <span class="number">0</span>; offset &lt; b.length; offset++) &#123;</span><br><span class="line">                i = b[offset];</span><br><span class="line">                <span class="keyword">if</span> (i &lt; <span class="number">0</span>)</span><br><span class="line">                    i += <span class="number">256</span>;</span><br><span class="line">                <span class="keyword">if</span> (i &lt; <span class="number">16</span>)</span><br><span class="line">                    buf.append(“<span class="number">0</span>”);</span><br><span class="line">                buf.append(Integer.toHexString(i));</span><br><span class="line">            &#125;</span><br><span class="line">            result = buf.toString();</span><br><span class="line">            <span class="comment">//System.out.println(“MD5(“ + sourceStr + “,32) = “ + result);</span></span><br><span class="line">            <span class="comment">//System.out.println(“MD5(“ + sourceStr + “,16) = “ + buf.toString().substring(8, 24));</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            System.out.println(e);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5、mapper-xml"><a href="#5、mapper-xml" class="headerlink" title="5、mapper.xml"></a>5、mapper.xml</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">mapper</span> <span class="meta-keyword">PUBLIC</span> “-//mybatis.org//DTD <span class="meta-keyword">Mapper</span> 3.0//EN” “http://mybatis.org/dtd/mybatis-3-mapper.dtd<span class="meta-string">&quot;&amp;gt;</span></span></span><br><span class="line"><span class="meta"><span class="meta-string">&lt;mapper namespace=”com.shiro.mapper.CLoginMapper”&gt;</span></span></span><br><span class="line"><span class="meta"><span class="meta-string">    &lt;select id=”FindUserLogin” resultType=”com.shiro.bean.CLogin” parameterType=”java.lang.String”&gt;</span></span></span><br><span class="line"><span class="meta"><span class="meta-string">        select  from c_login where username=#&#123;username&#125;</span></span></span><br><span class="line"><span class="meta"><span class="meta-string">    &lt;/select&gt;</span></span></span><br><span class="line"><span class="meta"><span class="meta-string">&lt;/mapper&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="6、application"><a href="#6、application" class="headerlink" title="6、application"></a>6、application</h4><p>@MapperScan(basePackages = “com.shiro.mapper”) 加上mapper扫描注解</p>
+<h3 id="Shiro部分"><a href="#Shiro部分" class="headerlink" title="Shiro部分"></a>Shiro部分</h3><h4 id="1、jar包"><a href="#1、jar包" class="headerlink" title="1、jar包"></a>1、jar包</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!—shiro 与Spring 依赖 —&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;shiro-spring&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.4.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="2、ShiroConfig"><a href="#2、ShiroConfig" class="headerlink" title="2、ShiroConfig"></a>2、ShiroConfig</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.spring.web.ShiroFilterFactoryBean;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.web.mgt.DefaultWebSecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Qualifier;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.LinkedHashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroConfig</span> </span>&#123;</span><br><span class="line">    /</span><br><span class="line">      创建ShiroFilterFactoryBean</span><br><span class="line">      /</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ShiroFilterFactoryBean <span class="title">getShiroFilterFactoryBean</span><span class="params">(<span class="meta">@Qualifier(“securityManager”)</span>DefaultWebSecurityManager securityManager)</span></span>&#123;</span><br><span class="line">        ShiroFilterFactoryBean shiroFilterFactoryBean=<span class="keyword">new</span> ShiroFilterFactoryBean();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//设置安全管理器</span></span><br><span class="line">        shiroFilterFactoryBean.setSecurityManager(securityManager);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**添加Shiro内置过滤器，可以实现权限相关的拦截器</span></span><br><span class="line"><span class="comment">          常用的过滤器</span></span><br><span class="line"><span class="comment">               anon：无需认证(登陆)即可访问</span></span><br><span class="line"><span class="comment">               authc：必须认证才可以访问 (登陆)</span></span><br><span class="line"><span class="comment">               user：如果使用rememberMe的功能可以直接访问</span></span><br><span class="line"><span class="comment">               perms：该资源必须得到资源权限才可以访问</span></span><br><span class="line"><span class="comment">               role：该资源必须得到角色权限才可以访问</span></span><br><span class="line"><span class="comment">         /</span></span><br><span class="line"><span class="comment">        Map&lt;String,String&gt; filterMap=new LinkedHashMap&lt;&gt;();</span></span><br><span class="line"><span class="comment">        /</span></span><br><span class="line"><span class="comment">          添加拦截的资源路径，以及权限</span></span><br><span class="line"><span class="comment">          默认拦截后跳转到login.jsp</span></span><br><span class="line"><span class="comment">          /</span></span><br><span class="line"><span class="comment">        / 1、通过url设置user目录下的网页需要授权访问</span></span><br><span class="line"><span class="comment">        filterMap.put(“/add”,”authc”);</span></span><br><span class="line"><span class="comment">        filterMap.put(“/update”,”authc”);/</span></span><br><span class="line"><span class="comment">        /**</span></span><br><span class="line"><span class="comment">          2、方式二 将url前面都添加上user，这样就可以使用下面的方法进行拦截 /</span></span><br><span class="line"><span class="comment">         filterMap.put(“/user/“,”authc”);</span></span><br><span class="line"><span class="comment">        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);</span></span><br><span class="line"><span class="comment">        //修改默认的拦截后跳转的登陆界面</span></span><br><span class="line"><span class="comment">        shiroFilterFactoryBean.setLoginUrl(“/tologin”);</span></span><br><span class="line"><span class="comment">        return shiroFilterFactoryBean;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    /**</span></span><br><span class="line"><span class="comment">      创建DefaultWebSecurityManager</span></span><br><span class="line"><span class="comment">      /</span></span><br><span class="line"><span class="comment">    <span class="doctag">@Bean</span>(name = “securityManager”)</span></span><br><span class="line"><span class="comment">    public DefaultWebSecurityManager getDefaultWebSecurityManager(<span class="doctag">@Qualifier</span>(“userRealm”)UserRealm userRealm)&#123;</span></span><br><span class="line"><span class="comment">        DefaultWebSecurityManager securityManager=new DefaultWebSecurityManager();</span></span><br><span class="line"><span class="comment">        //关联realm</span></span><br><span class="line"><span class="comment">        securityManager.setRealm(userRealm);</span></span><br><span class="line"><span class="comment">        return securityManager;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    /</span></span><br><span class="line"><span class="comment">      创建Realm</span></span><br><span class="line"><span class="comment">      /</span></span><br><span class="line"><span class="comment">    <span class="doctag">@Bean</span>(name = “userRealm”)</span></span><br><span class="line"><span class="comment">    public UserRealm getRealm()&#123;</span></span><br><span class="line"><span class="comment">        return new UserRealm();</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="3、Realm"><a href="#3、Realm" class="headerlink" title="3、Realm"></a>3、Realm</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.shiro.bean.CLogin;</span><br><span class="line"><span class="keyword">import</span> com.shiro.service.CLoginService;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.AuthorizationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.realm.AuthorizingRealm;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.PrincipalCollection;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"></span><br><span class="line">/</span><br><span class="line">  自动与i的Realm</span><br><span class="line">  /</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserRealm</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    CLoginService cLoginService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">      执行授权逻辑</span></span><br><span class="line"><span class="comment">      /</span></span><br><span class="line"><span class="comment">    <span class="doctag">@Override</span></span></span><br><span class="line"><span class="comment">    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) &#123;</span></span><br><span class="line"><span class="comment">        System.out.println(“执行授权逻辑”);</span></span><br><span class="line"><span class="comment">        return null;</span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">    /</span></span><br><span class="line"><span class="comment">      执行认证逻辑</span></span><br><span class="line"><span class="comment">      /</span></span><br><span class="line"><span class="comment">    <span class="doctag">@Override</span></span></span><br><span class="line"><span class="comment">    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException &#123;</span></span><br><span class="line"><span class="comment">        //编写shiro判断逻辑，判断用户名和密码</span></span><br><span class="line"><span class="comment">        //1、判断用户名</span></span><br><span class="line"><span class="comment">        UsernamePasswordToken token=(UsernamePasswordToken) authenticationToken;</span></span><br><span class="line"><span class="comment">        CLogin cLogin=cLoginService.FindUserLogin(token.getUsername());</span></span><br><span class="line"><span class="comment">        if(cLogin==null)&#123;</span></span><br><span class="line"><span class="comment">            //用户名不存在</span></span><br><span class="line"><span class="comment">            return null;//shiro底层抛出UnknownAccountException</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        //2、判断密码 三个参数：1、返回给subject.login(token);方法的参数  2、数据库中的密码 3、shiro的名字</span></span><br><span class="line"><span class="comment">        return new SimpleAuthenticationInfo(cLogin,cLogin.getPassword(),””);</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">    &#125;</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="简单的前台："><a href="#简单的前台：" class="headerlink" title="简单的前台："></a>简单的前台：</h4><p>index.html</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=”http:<span class="comment">//www.thymeleaf.org“ lang=”zh”&gt;</span></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=”UTF-<span class="number">8</span>”/&gt;</span><br><span class="line">    &lt;title&gt;Title&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1 th:text=”$&#123;index&#125;”&gt;&lt;/h1&gt;</span><br><span class="line">    &lt;hr&gt;</span><br><span class="line">    进入用户添加功能：&lt;a th:href=”@&#123;/user/add&#125;” target=”_blank”&gt;进入用户添加功能&lt;/a&gt;&lt;br&gt;</span><br><span class="line">    进入用户更新功能：&lt;a th:href=”@&#123;/user/update&#125;” target=”_blank”&gt;进入用户添加功能&lt;/a&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>templates/user目录下的add.html和update.html</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=”zh”&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=”UTF-<span class="number">8</span>”&gt;</span><br><span class="line">    &lt;title&gt;用户的添加界面&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;用户的添加界面&lt;/h1&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=”zh”&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=”UTF-<span class="number">8</span>”&gt;</span><br><span class="line">    &lt;title&gt;用户的更新界面&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;用户的更新界面&lt;/h1&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>login.html</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=”http:<span class="comment">//www.thymeleaf.org“ lang=”zh”&gt;</span></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=”UTF-<span class="number">8</span>”/&gt;</span><br><span class="line">    &lt;title&gt;登陆&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;登陆界面&lt;/h1&gt;</span><br><span class="line">    &lt;h3 style=”color: red” th:text=”$&#123;msg&#125;”&gt;&lt;/h3&gt;</span><br><span class="line">&lt;form th:action=”@&#123;/login&#125;” method=”post”&gt;</span><br><span class="line">    用户名：&lt;input type=”text” name=”name”&gt;&lt;br&gt;</span><br><span class="line">    密  码：&lt;input type=”password” name=”password”&gt;&lt;br&gt;</span><br><span class="line">    &lt;button type=”submit” value=”提交”&gt;提交&lt;/button&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="applocation-yml"><a href="#applocation-yml" class="headerlink" title="applocation.yml"></a>applocation.yml</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  datasource:</span><br><span class="line">    username: root</span><br><span class="line">    password: <span class="number">123456</span></span><br><span class="line">    url: jdbc:mysql:<span class="comment">//127.0.0.1:3306/xxx?characterEncoding=utf-8&amp;useSSL=false</span></span><br><span class="line">    driver-class-name: com.mysql.jdbc.Driver</span><br><span class="line">    #指定数据源</span><br><span class="line">    type: com.alibaba.druid.pool.DruidDataSource</span><br><span class="line"></span><br><span class="line">    # 数据源其他配置</span><br><span class="line">    initialSize: <span class="number">5</span></span><br><span class="line">    minIdle: <span class="number">5</span></span><br><span class="line">    maxActive: <span class="number">20</span></span><br><span class="line">    maxWait: <span class="number">60000</span></span><br><span class="line">    timeBetweenEvictionRunsMillis: <span class="number">60000</span></span><br><span class="line">    minEvictableIdleTimeMillis: <span class="number">300000</span></span><br><span class="line">    validationQuery: SELECT <span class="number">1</span></span><br><span class="line">    testWhileIdle: <span class="keyword">true</span></span><br><span class="line">    testOnBorrow: <span class="keyword">false</span></span><br><span class="line">    testOnReturn: <span class="keyword">false</span></span><br><span class="line">    poolPreparedStatements: <span class="keyword">true</span></span><br><span class="line">    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，’wall’用于防火墙</span><br><span class="line">    filters: stat,wall,log4j</span><br><span class="line">    maxPoolPreparedStatementPerConnectionSize: <span class="number">20</span></span><br><span class="line">    useGlobalDataSourceStat: <span class="keyword">true</span></span><br><span class="line">    connectionProperties: druid.stat.mergeSql=<span class="keyword">true</span>;druid.stat.slowSqlMillis=<span class="number">500</span></span><br><span class="line"></span><br><span class="line">  thymeleaf:</span><br><span class="line">    suffix: .html</span><br><span class="line">    prefix:</span><br><span class="line">      classpath: /templates/</span><br><span class="line">    cache: <span class="keyword">false</span></span><br><span class="line"></span><br><span class="line">  jackson: #返回的日期字段的格式</span><br><span class="line">    date-format: yyyy-MM-dd HH:mm:ss</span><br><span class="line">    time-zone: GMT+<span class="number">8</span></span><br><span class="line">    serialization:</span><br><span class="line">      write-dates-as-timestamps: false # true 使用时间戳显示时间</span><br><span class="line"></span><br><span class="line">#配置文件式开发</span><br><span class="line">mybatis:</span><br><span class="line">  #全局配置文件的位置</span><br><span class="line">  config-location: classpath:mybatis/mybatis-config.xml</span><br><span class="line">  #所有sql映射配置文件的位置</span><br><span class="line">  mapper-locations: classpath:mybatis/mapper/.xml</span><br></pre></td></tr></table></figure>
+<p>以上内容是认证的部分，</p>
+<p>下面是授权的部分，某个用户拥有哪个权限？</p>
+<p>1、给资源添加授权拦截器 ShiroConfig添加如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">filterMap.put(“/user/add”,”perms[user:add]”);</span><br><span class="line">filterMap.put(“/user/update”,”perms[user:update]”);</span><br><span class="line"><span class="comment">//设置未授权的界面</span></span><br><span class="line">shiroFilterFactoryBean.setUnauthorizedUrl(“/unauth”);</span><br></pre></td></tr></table></figure>
+<h4 id="2、controller添加"><a href="#2、controller添加" class="headerlink" title="2、controller添加"></a>2、controller添加</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/</span><br><span class="line">跳转到未授权界面</span><br><span class="line">*/</span><br><span class="line"><span class="meta">@RequestMapping(“/unauth”)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">unauth</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;/unauth&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、未授权界面"><a href="#3、未授权界面" class="headerlink" title="3、未授权界面"></a>3、未授权界面</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html xmlns:th=”http:<span class="comment">//www.thymeleaf.org“ lang=”zh”&gt;</span></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=”UTF-<span class="number">8</span>”&gt;</span><br><span class="line">    &lt;title&gt;未授权&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    亲，你未经授权访问界面</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="4、UserRealm添加"><a href="#4、UserRealm添加" class="headerlink" title="4、UserRealm添加"></a>4、UserRealm添加</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/</span><br><span class="line"> 执行授权逻辑</span><br><span class="line"> 只要访问加上授权的资源都会调用改方法</span><br><span class="line"> /</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principalCollection)</span> </span>&#123;</span><br><span class="line">  System.out.println(“执行授权逻辑”);</span><br><span class="line">  <span class="comment">//给资源进行授权</span></span><br><span class="line">  SimpleAuthorizationInfo info=<span class="keyword">new</span> SimpleAuthorizationInfo();</span><br><span class="line">  <span class="comment">//添加授权字符串 这个字符串和加上权限的字符串一致</span></span><br><span class="line">  <span class="comment">//info.addStringPermission(“user:add”);</span></span><br><span class="line">  <span class="comment">//到数据库查询当前用户的授权的字符串</span></span><br><span class="line">  Subject subject= SecurityUtils.getSubject();</span><br><span class="line">  CLogin cLogin= (CLogin) subject.getPrincipal();<span class="comment">//这里的CLogin对象是登陆的时候传过来的</span></span><br><span class="line">  CLogin dbclogin=cLoginService.FindUserLogin(cLogin.getUsername());</span><br><span class="line">  info.addStringPermission(dbclogin.getPerms());</span><br><span class="line">  <span class="keyword">return</span> info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5、数据库修改，不同用户不同的权限"><a href="#5、数据库修改，不同用户不同的权限" class="headerlink" title="5、数据库修改，不同用户不同的权限"></a>5、数据库修改，不同用户不同的权限</h4><h4 id="6、运行后发现不同用户拥有不同的权限"><a href="#6、运行后发现不同用户拥有不同的权限" class="headerlink" title="6、运行后发现不同用户拥有不同的权限"></a>6、运行后发现不同用户拥有不同的权限</h4><h4 id="继续修改："><a href="#继续修改：" class="headerlink" title="继续修改："></a>继续修改：</h4><p>下面使用thymeleaf 对shiro扩展坐标完成用户没有的功能不显示url点击的链接</p>
+<h4 id="1、导入依赖"><a href="#1、导入依赖" class="headerlink" title="1、导入依赖"></a>1、导入依赖</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;com.github.theborakompanioni&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;thymeleaf-extras-shiro&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;2.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="2、在ShiroConfig中配置ShiroDialect"><a href="#2、在ShiroConfig中配置ShiroDialect" class="headerlink" title="2、在ShiroConfig中配置ShiroDialect"></a>2、在ShiroConfig中配置ShiroDialect</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ShiroDialect <span class="title">getShiroDialect</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ShiroDialect();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、修改界面，用户对于没有权限的资源不显示可以点击链接"><a href="#3、修改界面，用户对于没有权限的资源不显示可以点击链接" class="headerlink" title="3、修改界面，用户对于没有权限的资源不显示可以点击链接"></a>3、修改界面，用户对于没有权限的资源不显示可以点击链接</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;h1 th:text=”$&#123;index&#125;”&gt;&lt;/h1&gt;</span><br><span class="line">&lt;hr&gt;</span><br><span class="line">&lt;div shiro:hasPermission=”user:add”&gt;</span><br><span class="line">    进入用户添加功能：&lt;a th:href=”@&#123;/user/add&#125;” target=”_blank”&gt;进入用户添加功能&lt;/a&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div shiro:hasPermission=”user:update”&gt;</span><br><span class="line">    进入用户更新功能：&lt;a th:href=”@&#123;/user/update&#125;” target=”_blank”&gt;进入用户添加功能&lt;/a&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;a th:href=”@&#123;/tologin&#125;”&gt;登陆&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<div class="_bccamlcwqz"></div>
+<script type="text/javascript">
+    (window.slotbydup = window.slotbydup || []).push({
+        id: "u6001969",
+        container: "_bccamlcwqz",
+        async: true
+    });
+</script>
+<!-- 多条广告如下脚本只需引入一次 -->
+<script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/cm.js" async="async" defer="defer" >
+</script>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/10/java-http-userinfo/" rel="next" title="Java后台获取用户发送请求的一些信息">
+                <i class="fa fa-chevron-left"></i> Java后台获取用户发送请求的一些信息
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/10/springboot-email/" rel="prev" title="SpringBoot邮件发送">
+                SpringBoot邮件发送 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot-mybatis%E6%A8%A1%E5%9D%97"><span class="nav-text">SpringBoot+mybatis模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%AE%9E%E4%BD%93%E7%B1%BB"><span class="nav-text">1、实体类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81mapper"><span class="nav-text">2、mapper</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81service"><span class="nav-text">3、service</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81controller"><span class="nav-text">4、controller</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5%E3%80%81mapper-xml"><span class="nav-text">5、mapper.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6%E3%80%81application"><span class="nav-text">6、application</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shiro%E9%83%A8%E5%88%86"><span class="nav-text">Shiro部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81jar%E5%8C%85"><span class="nav-text">1、jar包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81ShiroConfig"><span class="nav-text">2、ShiroConfig</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81Realm"><span class="nav-text">3、Realm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E5%89%8D%E5%8F%B0%EF%BC%9A"><span class="nav-text">简单的前台：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#applocation-yml"><span class="nav-text">applocation.yml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81controller%E6%B7%BB%E5%8A%A0"><span class="nav-text">2、controller添加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E6%9C%AA%E6%8E%88%E6%9D%83%E7%95%8C%E9%9D%A2"><span class="nav-text">3、未授权界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81UserRealm%E6%B7%BB%E5%8A%A0"><span class="nav-text">4、UserRealm添加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%AE%E6%94%B9%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%94%A8%E6%88%B7%E4%B8%8D%E5%90%8C%E7%9A%84%E6%9D%83%E9%99%90"><span class="nav-text">5、数据库修改，不同用户不同的权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6%E3%80%81%E8%BF%90%E8%A1%8C%E5%90%8E%E5%8F%91%E7%8E%B0%E4%B8%8D%E5%90%8C%E7%94%A8%E6%88%B7%E6%8B%A5%E6%9C%89%E4%B8%8D%E5%90%8C%E7%9A%84%E6%9D%83%E9%99%90"><span class="nav-text">6、运行后发现不同用户拥有不同的权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%A7%E7%BB%AD%E4%BF%AE%E6%94%B9%EF%BC%9A"><span class="nav-text">继续修改：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%AF%BC%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="nav-text">1、导入依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%9C%A8ShiroConfig%E4%B8%AD%E9%85%8D%E7%BD%AEShiroDialect"><span class="nav-text">2、在ShiroConfig中配置ShiroDialect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E4%BF%AE%E6%94%B9%E7%95%8C%E9%9D%A2%EF%BC%8C%E7%94%A8%E6%88%B7%E5%AF%B9%E4%BA%8E%E6%B2%A1%E6%9C%89%E6%9D%83%E9%99%90%E7%9A%84%E8%B5%84%E6%BA%90%E4%B8%8D%E6%98%BE%E7%A4%BA%E5%8F%AF%E4%BB%A5%E7%82%B9%E5%87%BB%E9%93%BE%E6%8E%A5"><span class="nav-text">3、修改界面，用户对于没有权限的资源不显示可以点击链接</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

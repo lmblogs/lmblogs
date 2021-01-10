@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第四章：树与二叉树（树与二叉树的应用：二叉排序树、二叉平衡树、哈夫曼树）1.二叉排序树二叉排序树：BST，也称二叉查找树 二叉排序树或者为空树，或为非空树，当为非空树时有如下特点：  若左子树非空,则左子树上所有结点关键字值均小于根结点的关键字 若右子树非空,则右子树上所有结点关键字值均大于根结点的关键字 左、右子树本身也分别是一棵二叉排序树。   注意这里是小于和大于而没有等于，就是说二叉排序树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习数据结构--第四章：树与二叉树（二叉排序树、二叉平衡树、哈夫曼树）">
+<meta property="og:url" content="http://example.com/2020/06/04/data-structure-14/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="第四章：树与二叉树（树与二叉树的应用：二叉排序树、二叉平衡树、哈夫曼树）1.二叉排序树二叉排序树：BST，也称二叉查找树 二叉排序树或者为空树，或为非空树，当为非空树时有如下特点：  若左子树非空,则左子树上所有结点关键字值均小于根结点的关键字 若右子树非空,则右子树上所有结点关键字值均大于根结点的关键字 左、右子树本身也分别是一棵二叉排序树。   注意这里是小于和大于而没有等于，就是说二叉排序树">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526115227310.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526115227310.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526115227310.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603175933781.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603183839524.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020060318391028.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603185341881.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603184248451.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603184613954.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603185306853.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603185806194.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603185849802.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603190059313.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603190118459.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603190837817.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200603190915460.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604161849196.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020060416183294.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604162250189.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604164039365.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604170441669.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604171451810.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604171538505.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604171842248.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604172348385.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604172629786.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020060417494912.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604175610130.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604175755568.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604175912897.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200604180755281.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200606141100708.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200606141254795.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200606141836955.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200606141958200.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200606142130882.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200606143252375.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200606143836132.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200606144517191.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200606145021634.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200606145121194.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020060614522356.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200505182018216.jpg">
+<meta property="article:published_time" content="2020-06-04T01:15:08.000Z">
+<meta property="article:modified_time" content="2021-01-10T13:19:47.867Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200526115227310.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/06/04/data-structure-14/"/>
+
+
+
+
+
+  <title>学习数据结构--第四章：树与二叉树（二叉排序树、二叉平衡树、哈夫曼树） | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/06/04/data-structure-14/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">学习数据结构--第四章：树与二叉树（二叉排序树、二叉平衡树、哈夫曼树）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-04T09:15:08+08:00">
+                2020-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">王道数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="第四章：树与二叉树（树与二叉树的应用：二叉排序树、二叉平衡树、哈夫曼树）"><a href="#第四章：树与二叉树（树与二叉树的应用：二叉排序树、二叉平衡树、哈夫曼树）" class="headerlink" title="第四章：树与二叉树（树与二叉树的应用：二叉排序树、二叉平衡树、哈夫曼树）"></a>第四章：树与二叉树（树与二叉树的应用：二叉排序树、二叉平衡树、哈夫曼树）</h1><h2 id="1-二叉排序树"><a href="#1-二叉排序树" class="headerlink" title="1.二叉排序树"></a>1.二叉排序树</h2><p><strong>二叉排序树</strong>：BST，也称二叉查找树</p>
+<p>二叉排序树或者为空树，或为非空树，当为非空树时有如下特点：</p>
+<ul>
+<li>若左子树非空,则左子树上所有结点关键字值<code>均小于</code>根结点的关键字</li>
+<li>若右子树非空,则右子树上所有结点关键字值<code>均大于</code>根结点的关键字</li>
+<li>左、右子树本身也分别是一棵二叉排序树。</li>
+</ul>
+<blockquote>
+<p>注意这里是小于和大于而没有等于，就是说二叉排序树中不存在值相同的结点。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200526115227310.png" alt="二叉排序树"></p>
+<p>二叉排序树中序遍历：<code>1 2 3 4 5 6 8 10 16</code></p>
+<blockquote>
+<p>这里可以发现，二叉排序树的中序遍历结果的时递增的，这符合所有的二叉排序树。</p>
+</blockquote>
+<p><strong>二叉排序树的中序遍历序列时一个递增的有序序列</strong></p>
+<h3 id="1-1二叉排序树的查找"><a href="#1-1二叉排序树的查找" class="headerlink" title="1.1二叉排序树的查找"></a>1.1二叉排序树的查找</h3><ul>
+<li>二叉树非空时,查找根结点,若相等则查找成功;</li>
+<li>若不等,则当小于根结点值时,查找左子树;当大于根结点的值时,查找右子树。</li>
+<li>当查找到叶节点仍没查找到相应的值,则查找失败。</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200526115227310.png" alt="二叉排序树"></p>
+<p><strong>练习：</strong></p>
+<p>查找5：首先8&gt;5查找左子树，5&gt;4查找右子树，5=5查找成功<br>查找6：首先8&gt;6查找左子树，6&gt;4查找右子树，6&gt;5查找右子树，6&lt;7查找左子树为空，查找失败。</p>
+<p>我们根据这个过程其实很容易发现整个查找过程可以使用递归进行完成，可以自行尝试，这里使用非递归查询，代码编写：</p>
+<blockquote>
+<p>参1 二叉树，参2 关键字 参3 保存查找到的结点的双亲结点，是一个指针引用型的变量，这里函数体内对该指针进行修改时，不仅仅会对形参进行修改，而且会对我们传入的变量指针进行修改。</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">BSTNode *<span class="title">BST_Search</span><span class="params">(BiTree T,ElemType key,BSTNode *&amp;p)</span></span>&#123;</span><br><span class="line">    p = <span class="literal">NULL</span>; <span class="comment">//双亲结点置为空(根结点没有双亲结点)</span></span><br><span class="line">    <span class="keyword">while</span>(T != <span class="literal">NULL</span> &amp;&amp; key != T-&gt;data)&#123;<span class="comment">//树非空且关键字不匹配</span></span><br><span class="line">       p = T; <span class="comment">//p指向改结点</span></span><br><span class="line">       <span class="keyword">if</span>(key &lt; T-&gt;data)&#123;</span><br><span class="line">           T = T-&gt;lchild; <span class="comment">//循环查找左子树</span></span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">           T = T-&gt;rchild; <span class="comment">//循环查找右子树</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>时间复杂度</strong>：O(h) （h为二叉排序树的高度）</p>
+<h3 id="1-2二叉排序树的插入"><a href="#1-2二叉排序树的插入" class="headerlink" title="1.2二叉排序树的插入"></a>1.2二叉排序树的插入</h3><ul>
+<li>若二叉排序树为空,则直接插入结点;</li>
+<li>若二叉排序树非空,当值小于根结点时,插入左子树;当值大于根结点时,插入右子树;当值等于根结点时不进行插入</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200526115227310.png" alt="二叉排序树"></p>
+<p><strong>练习：</strong></p>
+<p>插入6：6&lt;8插入左子树，6&gt;4插入右子树，6&gt;5插入左子树。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200603175933781.png" alt="二叉排序树"></p>
+<p><strong>代码编写：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//参1 二叉树(注意是引用)，参2 插入值</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">BST_Insert</span><span class="params">(BiTree &amp;T,KeyType k)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(T==<span class="literal">NULL</span>)&#123; <span class="comment">//树为空</span></span><br><span class="line">		T = (BiTree)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(BSTNode));</span><br><span class="line">		T-&gt;key = k;</span><br><span class="line">		T-&gt;lchild = T-&gt;rchild = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(k == T-&gt;key)&#123; <span class="comment">//相同不插入</span></span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(k &lt; T-&gt;key)&#123;<span class="comment">//小于插入左子树中，递归调用</span></span><br><span class="line">		<span class="keyword">return</span> BST_Insert(T-&gt;lchild,k);</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;<span class="comment">//大于插入右子树中，递归调用</span></span><br><span class="line">		<span class="keyword">return</span> BST_Insert(T-&gt;rchild,k);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-3构造二叉排序树"><a href="#1-3构造二叉排序树" class="headerlink" title="1.3构造二叉排序树"></a>1.3构造二叉排序树</h3><p>读入一个元素并建立结点,若二叉树为空将其作为根结点;若二叉排序树非空,当值小于根结点时,插入左子树;当值大于根结点时,插入右子树;当值等于根结点时不进行插入。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//参3 插入结点的数量</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Create_BST</span><span class="params">(BiTree &amp;T,KeyType str[],<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">	T = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(i&lt;n)&#123;</span><br><span class="line">		BST_Insert(T,str[i]);</span><br><span class="line">		i++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>二叉排序树的构造过程就算两个数组的值完全相同，但是构造顺序不同，所生成的二叉排序树就是不同的。</p>
+</blockquote>
+<h3 id="1-4二叉排序树的删除"><a href="#1-4二叉排序树的删除" class="headerlink" title="1.4二叉排序树的删除"></a>1.4二叉排序树的删除</h3><p><img src="https://img-blog.csdnimg.cn/20200603183839524.png"></p>
+<p>假设我们删除4结点，则剩下的4结点的左子树和右子树该怎么形成结点8的左子树呢？</p>
+<p><img src="https://img-blog.csdnimg.cn/2020060318391028.png"></p>
+<p>为了维护二叉树的基本性质，其实删除操作比较复杂的，我们需要分三种情况：</p>
+<ul>
+<li>1.若被删除的结点z是叶子结点则可以直接删除，不影响</li>
+<li>2.如果被删除的结点z只有一个子树，则让z的子树成为z父结点的子树，带题z结点。</li>
+</ul>
+<p>例如我们删除结点5</p>
+<p><img src="https://img-blog.csdnimg.cn/20200603185341881.png"><br><img src="https://img-blog.csdnimg.cn/20200603184248451.png"></p>
+<ul>
+<li>3.若被删除的结点z有两颗子树，则让z的中序序列直接后继代替z，并删去直接后继结点。</li>
+</ul>
+<p>例如我们删除结点4，我们知道结点4的直接后继结点为4的右子树的最左边的那一个结点，这里是5，我们直接将结点4换成结点5，然后直接删除结点5即可，这里为什么能够直接删除？因为这个结点一定是最左侧那个结点，要么没有子树(叶子结点)，要么就是只有右子树(如果有左子树他就不是最左侧的那个结点)，所以删除的时候直接参考上面的两种情况就可以。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200603184613954.png"><br><img src="https://img-blog.csdnimg.cn/20200603185306853.png"></p>
+<p><strong>思考：</strong><br><strong>在二叉排序树中删除并插入某节点,得到的二叉排序树是否与原来相同？</strong></p>
+<p>首先我们删除一个结点7：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200603185806194.png"></p>
+<p>接着插入结点7</p>
+<p><img src="https://img-blog.csdnimg.cn/20200603185849802.png"></p>
+<p>此时发现删除并插入后二叉排序树相同，这是删除叶子结点的情况，出现了删除并插入后二叉排序树相同，有没有不同的情况？</p>
+<p>如果我们删除的是一个双亲结点的5</p>
+<p><img src="https://img-blog.csdnimg.cn/20200603190059313.png"></p>
+<p>然后插入结点5</p>
+<p><img src="https://img-blog.csdnimg.cn/20200603190118459.png"></p>
+<p>此时我们发现删除并插入后二叉排序树不相同了。</p>
+<p><strong>故：</strong> 在二叉排序树中删除并插入某节点，根据删除并插入的结点类型不同，得到的二叉排序树可能相同，也可能不同。</p>
+<h3 id="1-5查找效率"><a href="#1-5查找效率" class="headerlink" title="1.5查找效率"></a>1.5查找效率</h3><p><strong>查找长度</strong>：查找该节点时所经历的结点的数量。</p>
+<p>**平均查找长度(ASL)**：所有结点查找长度求和取平均值，它取决于树的高度。</p>
+<p>例如：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200603190837817.png"></p>
+<p><strong>查找效率</strong>：O(log2n)</p>
+<p><img src="https://img-blog.csdnimg.cn/20200603190915460.png"></p>
+<p><strong>查找效率</strong>：O(n)</p>
+<h2 id="2-平衡二叉树"><a href="#2-平衡二叉树" class="headerlink" title="2.平衡二叉树"></a>2.平衡二叉树</h2><p><strong>平衡二叉树</strong>：AVL,任意结点的<code>平衡因子</code>的<code>绝对值</code>不超过一。</p>
+<blockquote>
+<p>平衡因子：左子树高度 <code>-</code> 右子树高度</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200604161849196.png"></p>
+<p>如上图二叉树，是否是平衡二叉树？</p>
+<p>可以把所有结点的平衡因子计算出来，进行判断，可以看出此二叉树是平衡二叉树。</p>
+<p><img src="https://img-blog.csdnimg.cn/2020060416183294.png"></p>
+<p>高度为h的<code>最小(结点数最少)平衡二叉树</code>的结点数Nh?</p>
+<p>根据平衡二叉树 右侧那个结点的值可以选择：h、h-1和h-2，如果选择h，加上根节点1层，总层数为h+1，不符合题意。其中h-1和h-2都可以选择但是为什么选择h-2？是因为这里说的是最小平衡二叉树，h-1层结点数肯定比h-2层结点数多。N0=0（0层结点数为0）N1=1（结点数为1）<br><img src="https://img-blog.csdnimg.cn/20200604162250189.png"></p>
+<p>比如我们现在要计算高度为3的最小平衡二叉树的结点数。则：</p>
+<p>N3=N2+N1+1; =》N2=N1+N0+1=2; =》N3=2+1+1=4;</p>
+<h3 id="2-1平衡二叉树的判断"><a href="#2-1平衡二叉树的判断" class="headerlink" title="2.1平衡二叉树的判断"></a>2.1平衡二叉树的判断</h3><p>利用递归的后序遍历过程:</p>
+<ul>
+<li>判断左子树是一棵平衡二叉树</li>
+<li>判断右子树是一棵平衡二叉树</li>
+<li>判断以该结点为根的二叉树为平衡二叉树<br>判断条件<br>若左子树和右子树均为平衡二叉树且左子树与右子树高度差的绝对值小于等于1,则平衡。</li>
+</ul>
+<p>根据判断条件我们知道，每个结点要保存两个变量：一个是该节点的平衡性(b:1平衡 0不平衡)另一个是该节点的高度(h)。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200604164039365.png"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//参1 该棵树的根节点</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Judge_AVL</span><span class="params">(BiTree bt,<span class="keyword">int</span> &amp;balance,<span class="keyword">int</span> &amp;h)</span></span>&#123;</span><br><span class="line">    <span class="comment">//左子树平衡性左子树高度 右子树平衡性右子树高度</span></span><br><span class="line">	<span class="keyword">int</span> bl=<span class="number">0</span>,br=<span class="number">0</span>,hl=<span class="number">0</span>,hr=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(bt==<span class="literal">NULL</span>)&#123;<span class="comment">//如果根节点为空</span></span><br><span class="line">		h=<span class="number">0</span>; <span class="comment">//高度设为0</span></span><br><span class="line">		balance=<span class="number">1</span>; <span class="comment">//并且是平衡的</span></span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(bt-&gt;lchild==<span class="literal">NULL</span>&amp;&amp;bt-&gt;rchild==<span class="literal">NULL</span>)&#123;</span><br><span class="line">	    <span class="comment">//左子树和右子树都为空</span></span><br><span class="line">		h=<span class="number">1</span>; <span class="comment">//高度为1</span></span><br><span class="line">		balance=<span class="number">1</span>; <span class="comment">//平衡的</span></span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		Judge_AVL(bt-&gt;lchild,bl,hl); <span class="comment">//判断左子树</span></span><br><span class="line">		Judge_AVL(bt-&gt;rchild,br,hr); <span class="comment">//判断右子树</span></span><br><span class="line">		<span class="comment">//下面计算该节点为根二叉树的高度</span></span><br><span class="line">		<span class="comment">//首先判断哪个子树的高度高，然后加1即可</span></span><br><span class="line">		<span class="keyword">if</span>(hl&gt;hr)&#123;</span><br><span class="line">			h=hl+<span class="number">1</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			h=hr+<span class="number">1</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//判断平衡性</span></span><br><span class="line">		<span class="comment">// abs 是取绝对值</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">abs</span>(hl-hr)&lt;<span class="number">2</span>&amp;&amp;bl==<span class="number">1</span>&amp;&amp;br==<span class="number">1</span>)&#123;</span><br><span class="line">			balance=<span class="number">1</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			balance=<span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<h2 id="3-平衡二叉树的插入"><a href="#3-平衡二叉树的插入" class="headerlink" title="3.平衡二叉树的插入"></a>3.平衡二叉树的插入</h2><p>平衡二叉树的插入过程其实和二叉排序树的插入过程相比多了一步，如果按照二叉排序树的插入过程，所形成的二叉树不一定是平衡二叉树，所以我们需要先插入之后进行调整。即：<code>先插入后调整</code>。</p>
+<p><strong>调整原则</strong>：<strong>每次调整最小不平衡子树</strong> </p>
+<p><img src="https://img-blog.csdnimg.cn/20200604170441669.png"></p>
+<p>例如，如上图插入完成之后我们需要调整，我们调整是从插入结点开始，向上依次调整。首先4结点平衡因子为-1，符合平衡二叉树，然后向上6结点平衡因子为2，不符合平衡二叉树，则需要调整。</p>
+<h3 id="3-1LL平衡旋转-右单旋转"><a href="#3-1LL平衡旋转-右单旋转" class="headerlink" title="3.1LL平衡旋转(右单旋转)"></a>3.1LL平衡旋转(右单旋转)</h3><p><strong>出现不平衡的原因</strong>：在结点A的左孩子的左子树上插入了新结点。</p>
+<p><strong>调整方法</strong>：右旋操作：用A的左孩子B代替A，将A结点称为B的右子树根结点，而B的原右子树则作为A的左子树。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200604171451810.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200604171538505.png"></p>
+<p>出现了不平衡的情况，下面调整成平衡二叉树：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200604171842248.png"></p>
+<h3 id="3-2RR平衡旋转-左单旋转"><a href="#3-2RR平衡旋转-左单旋转" class="headerlink" title="3.2RR平衡旋转(左单旋转)"></a>3.2RR平衡旋转(左单旋转)</h3><p><strong>出现不平衡的原因</strong>：在结点A的右孩子的左子树上插入了新结点。</p>
+<p><strong>调整方法</strong>：左旋操作：用A的右孩子B代替A，将A结点称为B的左子树根结点，而B的原左子树则作为A的右子树。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200604172348385.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200604172629786.png"></p>
+<h3 id="3-3LR平衡旋转-先左后右双旋转"><a href="#3-3LR平衡旋转-先左后右双旋转" class="headerlink" title="3.3LR平衡旋转(先左后右双旋转)"></a>3.3LR平衡旋转(先左后右双旋转)</h3><p><strong>出现不平衡的原因</strong>：在结点A的左孩子的右子树上插入了新结点。</p>
+<p><strong>调整方法</strong>：先左旋后右旋转操作：将A的左孩子B的右孩子结点C代替B，然后再将C结点向上代替A的位置。</p>
+<p><img src="https://img-blog.csdnimg.cn/2020060417494912.png"></p>
+<blockquote>
+<p>注意：其中Cl和Cr也可能都为空，因为B的右子树Br可能为空。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200604175610130.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200604175755568.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200604175912897.png"></p>
+<h3 id="3-4RL平衡旋转-先右后左双旋转"><a href="#3-4RL平衡旋转-先右后左双旋转" class="headerlink" title="3.4RL平衡旋转(先右后左双旋转)"></a>3.4RL平衡旋转(先右后左双旋转)</h3><p><strong>出现不平衡的原因</strong>：在结点A的左孩子的左子树上插入了新结点。</p>
+<p><strong>调整方法</strong>：先右旋后左旋转操作：将A的右孩子B的左孩子结点C代替B，然后再将C结点向上代替A的位置。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200604180755281.png"></p>
+<h2 id="4-带权路径长度"><a href="#4-带权路径长度" class="headerlink" title="4.带权路径长度"></a>4.带权路径长度</h2><p>在学习哈夫曼树之前首先需要了解 <strong>带权路径长度</strong> </p>
+<p><strong>路径长度</strong>：路径上所经历 <code>边</code> 的个数</p>
+<p><strong>结点的权</strong>：结点被赋予的数值</p>
+<p><strong>树的带权路径长度</strong>：WPL,树中所有 <code>叶结点</code> 的带权路径长度之和</p>
+<p><img src="https://img-blog.csdnimg.cn/20200606141100708.png"></p>
+<p><strong>如上二叉树它的带权路径长度为</strong>：<code>WPL=7*2+2*2+3*2=24</code></p>
+<p><img src="https://img-blog.csdnimg.cn/20200606141254795.png"></p>
+<p><strong>如上二叉树它的带权路径长度为</strong>：<code>WPL=7*1+2*2+3*2=17</code></p>
+<p>我们可以看出，虽然两个二叉树的结点的权重相同，但是他们的带权路径长度缺不一样，由此我们引出了<code>哈夫曼树的定义</code></p>
+<h2 id="5-哈夫曼树"><a href="#5-哈夫曼树" class="headerlink" title="5.哈夫曼树"></a>5.哈夫曼树</h2><p><strong>哈夫曼树</strong>：也称最优二叉树，含有n个带权叶子结点带权路径长度最小的二叉树。</p>
+<h3 id="5-1哈夫曼树的构造"><a href="#5-1哈夫曼树的构造" class="headerlink" title="5.1哈夫曼树的构造"></a>5.1哈夫曼树的构造</h3><p><strong>哈夫曼树的构造算法</strong> </p>
+<ul>
+<li>将n个结点作为n棵仅含有一个根结点的二叉树,构成森林F</li>
+<li>生成一个新结点,并从F中找出根结点权值最小的两棵树作为它的左右子树,且新结点的权值为两棵子树根结点的权值之和</li>
+<li>从F中删除这两个树,并将新生成的树加入到F中</li>
+<li>重复2,3步骤,直到F中只有一棵树为止</li>
+</ul>
+<blockquote>
+<p>这里需要注意，哈夫曼树的构造过程并未要求那棵树作为左子树那颗树作为右子树，所以哈夫曼树是不唯一的</p>
+</blockquote>
+<p>例如上面的例子：</p>
+<p>首先是三个带有权重的结点A B C</p>
+<p><img src="https://img-blog.csdnimg.cn/20200606141836955.png"></p>
+<p>接着挑选两个根节点权重最小的树 B、C，形成一棵二叉树，该二叉树的根结点的权重为两个结点权重之和，然后放回森林中</p>
+<p><img src="https://img-blog.csdnimg.cn/20200606141958200.png"></p>
+<p>然后依旧挑选两个根节点权重最小的树……</p>
+<p><img src="https://img-blog.csdnimg.cn/20200606142130882.png"></p>
+<h3 id="5-2哈夫曼树的性质"><a href="#5-2哈夫曼树的性质" class="headerlink" title="5.2哈夫曼树的性质"></a>5.2哈夫曼树的性质</h3><ul>
+<li>每个初始结点都会成为叶节点,双支结点都为新生成的结点</li>
+<li>权值越大离根结点越近,反之权值越小离根结点越远</li>
+<li>哈夫曼树中没有结点的度为1</li>
+<li>n个叶子结点的哈夫曼树的结点总数为2n-1,其中度为2的结点数为n-1</li>
+</ul>
+<h3 id="5-3哈夫曼编码"><a href="#5-3哈夫曼编码" class="headerlink" title="5.3哈夫曼编码"></a>5.3哈夫曼编码</h3><p><strong>编码</strong>：对于一个字符串序列，用二进制来表示字符</p>
+<p><strong>固定长度编码</strong>：</p>
+<p>例如：HelloWorld，其中每一个字符使用三位的二进制表示，由此可以得出该字符串对应的二进制序列：000001010010011100011101010110<br><img src="https://img-blog.csdnimg.cn/20200606143252375.png"><br>由上面的编码表示我们可能有两点疑虑：1.为什么要用三位的二进制表示，而不用比较短的二进制表示，比如两位的？2.其中<code>l</code>字符出现的次数比较多，那么这些出现次数比较多的字符是不是可以使用比较短的编码从而得到比较短的二进制序列？由此引出了第二种编码方式：<code>可变长度编码</code></p>
+<p><strong>可变长度编码</strong>：</p>
+<p>例如：HelloWorld，我们用比较短的二进制表示，由此可以得出该字符串对应的二进制序列：0001001101110000</p>
+<p><img src="https://img-blog.csdnimg.cn/20200606143836132.png"></p>
+<p>由此可以看到这样的序列比之前的序列短了很多，但是这样的序列是不可以应用的，因为我们之前使用固定长度编码每三位代表一个字符，依次遍历就可以得到对应的字符串，但是现在可变长度的编码比如：00，可以代表字符H或者两个字符l，这样就产生了歧义。其实前缀编码才是可用的。</p>
+<p><strong>前缀编码</strong>：没有一个编码是另一个编码的前缀</p>
+<p>我们修改上面的对应表格为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200606144517191.png"></p>
+<p>我们将 <strong>l</strong> 修改为 11，它不是任何一个编码的前缀，这样形成的二进制序列就可以逆置成字符串了。</p>
+<p>那么这样的前缀编码是怎么得到的呢？其实就是利用了哈夫曼树的特点。举个栗子：五个字母以及出现的次数：A:5  B:3  C:6  D:9   E:13，我们利用哈夫曼树的构造算法构造出一个哈夫曼树，首先每一个字母作为一个结点，并且它的权重就是它的出现次数</p>
+<p><img src="https://img-blog.csdnimg.cn/20200606145021634.png"></p>
+<p>然后构造哈夫曼树</p>
+<p><img src="https://img-blog.csdnimg.cn/20200606145121194.png"></p>
+<p>接着我们只需要将树中所有左边的边赋值为0，右边的边赋值为1</p>
+<p><img src="https://img-blog.csdnimg.cn/2020060614522356.png"></p>
+<p>然后我们利用从根节点到某一个结点所以经历的边，就可以得到结点对应的前缀编码了：D 00 - E 01 - C 10 - A 110 - B 111，而且我们可以看出出现次数越多的结点，它的前缀编码越短，出现次数越少的结点它的编码越长，也达到了缩短二进制序列的目的。</p>
+<p>最后我们需要注意：</p>
+<p><strong>哈夫曼树并不唯一，所以每个字符对应的哈夫曼编码也不唯一，但带权路径长度相同且最优</strong></p>
+<p>关于数据结构的知识公众号 <strong>理木客</strong>同步更新中，下次将会讲解：<strong>数据结构 图</strong>，欢迎大家的关注</p>
+<p><img src="https://img-blog.csdnimg.cn/20200505182018216.jpg"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/02/data-structure-13/" rel="next" title="学习数据结构--第四章：树与二叉树（树和森林的相关知识）">
+                <i class="fa fa-chevron-left"></i> 学习数据结构--第四章：树与二叉树（树和森林的相关知识）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/08/mobaxterm/" rel="prev" title="请卸载你的xshell和winscp">
+                请卸载你的xshell和winscp <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%9A%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%88%E6%A0%91%E4%B8%8E%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%94%E7%94%A8%EF%BC%9A%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%E3%80%81%E4%BA%8C%E5%8F%89%E5%B9%B3%E8%A1%A1%E6%A0%91%E3%80%81%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%EF%BC%89"><span class="nav-text">第四章：树与二叉树（树与二叉树的应用：二叉排序树、二叉平衡树、哈夫曼树）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91"><span class="nav-text">1.二叉排序树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%E7%9A%84%E6%9F%A5%E6%89%BE"><span class="nav-text">1.1二叉排序树的查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5"><span class="nav-text">1.2二叉排序树的插入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E6%9E%84%E9%80%A0%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91"><span class="nav-text">1.3构造二叉排序树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%E7%9A%84%E5%88%A0%E9%99%A4"><span class="nav-text">1.4二叉排序树的删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5%E6%9F%A5%E6%89%BE%E6%95%88%E7%8E%87"><span class="nav-text">1.5查找效率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-text">2.平衡二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%88%A4%E6%96%AD"><span class="nav-text">2.1平衡二叉树的判断</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5"><span class="nav-text">3.平衡二叉树的插入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1LL%E5%B9%B3%E8%A1%A1%E6%97%8B%E8%BD%AC-%E5%8F%B3%E5%8D%95%E6%97%8B%E8%BD%AC"><span class="nav-text">3.1LL平衡旋转(右单旋转)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2RR%E5%B9%B3%E8%A1%A1%E6%97%8B%E8%BD%AC-%E5%B7%A6%E5%8D%95%E6%97%8B%E8%BD%AC"><span class="nav-text">3.2RR平衡旋转(左单旋转)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3LR%E5%B9%B3%E8%A1%A1%E6%97%8B%E8%BD%AC-%E5%85%88%E5%B7%A6%E5%90%8E%E5%8F%B3%E5%8F%8C%E6%97%8B%E8%BD%AC"><span class="nav-text">3.3LR平衡旋转(先左后右双旋转)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4RL%E5%B9%B3%E8%A1%A1%E6%97%8B%E8%BD%AC-%E5%85%88%E5%8F%B3%E5%90%8E%E5%B7%A6%E5%8F%8C%E6%97%8B%E8%BD%AC"><span class="nav-text">3.4RL平衡旋转(先右后左双旋转)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%B8%A6%E6%9D%83%E8%B7%AF%E5%BE%84%E9%95%BF%E5%BA%A6"><span class="nav-text">4.带权路径长度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91"><span class="nav-text">5.哈夫曼树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E7%9A%84%E6%9E%84%E9%80%A0"><span class="nav-text">5.1哈夫曼树的构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-text">5.2哈夫曼树的性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81"><span class="nav-text">5.3哈夫曼编码</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="二、计算机操作系统1、操作系统概述操作系统是管理计算机硬件与软件资源的计算机程序，同时也是计算机系统的内核与基石。操作系统需要处理如管理与配置内存、决定系统资源供需的优先次序、控制输入设备与输出设备、操作网络与管理文件系统等基本事务。操作系统也提供一个让用户与系统交互的操作界面。 2、进程状态 3、前趋图 4、进程的同步与互斥 5、PV操作 解释 ：P操作，如果s&lt;0的话，让此进程进入阻塞。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【软考笔记】二、计算机操作系统">
+<meta property="og:url" content="http://example.com/2020/02/10/%E8%BD%AF%E8%80%83%E7%AC%94%E8%AE%B0%E4%BA%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="二、计算机操作系统1、操作系统概述操作系统是管理计算机硬件与软件资源的计算机程序，同时也是计算机系统的内核与基石。操作系统需要处理如管理与配置内存、决定系统资源供需的优先次序、控制输入设备与输出设备、操作网络与管理文件系统等基本事务。操作系统也提供一个让用户与系统交互的操作界面。 2、进程状态 3、前趋图 4、进程的同步与互斥 5、PV操作 解释 ：P操作，如果s&lt;0的话，让此进程进入阻塞。">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215434933.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215453281.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215512354.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215534812.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215549489.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215604959.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215619226.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215634914.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215650422.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215710341.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215733386.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215747899.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215804720.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215825514.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215842480.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019090921590089.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215919169.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215934260.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909215948763.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909220007393.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909220024855.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019090922004076.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909220052908.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909220107428.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909220122562.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190909220140179.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910081315659.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910081333627.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910081353124.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910081415841.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910081434986.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910081453129.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910081514284.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910081530668.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910081546144.png">
+<meta property="article:published_time" content="2020-02-10T04:15:47.000Z">
+<meta property="article:modified_time" content="2021-01-10T13:19:47.895Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190909215434933.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/02/10/软考笔记二计算机操作系统/"/>
+
+
+
+
+
+  <title>【软考笔记】二、计算机操作系统 | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/02/10/%E8%BD%AF%E8%80%83%E7%AC%94%E8%AE%B0%E4%BA%8C%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">【软考笔记】二、计算机操作系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-10T12:15:47+08:00">
+                2020-02-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BD%AF%E8%80%83/" itemprop="url" rel="index">
+                    <span itemprop="name">软考</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="二、计算机操作系统"><a href="#二、计算机操作系统" class="headerlink" title="二、计算机操作系统"></a>二、计算机操作系统</h3><h4 id="1、操作系统概述"><a href="#1、操作系统概述" class="headerlink" title="1、操作系统概述"></a>1、操作系统概述</h4><p>操作系统是管理计算机硬件与软件资源的计算机程序，同时也是计算机系统的内核与基石。操作系统需要处理如管理与配置内存、决定系统资源供需的优先次序、控制输入设备与输出设备、操作网络与管理文件系统等基本事务。操作系统也提供一个让用户与系统交互的操作界面。<br><img src="https://img-blog.csdnimg.cn/20190909215434933.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190909215453281.png" alt="在这里插入图片描述"></p>
+<h4 id="2、进程状态"><a href="#2、进程状态" class="headerlink" title="2、进程状态"></a>2、进程状态</h4><p><img src="https://img-blog.csdnimg.cn/20190909215512354.png" alt="在这里插入图片描述"></p>
+<h4 id="3、前趋图"><a href="#3、前趋图" class="headerlink" title="3、前趋图"></a>3、前趋图</h4><p><img src="https://img-blog.csdnimg.cn/20190909215534812.png" alt="在这里插入图片描述"></p>
+<h4 id="4、进程的同步与互斥"><a href="#4、进程的同步与互斥" class="headerlink" title="4、进程的同步与互斥"></a>4、进程的同步与互斥</h4><p><img src="https://img-blog.csdnimg.cn/20190909215549489.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190909215604959.png" alt="在这里插入图片描述"></p>
+<h4 id="5、PV操作"><a href="#5、PV操作" class="headerlink" title="5、PV操作"></a>5、PV操作</h4><p><img src="https://img-blog.csdnimg.cn/20190909215619226.png" alt="在这里插入图片描述"></p>
+<p><strong>解释</strong> ：P操作，如果s&lt;0的话，让此进程进入阻塞。否则继续执行。V操作，如果s&lt;=0，此时可以通知进程对列中的p操可以开始执行了。</p>
+<p><strong>注意</strong> ：v操纵是没有阻塞的。只有p操作才有阻塞。</p>
+<p>生产者消费者问题：<br><img src="https://img-blog.csdnimg.cn/20190909215634914.png" alt="在这里插入图片描述"><br>例题：<br><img src="https://img-blog.csdnimg.cn/20190909215650422.png" alt="在这里插入图片描述"><br>答案：A C</p>
+<p><strong>解析</strong>：首先假设先执行收银员进程。此时假如说不加b1,b2,会出现收银员一直收费的操作，这样的话肯定不对，应该是有用户来付款，收银员进程才开始执行，所以说b1，应该是一个阻塞操作所以为P(s1)(或者P(s2)),而a1，的作用就是通知收银员进程开始执行，所以a1操作为通知操作即V(s1)(或者v(s2)),这是要和b1中的信号量对应。b2的作用是干啥呢，收银员在进行收银的过程中收银结束了需要通知用户你可以离开了就是通知作用，所以b2为通知操作即为V(s2)(或者V(s1)),通知a2的阻塞进程可以继续执行即离开。所以说a2是一个阻塞操作即a2为P(s2)(或者P(s1))</p>
+<p>所以正确答案有两种分别为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a1 V(s1)  a2 P(s2)    b1  P(s1)  b2 V(s2)    </span><br><span class="line">a1 V(s2)  a2 P(s1)    b1  P(s2)  b1 V(s1)  </span><br></pre></td></tr></table></figure>
+<p>其中的P(Sn)和V(Sn)的作用就是控制书店最多进入的人数。</p>
+<h4 id="6、PV操作与前趋图"><a href="#6、PV操作与前趋图" class="headerlink" title="6、PV操作与前趋图"></a>6、PV操作与前趋图</h4><p><img src="https://img-blog.csdnimg.cn/20190909215710341.png" alt="在这里插入图片描述"><br>前趋图转PV操作例题：<br><img src="https://img-blog.csdnimg.cn/20190909215733386.png" alt="在这里插入图片描述"><br>答案：C A A<br><img src="https://img-blog.csdnimg.cn/20190909215747899.png" alt="在这里插入图片描述"><br><strong>非抢占式优先级调度算法</strong> ：有一个低优先级的程序正在运行，现在有一个新的优先级高的进程来了，不会因为有新的高的优先级程序的介入而把原来正在运行的程序给停止，而去运行高优先级的程序。</p>
+<p>进程p1和p2并发执行，意思就是说无论先去执行那个程序段得到的结果都是一样的。</p>
+<p><strong>解释</strong> ：假如说现在先执行p1程序段。执行a:=1,a:=a+1，后a=2,接着v(s1),此时s1=1，继续向下执行c:=a+5,所以c=7,继续向下执行p(s2)，此时p1程序段进入阻塞，开始执行p2程序段，b:=2,b:=b+1;所以b=3,接着p(s1),刚才s1=1，现在s1=0,所以继续执行,b:=a+b,b=5,接着v(s2),此时通知p1程序段中的p(s2)开始执行，但是，注意最初题目说此系统采用的是非抢占式优先级调度算法，也就是说就算v(s2)通知了p(s2)开始执行，p1程序段也不会开始执行，因为是非抢占式的，所以必须等p2程序段执行完毕，所以继续执行，c:=b+c;c=12。接着开始p1程序段，接着p(s2)向下执行，a:=a+c;a=14。所以最终a=14,b=5,c=12.选：B,A,C</p>
+<p>下面是画图解释先执行p2程序段：<br><img src="https://img-blog.csdnimg.cn/20190909215804720.png" alt="在这里插入图片描述"></p>
+<h4 id="7、死锁问题"><a href="#7、死锁问题" class="headerlink" title="7、死锁问题"></a>7、死锁问题</h4><p><strong>死锁</strong> :是指两个或两个以上的进程在执行过程中，由于竞争资源或者由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。此时称系统处于死锁状态或系统产生了死锁,这些永远在互相等待的进程称为死锁进程。<br><img src="https://img-blog.csdnimg.cn/20190909215825514.png" alt="在这里插入图片描述"><br>答案是：13个。</p>
+<p>假如说先给每个进程四个资源。这样还剩下一个资源，这样的话无论这个最后一个资源给A,B,C中的任意一个都会让其完成自己的任务从而释放自己占用的资源，这样就相当于盘活了资源。这样就能完成所有任务。</p>
+<p>每个进行需要n个资源，总共有k个进程，则不会发生死锁的最少资源数为：kx(n-1)+1。</p>
+<h4 id="8、银行家算法"><a href="#8、银行家算法" class="headerlink" title="8、银行家算法"></a>8、银行家算法</h4><p><strong>死锁的产生</strong> ：1、互斥；2、环路等待；3、不剥夺；4、保持和等待。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190909215842480.png" alt="在这里插入图片描述"><br><strong>死锁的解决方案</strong> ：1、死锁的预防。2、死锁的避免。</p>
+<p><strong>银行家算法</strong> ：<br><img src="https://img-blog.csdnimg.cn/2019090921590089.png" alt="在这里插入图片描述"></p>
+<p><strong>算法的思想</strong> ：此算法的思想和银行放贷款类似如果银行认为把钱给你，你还能还的上，才会进行放贷。否则不会放贷。这是给的是资源。意思就是说如果把资源给你，你的任务能够完成，才会把资源给你。</p>
+<p>实例：<br><img src="https://img-blog.csdnimg.cn/20190909215919169.png" alt="在这里插入图片描述"></p>
+<p>系统是安全的意思就是不会产生死锁。所以上题答案为：B。</p>
+<h4 id="9、存储"><a href="#9、存储" class="headerlink" title="9、存储"></a>9、存储</h4><h5 id="1】分区存储组织"><a href="#1】分区存储组织" class="headerlink" title="1】分区存储组织"></a>1】分区存储组织</h5><p><img src="https://img-blog.csdnimg.cn/20190909215934260.png" alt="在这里插入图片描述"></p>
+<h5 id="2】页式存储组织"><a href="#2】页式存储组织" class="headerlink" title="2】页式存储组织"></a>2】页式存储组织</h5><p><img src="https://img-blog.csdnimg.cn/20190909215948763.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190909220007393.png" alt="在这里插入图片描述"></p>
+<p>（1）页面大小为4k，即为2^12。说明一个页的页内地址为12位。那么高于12位的部分就是页号。这个12是一个有12位的二进制数。二进制转成16进制，每一个16进制位对应4个二进制位所以后面的A29，对应的就是12位的二进制的数。所以页内地址位A29，下面通过表找出物理块号，物理块号又叫页帧号。5对应的页帧号为6，所以物理地址应为16进制6A29。</p>
+<p><strong>思路</strong> ：逻辑地址由：页号和页内地址组成，逻辑地址中的页内地址就是物理地址的页内地址，然后通过页号去找物理块号(页帧号)，然后将物理块号拼接物理地址的页内地址，即为物理地址。所以问题就是将逻辑地址分开成页号和页内地址。</p>
+<p>（2）状态为0表示不再内容，淘汰页面只能淘汰在内存中，所以要从页号为0，1，2，5的四个中选择，这时候要看访问位。访问位为1，表示访问过不能淘汰，只有访问位为0的才能淘汰，所以只能淘汰1号页。</p>
+<h5 id="3】段式存储组织"><a href="#3】段式存储组织" class="headerlink" title="3】段式存储组织"></a>3】段式存储组织</h5><p><img src="https://img-blog.csdnimg.cn/20190909220024855.png" alt="在这里插入图片描述"></p>
+<h5 id="4】段页式cunchu"><a href="#4】段页式cunchu" class="headerlink" title="4】段页式cunchu"></a>4】段页式cunchu</h5><p><img src="https://img-blog.csdnimg.cn/2019090922004076.png" alt="在这里插入图片描述"></p>
+<h5 id="5】快表"><a href="#5】快表" class="headerlink" title="5】快表"></a>5】快表</h5><p><img src="https://img-blog.csdnimg.cn/20190909220052908.png" alt="在这里插入图片描述"></p>
+<h4 id="10、页面置换-淘汰-算法"><a href="#10、页面置换-淘汰-算法" class="headerlink" title="10、页面置换(淘汰)算法"></a>10、页面置换(淘汰)算法</h4><p><img src="https://img-blog.csdnimg.cn/20190909220107428.png" alt="在这里插入图片描述"><br><strong>先进先出(FIFO)算法</strong><br><img src="https://img-blog.csdnimg.cn/20190909220122562.png" alt="在这里插入图片描述"></p>
+<p><strong>解释</strong>  ：上面1、2、3代表内存的页面。最上面那一行4 3 2 1……代表要访问的页面的序列，首先内存中的页面都是空的，现在4进入，发现没有，会产生一次缺页(内存中没有就会产生)，3进入，内存中也没有所以也会产生缺页。2进入，内存中也没有所以也会产生缺页。1进入，此时内存中已经进入满了，现在要淘汰页面，按照先进先出规则，淘汰4号页……当将内存页加到4个的时候发现缺页次数达到了10次，这就产生了抖动现象。</p>
+<p><strong>例题1</strong> ：<br><img src="https://img-blog.csdnimg.cn/20190909220140179.png" alt="在这里插入图片描述"></p>
+<p>最近最少使用(LRU)算法，是根据最近的使用情况去淘汰的，最近、最久使用最少的将会被淘汰。</p>
+<p><strong>例题2</strong> ：<br><img src="https://img-blog.csdnimg.cn/20190910081315659.png" alt="在这里插入图片描述"></p>
+<p><strong>解释</strong> ：没有使用快表，表示每读一次程序块需要现在内存中查以下表，才能读取相应的内存块，所以每一块需要进行两次内存的访问，一共有6个页面==&gt;6个快，所以一共需要访问12次内存。</p>
+<p><strong>缺页中断</strong> ：默认指定无论占几个块，都会一次性调入。从图中可以看出，swap A,B占了0和1号页两个块，按照正常来说应该是产生两次缺页中断，但是他是指令指挥产生一次，但是A和B操作数页占了两个块，这是分别产生两次缺页中断。一共5次缺页中断。</p>
+<h4 id="11、索引文件结构"><a href="#11、索引文件结构" class="headerlink" title="11、索引文件结构"></a>11、索引文件结构</h4><p><img src="https://img-blog.csdnimg.cn/20190910081333627.png" alt="在这里插入图片描述"></p>
+<h4 id="12、文件和树形目录结构"><a href="#12、文件和树形目录结构" class="headerlink" title="12、文件和树形目录结构"></a>12、文件和树形目录结构</h4><p><img src="https://img-blog.csdnimg.cn/20190910081353124.png" alt="在这里插入图片描述"></p>
+<h4 id="13、空闲存储空间的管理"><a href="#13、空闲存储空间的管理" class="headerlink" title="13、空闲存储空间的管理"></a>13、空闲存储空间的管理</h4><p><img src="https://img-blog.csdnimg.cn/20190910081415841.png" alt="在这里插入图片描述"></p>
+<p>位示图法：画一个位示图，1表示的区域已占用，0表示的区域为空闲的。<br><img src="https://img-blog.csdnimg.cn/20190910081434986.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190910081453129.png" alt="在这里插入图片描述"></p>
+<h4 id="14、数据传输控制方式"><a href="#14、数据传输控制方式" class="headerlink" title="14、数据传输控制方式"></a>14、数据传输控制方式</h4><p><img src="https://img-blog.csdnimg.cn/20190910081514284.png" alt="在这里插入图片描述"></p>
+<p>主要是为了解决内存和外设的数据传输问题。</p>
+<h4 id="15、虚设备与Spooling技术"><a href="#15、虚设备与Spooling技术" class="headerlink" title="15、虚设备与Spooling技术"></a>15、虚设备与Spooling技术</h4><p><img src="https://img-blog.csdnimg.cn/20190910081530668.png" alt="在这里插入图片描述"></p>
+<h4 id="16、微内核操作系统"><a href="#16、微内核操作系统" class="headerlink" title="16、微内核操作系统"></a>16、微内核操作系统</h4><p><img src="https://img-blog.csdnimg.cn/20190910081546144.png" alt="在这里插入图片描述"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/10/%E8%BD%AF%E8%80%83%E7%AC%94%E8%AE%B0%E4%B8%80%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" rel="next" title="【软考笔记】一、计算机组成原理">
+                <i class="fa fa-chevron-left"></i> 【软考笔记】一、计算机组成原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/10/%E8%BD%AF%E8%80%83%E7%AC%94%E8%AE%B0%E4%B8%89%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F/" rel="prev" title="【软考笔记】三、数据库系统">
+                【软考笔记】三、数据库系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-text">二、计算机操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0"><span class="nav-text">1、操作系统概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E8%BF%9B%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="nav-text">2、进程状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E5%89%8D%E8%B6%8B%E5%9B%BE"><span class="nav-text">3、前趋图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%90%8C%E6%AD%A5%E4%B8%8E%E4%BA%92%E6%96%A5"><span class="nav-text">4、进程的同步与互斥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5%E3%80%81PV%E6%93%8D%E4%BD%9C"><span class="nav-text">5、PV操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6%E3%80%81PV%E6%93%8D%E4%BD%9C%E4%B8%8E%E5%89%8D%E8%B6%8B%E5%9B%BE"><span class="nav-text">6、PV操作与前趋图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7%E3%80%81%E6%AD%BB%E9%94%81%E9%97%AE%E9%A2%98"><span class="nav-text">7、死锁问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8%E3%80%81%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95"><span class="nav-text">8、银行家算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9%E3%80%81%E5%AD%98%E5%82%A8"><span class="nav-text">9、存储</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1%E3%80%91%E5%88%86%E5%8C%BA%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87"><span class="nav-text">1】分区存储组织</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2%E3%80%91%E9%A1%B5%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87"><span class="nav-text">2】页式存储组织</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3%E3%80%91%E6%AE%B5%E5%BC%8F%E5%AD%98%E5%82%A8%E7%BB%84%E7%BB%87"><span class="nav-text">3】段式存储组织</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4%E3%80%91%E6%AE%B5%E9%A1%B5%E5%BC%8Fcunchu"><span class="nav-text">4】段页式cunchu</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5%E3%80%91%E5%BF%AB%E8%A1%A8"><span class="nav-text">5】快表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10%E3%80%81%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2-%E6%B7%98%E6%B1%B0-%E7%AE%97%E6%B3%95"><span class="nav-text">10、页面置换(淘汰)算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11%E3%80%81%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-text">11、索引文件结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12%E3%80%81%E6%96%87%E4%BB%B6%E5%92%8C%E6%A0%91%E5%BD%A2%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-text">12、文件和树形目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13%E3%80%81%E7%A9%BA%E9%97%B2%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E7%9A%84%E7%AE%A1%E7%90%86"><span class="nav-text">13、空闲存储空间的管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14%E3%80%81%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%8E%A7%E5%88%B6%E6%96%B9%E5%BC%8F"><span class="nav-text">14、数据传输控制方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15%E3%80%81%E8%99%9A%E8%AE%BE%E5%A4%87%E4%B8%8ESpooling%E6%8A%80%E6%9C%AF"><span class="nav-text">15、虚设备与Spooling技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16%E3%80%81%E5%BE%AE%E5%86%85%E6%A0%B8%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-text">16、微内核操作系统</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

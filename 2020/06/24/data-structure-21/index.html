@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第五章：图（图的应用）1.最小生成树生成树：连通图包含全部顶点的一个极小连通子图  这里需要注意的是是一个极小连通子图   上面第一个是一个连通图，右侧两个图是它的生成树，他们包含了全部顶点且是极小连通子图，如果我们把图2中A和D链接起来他就不是一个生成树了，因为他不是极小的，如果我们把图3中的C和D中的边去掉，他也不是生成树了，因为他不是连通的。  如上图，我们把图的边加上权值他就叫做网，我们找">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习数据结构--第五章：图（图的应用）">
+<meta property="og:url" content="http://example.com/2020/06/24/data-structure-21/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="第五章：图（图的应用）1.最小生成树生成树：连通图包含全部顶点的一个极小连通子图  这里需要注意的是是一个极小连通子图   上面第一个是一个连通图，右侧两个图是它的生成树，他们包含了全部顶点且是极小连通子图，如果我们把图2中A和D链接起来他就不是一个生成树了，因为他不是极小的，如果我们把图3中的C和D中的边去掉，他也不是生成树了，因为他不是连通的。  如上图，我们把图的边加上权值他就叫做网，我们找">
+<meta property="og:locale">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTgwMTUzNjg1LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTgwNDIwNzY0LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTgwOTE2MDI3LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTk1MzI2ODAzLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MjEyMzQ4NzcwLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MjEyNjA4NDE4LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MjEzMDA4MDAxLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MjEzMDU3NjQyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTk1MzI2ODAzLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTc0ODU2NTE5LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTgzMTI5NDAzLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTgzNjA3NDAzLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTg0NTI2MTEyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTg0NjM0ODgyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTk0NDI3NTI1LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTk1MDMyMDEyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAwMzQwMTA1LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAwNjA2MTAyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAwODE5MDcwLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAxOTUyMjY5LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAxNDIwNzY4LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAyNzQ4ODQ1LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAyMDQ3NDg1LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAzMjU2MzA3LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAzMDUzNDM1LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAzODUxOTc3LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAzOTAyMTc4LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjE0MDAyMDk5LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEwNjUzOTU2LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjExMDEyMjMzLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjExOTUwOTM3LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjExODQ2NDk4LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEyMjUyNDc5LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEyNTM5MzY3LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEyNzExOTExLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEzMTE5MTU5LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEzODM2NDk0LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEzOTMxNzM0LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0MTE4MjYxLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0MTU3MjMwLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0MzAzMDIyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0MzIwMzgxLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0NDA4MzY3LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0NDI2NzI1LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0NzAzNjg2LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0NzI2MDIxLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0ODU4NzUwLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0OTEzMzY2LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE1MTAxNDY5LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE1MTE2OTcyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE1MjI0Nzg3LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE1MjM4OTcyLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjIwNTQ4MTU4LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjIwNzE2NjAzLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjAxNDU1MTg5LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjAxNDU1MTg5LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjEwMjE4MjU5LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjEwMTAzMTc2LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjEzMTIwNTk1LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjEzNjU3ODU0LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjEzOTA2MTA0LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjE1MjU4OTQ0LnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200505182018216.jpg">
+<meta property="article:published_time" content="2020-06-24T04:03:55.000Z">
+<meta property="article:modified_time" content="2021-01-10T13:19:47.879Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTgwMTUzNjg1LnBuZw?x-oss-process=image/format,png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/06/24/data-structure-21/"/>
+
+
+
+
+
+  <title>学习数据结构--第五章：图（图的应用） | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/06/24/data-structure-21/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">学习数据结构--第五章：图（图的应用）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-24T12:03:55+08:00">
+                2020-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">王道数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="第五章：图（图的应用）"><a href="#第五章：图（图的应用）" class="headerlink" title="第五章：图（图的应用）"></a>第五章：图（图的应用）</h1><h2 id="1-最小生成树"><a href="#1-最小生成树" class="headerlink" title="1.最小生成树"></a>1.最小生成树</h2><p><strong>生成树</strong>：<strong>连通图</strong>包含全部顶点的一个极小连通子图</p>
+<blockquote>
+<p>这里需要注意的是是一个极小连通子图</p>
+</blockquote>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTgwMTUzNjg1LnBuZw?x-oss-process=image/format,png"></p>
+<p>上面第一个是一个连通图，右侧两个图是它的生成树，他们包含了全部顶点且是极小连通子图，如果我们把图2中A和D链接起来他就不是一个生成树了，因为他不是极小的，如果我们把图3中的C和D中的边去掉，他也不是生成树了，因为他不是连通的。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTgwNDIwNzY0LnBuZw?x-oss-process=image/format,png"></p>
+<p>如上图，我们把图的边加上权值他就叫做网，我们找出它的两个上生成树，其中图2的所有边的权值的和为：2+2+5+6=15，图3的所有边的权值之和是：1+2+4+5=12，可以看出图3的权值之和最小，则图3就是最小生成树。</p>
+<p><strong>最小生成树</strong>：对于<code>带权的无向连通图</code>G=(V,E)，G的所有生成树当中边的权值之和最小的生成树为G的最小生成树(MST)</p>
+<blockquote>
+<p>注意是<code>带权的无向连通图</code>，因为带权了才有最小的概念，只有无向连通图才有生成树</p>
+</blockquote>
+<h3 id="1-1性质"><a href="#1-1性质" class="headerlink" title="1.1性质"></a>1.1性质</h3><p>不一定唯一：最小生成树一定只有一种吗？</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTgwOTE2MDI3LnBuZw?x-oss-process=image/format,png"></p>
+<p>如上图中的图2和图3他们都是最小生成树，所以最下生成树不一定唯一。</p>
+<p>这是不一定，所有<code>也有唯一的情况</code>，比如：</p>
+<ul>
+<li>所有边的权重皆不相同（没有权重相同的边最小生成树必为一，可以自行尝试）</li>
+<li>图中n个顶点只有n-1条边（这样的无向图【网】它的最小生成树只有一个就是他自己，所以唯一）</li>
+</ul>
+<p><strong>性质</strong></p>
+<ol>
+<li><p>最小生成树不一定唯一,即最小生成树的树形不一定唯一。当带权无向连通图G的各边权值不等时或G只有结点数减1条边时,MST唯一</p>
+</li>
+<li><p>最小生成树的权值是唯一的,且是最小</p>
+</li>
+<li><p>最小生成树的边数为顶点数减1</p>
+</li>
+</ol>
+<h3 id="1-2算法"><a href="#1-2算法" class="headerlink" title="1.2算法"></a>1.2算法</h3><p>我们根据贪心算法设计了如下最小生成树算法(贪心：每一步尽量做出最好的选择)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//伪代码</span></span><br><span class="line">GENRIC_MST(G)&#123;</span><br><span class="line">    T=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">while</span> T <span class="comment">//未形成一棵生成树</span></span><br><span class="line">        <span class="keyword">do</span> <span class="comment">//找到一条最小代价边(u,v)并且加入T后不会产生回路</span></span><br><span class="line">        T=Tu(u,v);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两种最小生成树算法：<code>Prim</code>、<code>Kruskal</code></p>
+<h3 id="1-3Prim"><a href="#1-3Prim" class="headerlink" title="1.3Prim"></a>1.3Prim</h3><p>初始化：向空的结果树T=(Vt,Et)中添加图G=(V,E)的任一顶点<code>u0</code>,使<code>Vt=&#123;u0&#125;</code>,Et为空集; </p>
+<p>循环(直到Vt=V)：从图G中选择满足<code>&#123;(u,v)|u∈Vt,v∈V-Vt&#125;</code>且具有最小权值的边(u,v),并置<code>Vt=VtU&#123;v&#125;,Et=EtU&#123;(u,v)&#125;</code></p>
+<blockquote>
+<p><code>&#123;(u,v)|u∈Vt,v∈V-Vt&#125;</code> 相当于将已经添加到结果集中的结点和未添加进来的结点进行连接，这种方法就避免了生成的生成树出现回路</p>
+<p>且具有最小权值的边：这个就是为了我们的最终目的啦，生成树的权值之和最小，即最小生成树</p>
+<p><code>Vt=VtU&#123;v&#125;,Et=EtU&#123;(u,v)&#125;</code> 将新添加的顶点添加到结果的顶点集中，边添加到结果的边集中</p>
+</blockquote>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTk1MzI2ODAzLnBuZw?x-oss-process=image/format,png"></p>
+<p>使用<code>Prim</code>算法生成最小生成树的过程：首先假设我们选择A作为初始顶点，然后我们从剩下的：B、C、E、D中选择一个顶点组成一条边，满足这样的边有三个：AB、AC、AE，并且我们需要选择该权值最小的那个，可以发现是AC边</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MjEyMzQ4NzcwLnBuZw?x-oss-process=image/format,png"></p>
+<p>接着我们继续找，此时可以选择的顶点有三个B、E、D，可以组成的边有：AB、AE、CB、CE、CD，我们任然选择权值最小的那个CB边</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MjEyNjA4NDE4LnBuZw?x-oss-process=image/format,png"></p>
+<p>我们继续找，此时可以选择的顶点有D和E，可以组成的边有：AE、CE、CD（注意这里没有AB，因为AB边会形成通路，当然我们可选择的顶点也没有B），任然选择权值最小的那个AE</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MjEzMDA4MDAxLnBuZw?x-oss-process=image/format,png"></p>
+<p>接着我们继续找，此时可以选择顶点只有D，可以组成的边只有CD</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MjEzMDU3NjQyLnBuZw?x-oss-process=image/format,png"></p>
+<p>此时最小生成树构成成功，<code>Prim算法</code>伪代码，算法思想</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Prim</span><span class="params">(G,T)</span></span>&#123;</span><br><span class="line">    T = 空集;<span class="comment">//结果集</span></span><br><span class="line">    U = &#123;w&#125;;<span class="comment">//将w顶点加入结果的顶点集中</span></span><br><span class="line">    <span class="keyword">while</span>((V-U)!=空集)&#123;</span><br><span class="line">    	设（u,v）是使u∈(V-U)，且权值最小的边；</span><br><span class="line">         T=TuP&#123;(u,v)&#125;;</span><br><span class="line">         U=Uu&#123;V&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我需要两个辅助数组将这个伪代码转成算法代码：<code>min_weight[n]</code>,<code>adjvex[n]</code></p>
+<ul>
+<li><code>min_weight[n]</code> 它的数组大小是顶点的数量大小，他代表我们每次循环时，我们知道我们的边一个顶点要从结果集中选择另一个顶点要从剩下的顶点中选择，它存放了到每一个顶点：我们已经生成的顶点到我们剩下的顶点的权值最小的那条边的，数组下标是被选择的顶点的下标，例如<code>min_weight[2]</code>代表我们已经挑选的顶点到剩下的顶点之前权重最小的那一条边，下标2则代表结果顶点集中的顶点到剩下的顶点中下标2的顶点。</li>
+<li><code>adjvex[n]</code> 存放该顶点由那一个顶点引入结果集中的</li>
+</ul>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE4MTk1MzI2ODAzLnBuZw?x-oss-process=image/format,png"></p>
+<p>我们仍然使用上图作为例子，首先选A作为初始顶点，然后我们要初始化两个数组：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTc0ODU2NTE5LnBuZw?x-oss-process=image/format,png"></p>
+<blockquote>
+<p>这里有一个无穷大的原因是A到D是没有边的，在实际算法中令这个无穷大为一个比较大的整数就可以了</p>
+</blockquote>
+<p>接着我们同样按照上面的过程找和A顶点组成的边的权值最小的点C，接着我们此时要修改min_weight数组了</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTgzMTI5NDAzLnBuZw?x-oss-process=image/format,png"></p>
+<p>我们可以看到将3改成了2，因为在此时结果顶点集中可以存在一条从C到B的边它的权值为2比之前的AB3更小，同样修改∞为5，因为也存一条CE边，它的权值为5，因为CE的权值为6，所以4我们不需要修改，同时我们将1改成了0，因为C顶点已经被取走了，这里其中<code>adjvex</code>数组的值也进行修改了，我们修改<code>adjvex[2]=0（2是c顶点的下标）</code>，因为A顶点的下标为0，所以看不出来。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTgzNjA3NDAzLnBuZw?x-oss-process=image/format,png"></p>
+<p>同样我们继续挑选权值最小的边BC，同样修改辅助数组此时我们已经将A、B、C三个顶点选走所数组的前三个值为0，因为B顶点是由C顶点挑选走的，所以修改<code>adjvex=[1]=2（1代表B顶点下标，2代表C顶点下标）</code>，由于不存在权值更小的边，所以不修改数组的值</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTg0NTI2MTEyLnBuZw?x-oss-process=image/format,png"></p>
+<p>我们继续寻找顶点，找到AE，同样我们修改此时修改<code>min_weight=[4]=0</code>，同时修改<code>adjvex[4]=0</code>,同样我们继续寻找找到CD边，我们修改<code>min_weight[3]=0</code>，修改<code>adjvex[3]=2</code></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTg0NjM0ODgyLnBuZw?x-oss-process=image/format,png"></p>
+<p>最终<code>ming_weight</code>数组中的值全部为0，说明所有顶点都已经被选择</p>
+<p>代码实现，时间复杂度<code>O(V^2)</code> ,该算法的时间复杂度和边没有关系，所以他比<code>较适合稠密图</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MST_Prim</span><span class="params">(Graph G)</span></span>&#123; <span class="comment">//传入图G</span></span><br><span class="line">    <span class="keyword">int</span> min_weight[G.vexnum];<span class="comment">//数组大小为顶点的数量</span></span><br><span class="line">    <span class="keyword">int</span> adjvex[G.vexnum];<span class="comment">//数组大小为顶点的数量</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;G.vexnum;i++)&#123;</span><br><span class="line">        <span class="comment">//可以看到初始顶点是下标为0的顶点，且可以看出我们的顶点这里采用的是邻接矩阵存储的</span></span><br><span class="line">        min_weight[i]=G.Edge[<span class="number">0</span>][i];<span class="comment">//存放权值</span></span><br><span class="line">        adjvex[i]=<span class="number">0</span>;<span class="comment">//初始化为0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> min_arc; <span class="comment">//存放当前挑选的最小边的权重</span></span><br><span class="line">    <span class="keyword">int</span> Min_vex; <span class="comment">//挑选这样的一条边的另一个端点的数组下标</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;G.vexnum;i++)&#123;<span class="comment">//循环剩余顶点注意这里i初始值为1，因为我们已经挑选一个了</span></span><br><span class="line">        min_arc=MAX;<span class="comment">//将最小边的权重置为max，这里是为了求最小值的时候可以进行比较</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;G.vexnum;j++)&#123;<span class="comment">//挑选满足条件的边</span></span><br><span class="line">            <span class="comment">//min_weight[j]!=0不等于0代表这个顶点还没有被添加到结果集</span></span><br><span class="line">            <span class="comment">//min_weight[j]&lt;min_arc 判断权值是否是最小的</span></span><br><span class="line">            <span class="keyword">if</span>(min_weight[j]!=<span class="number">0</span>&amp;&amp;min_weight[j]&lt;min_arc)&#123;</span><br><span class="line">                min_arc=min_weight[j];<span class="comment">//如果小于之前的权值，修改最小的权值</span></span><br><span class="line">                min_vex=j;<span class="comment">//同时保存最小权值结点的下标</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        min_weight[min_vex]=<span class="number">0</span>;<span class="comment">//表示已经该顶点已经被选择出来了</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;G.vexnum;j++)&#123;<span class="comment">//循环修改对应数组下标下辅助变量的值</span></span><br><span class="line">            <span class="comment">//min_weight[j]!=0不等于0代表这个顶点还没有被添加到结果集</span></span><br><span class="line">            <span class="comment">//G.Edge[min_arc][j]&lt;min_weight[j] 因为结果集中加入了新顶点，所以最小的权值可能会发生改变</span></span><br><span class="line">            <span class="comment">//所以我们需要修改辅助数组的权值</span></span><br><span class="line">            <span class="keyword">if</span>(min_weight[j]!=<span class="number">0</span>&amp;&amp;G.Edge[min_arc][j]&lt;min_weight[j])&#123;</span><br><span class="line">                min_weight[j]=G.Edge[min_arc][j];<span class="comment">//如果加入的这条边的权值比之前的权值小则替换之前的</span></span><br><span class="line">                adjvex[j]=min_arc;<span class="comment">//同时修改adjvex数组，因为新加入的点是通过该顶点达到的，所以修改其为对应顶点的下标</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-4Kruskal"><a href="#1-4Kruskal" class="headerlink" title="1.4Kruskal"></a>1.4Kruskal</h3><p>初始化：Vt=V，Et=空集，即是每个顶点构成一颗独立的树，T是一个仅含V个顶点的森林；</p>
+<p>循环(直到T为树)：按图G的边的权值递增的顺序依次从E-Et中选择一条边，若这条边加入后不构成回路，则将其加入Et，否则舍弃。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTk0NDI3NTI1LnBuZw?x-oss-process=image/format,png"></p>
+<p>首先将这个n个顶点放到结果集，这n个顶点构成了n棵树组成的森林，然后我们将图G的边的权值按照递增的顺序排序，接着从头挑选权值最小的那条边AC发现不构成回路，则可以加入Et中，同样我们继续挑选BC这条边不够成回路可以加入，接着是AB这条边，但是它回构成回路，不加入…….最后形成最小生成树</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjE5MTk1MDMyMDEyLnBuZw?x-oss-process=image/format,png"></p>
+<p><code>Kruskal</code>主要使用了堆排序对边的权重进行排序，然后使用并查集(数组)这个数据挑选边。代码实现</p>
+<p>代码实现，时间复杂度：<code>O(E*logE)</code>,适用与稀疏图</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Edge</span>&#123;</span></span><br><span class="line">    <span class="keyword">int</span> a,b;<span class="comment">//改变两个端点的下标</span></span><br><span class="line">    <span class="keyword">int</span> weight;<span class="comment">//权重</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MST_Kruskal</span><span class="params">(Graph G,Edge *edges,<span class="keyword">int</span> *parent)</span></span>&#123;<span class="comment">//图G、属于该图的边的集合、并查集辅助变量</span></span><br><span class="line">    heap_sort(edges);<span class="comment">//堆排序</span></span><br><span class="line">    Initial(parent);<span class="comment">//初始化并查集</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;G.arcnum;i++)&#123;<span class="comment">//循环次数为边的数目</span></span><br><span class="line">        <span class="keyword">int</span> a_root=Find(parent,edges[i].a);<span class="comment">//求第一个端点所在并查集的根结点的下标</span></span><br><span class="line">        <span class="keyword">int</span> b_root=Find(parent,edges[i].b);<span class="comment">//求第而个端点所在并查集的根结点的下标</span></span><br><span class="line">        <span class="keyword">if</span>(a_root!=b_root)&#123;<span class="comment">//如果不相同</span></span><br><span class="line">            Union(parent,a_root,b_root);<span class="comment">//并入结果集</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-最短路径"><a href="#2-最短路径" class="headerlink" title="2.最短路径"></a>2.最短路径</h2><p>我们之前学过<code>无权图单源最短路径问题</code>，那是无权图，我们找最短路径只需找出边最少的就行，但是这里我们讨论的是带权的最短路径，此时就不能只看边了。</p>
+<p>最短路径：两个顶点之前带权路径长度最短的路径为最短路径</p>
+<p>在带权图中，把一个顶点v到另一个顶点u所经历的权值之和称为，路径的带权路径长度</p>
+<p>我们有两种算法：<code>Dijkstra</code> 、<code>Floyd</code></p>
+<h3 id="2-1Dijkstra-迪杰斯特拉"><a href="#2-1Dijkstra-迪杰斯特拉" class="headerlink" title="2.1Dijkstra(迪杰斯特拉)"></a>2.1Dijkstra(迪杰斯特拉)</h3><p><code>Dijkstra(迪杰斯特拉)</code>：计算带权图单源最短路径。我们需要以下几个辅助数组：</p>
+<ul>
+<li><code>s[]</code> 标记已经计算完成的顶点：数组中的值全部初始化为0(未计算完成)，源点下标的值初始化为1(计算完成)</li>
+<li><code>dist[]</code> 记录从源点v0到其他各顶点<code>当前的</code>最短路径长度：数组中的值初始化为源点到各个顶点边的权值，即<code>dist[i]=arcs[0][i]</code> (我们这里源点是0，所以从第0行取值初始化，这样看源点的变化)</li>
+<li><code>path[]</code> 记录从最短路径中顶点的<code>前驱顶点</code>，即<code>path[i]</code> 为v到vi最短路径上vi的前驱顶点（最后我们不断的求前驱系结点组成的就是一条最短路径）：数组中值的初始化，若源点v0到该顶点vi有一条有向边(无向边)，则令<code>path[i]=0</code>，否则<code>path[i]=-1</code></li>
+</ul>
+<p>实现过程：</p>
+<ul>
+<li>初始化数组，并集合S初始化为{0}(令源点为v0)</li>
+<li>从顶点集合V-S中选出Vj，满足<code>dist[j]=Min&#123;dist[i],vi∈V-S&#125;</code>，Vj就是当前求得的最短路径的终点，并令S=S∪{j}</li>
+<li>修改此时V0出发到集合V-S上任一顶点Vk的最短路径的长度：若<code>dist[j]+arcs[j][k]&lt;dist[k]</code>则令<code>dist[k]=dist[j]+arcs[j][k];path[k]=j;</code> </li>
+</ul>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAwMzQwMTA1LnBuZw?x-oss-process=image/format,png"></p>
+<ul>
+<li>重复 2、3操作n-1次，直到S中包含全部顶点</li>
+</ul>
+<p>举个栗子：我们描述出下图的Dijstra的算法执行过程</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAwNjA2MTAyLnBuZw?x-oss-process=image/format,png"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAwODE5MDcwLnBuZw?x-oss-process=image/format,png"></p>
+<p>首先我们设置源点为0，接着我们初始化三个辅助数组，其中dist[]存储的是0到每一个顶点的权值因为03不存在边，所以存储∞，s[0]=1表示0这个顶点已经计算完成，path[]初始化代表如果存在顶点0到另一个顶点有一条有向边，则设置值为顶点0的下标为0，否则为-1,初始化完成，开始执行具体的执行过程</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAxOTUyMjY5LnBuZw?x-oss-process=image/format,png"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAxNDIwNzY4LnBuZw?x-oss-process=image/format,png"></p>
+<p>第一轮：首先我们挑选dist[]中最小的值，我们知道是3，它对应的顶点为2，所以我们挑选2这个顶点，挑选完成后我们需要修改dist[]数组，挑选2完成之后会带来新的有向边，我知道04的权值是8，但是加入2之后存在024这样的一条有向边它的权值是7，所以我们需要修改dist[4]=7，同时由于2顶点计算过了，所以我们修改s[2]=1，同时由于此时我们是通过2顶点到达的4顶点所以修改paht[4]=2</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAyNzQ4ODQ1LnBuZw?x-oss-process=image/format,png"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAyMDQ3NDg1LnBuZw?x-oss-process=image/format,png"></p>
+<p>第二轮：依旧挑选最小的那个值5(0和3值对应的顶点已经计算过了)，它是1顶点对应的值，加入1顶点后带来了12和13边，对应的我们要修改dist[]的权值，这里我们只需修改从0到3的权值即可，因为从0-1-2的权值为7，而从0-2的权值为3，7&gt;3不需要修改。同时修改s[1]=1，然后修改paht[3]=1，因为3顶点我们是通过1顶点抵达，权值为下标为1</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAzMjU2MzA3LnBuZw?x-oss-process=image/format,png"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAzMDUzNDM1LnBuZw?x-oss-process=image/format,png"></p>
+<p>第三轮：我们挑选到3这个顶点(0、3和5值对应的顶点已经计算过了)，3这个顶点加入后会带来32这条边，所以但是2顶点已经计算完成了，所以不需要修改dist[]数组，然后我们修改s[3]=1，同样path[]数组不需要修改</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAzODUxOTc3LnBuZw?x-oss-process=image/format,png"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjAzOTAyMTc4LnBuZw?x-oss-process=image/format,png" alt="image-20200620203902178"></p>
+<p>第四轮：只剩下值为7这个顶点4未被挑选了，4顶点加入后为未带来新的边，所以不修改dist[]数组，修改s[4]=1</p>
+<p>最后遍历完成，最后我们得到s[]数组值都为1，表示所有顶点计算完成，同时dist[]数组代表顶点0到其他顶点的最短路径长度，比如5代表了0-1的最短路径长度。我们还知道path[]数组保存了最短路径经历的序列，那么我们是怎么通过path[]数组计算路径序列的呢？比如我们计算0-&gt;1路径的序列，它的长度为5，序列：首先1对应的值为0，说明它的前驱结点的下标为0，paht[0]=-1，所以结束，序列为：0-&gt;1；计算0-&gt;2路径的序列，他的长度为3，2对应的值为0，他的前驱结点为下标为0，paht[0]=-1，所以结束，序列为：0-&gt;2；计算0-&gt;3路径的序列，他的长度为6，3对应的值为1，则说明它的前驱结点的下标为1，path[1]=0，path[0]=-1，所以结束，序列为：0-&gt;1-&gt;3;……</p>
+<p>代码实现，时间复杂度O(V^2)</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIwMjE0MDAyMDk5LnBuZw?x-oss-process=image/format,png"></p>
+<p>注意：<strong>Dijkstra算法并不适用于含有负权值边的图</strong></p>
+<h3 id="3-2Floyd-弗洛伊德算法"><a href="#3-2Floyd-弗洛伊德算法" class="headerlink" title="3.2Floyd(弗洛伊德算法)"></a>3.2Floyd(弗洛伊德算法)</h3><p>Floyd(弗洛伊德算法)：计算<code>各个顶点之间</code>的最短路径</p>
+<blockquote>
+<p>也就是求任意两个点之间的最短路径。这个问题这也被称为“多源最短路径”问题。</p>
+</blockquote>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEwNjUzOTU2LnBuZw?x-oss-process=image/format,png"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjExMDEyMjMzLnBuZw?x-oss-process=image/format,png"></p>
+<p>如上图，我们使用Floyd算法，进行计算各个顶点之间的最最短路径，首先进行初始化，两个顶点之间有路径的值为权值，没有路径的值为∞。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjExOTUwOTM3LnBuZw?x-oss-process=image/format,png"></p>
+<p>接着我们加入第一个顶点0顶点，我们随意找一个一条边比如<code>A^(-1)[2][1]</code>,它的值为∞，表示从2顶点到1顶点没有边，然后加入0顶点后，我我们知道从2顶点到0顶点也没有边值为∞，从0顶点到1顶点有边值为1，∞+1还是∞，所以它的值<code>A^(-1)[2][1]</code>的值不进行更改，按照这样的方法将整个矩阵遍历一遍得到下面的矩阵：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjExODQ2NDk4LnBuZw?x-oss-process=image/format,png"></p>
+<p>接着我们继续加入顶点，加入顶点1，我们仍然按照上面的方法进行计算，得到A^(1)矩阵：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEyMjUyNDc5LnBuZw?x-oss-process=image/format,png"></p>
+<p>任然按照上面的方法得到A^(2)和A^(3)矩阵，其中A^(3)矩阵中的值就是各个顶点之间的最短路径</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEyNTM5MzY3LnBuZw?x-oss-process=image/format,png"></p>
+<p>代码实现，时间复杂度：O(V^3)</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEyNzExOTExLnBuZw?x-oss-process=image/format,png"></p>
+<blockquote>
+<p>整个算法的思想也可以参考整个博客 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/wangyuliang/p/9216365.htm">Floyd-傻子也能看懂的弗洛伊德算法（转）</a></p>
+</blockquote>
+<h2 id="3-拓扑排序"><a href="#3-拓扑排序" class="headerlink" title="3.拓扑排序"></a>3.拓扑排序</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEzMTE5MTU5LnBuZw?x-oss-process=image/format,png"></p>
+<p>如上图，表示的就是我们只有学习了计算机基础，才能学习程序语言，然后才能学习数据结构接着才能学习算法分析，我们如果按照发生顺序对他们进行排序的话：计算机基础-程序语言-数据结构-算法分析，得到的这个序列就是<code>拓扑排序</code>序列。首先我们需要了解：</p>
+<p><code>有向无环图</code>：不存在环的有向图,简称DAG图。</p>
+<p><code>AOV网</code>：若用一个.AG图表示一个工程，其顶点表示活动，用有向边<code>&lt;vi,vj&gt;</code>表示活动 vi 先于活动 vj 进行的传递关系，则将这种DAG称为顶点表示活动网络，记为AOV网。(虽然它叫网，但是它的边是没有权值的)</p>
+<p><code>拓扑排序</code>：对DAG所有顶点的一种排序，使若存在一条从顶点A到顶点B的路径，在排序中B排在A的后面</p>
+<p><code>算法思想</code></p>
+<ul>
+<li><p>1)从DAG图中选择一个没有前驱的顶点并输出</p>
+</li>
+<li><p>2)从图中删除该顶点和所有以它为起点的有向边</p>
+</li>
+<li><p>3)重复1)、2)直到当前的DAG图为空或当前图中不存在无前驱的顶点为止。后一种情况说明图中有环(则不是有向无环图)。</p>
+</li>
+</ul>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEzODM2NDk0LnBuZw?x-oss-process=image/format,png"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjEzOTMxNzM0LnBuZw?x-oss-process=image/format,png"></p>
+<p>我们知道每次我们删除的是顶点入度为0的顶点，所以我们用一个辅助数组来标记当前顶点的入度，然后找出值为0的下标，我们发现是顶点0，所以我们删除顶点0，输出，并删除0顶点对应的所有的出边</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0MTE4MjYxLnBuZw?x-oss-process=image/format,png"></p>
+<p>然后我们要修改数组，<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0MTU3MjMwLnBuZw?x-oss-process=image/format,png">，接着我们继续找值为0的下标，我们发现是1顶点，接着我们删除1顶点，输出，并删除1顶点对应的所有的出边</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0MzAzMDIyLnBuZw?x-oss-process=image/format,png"></p>
+<p>删除之后我们依旧要修改数组，<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0MzIwMzgxLnBuZw?x-oss-process=image/format,png">，继续找值为0的下标，我们发现是2顶点，然后我们删除2顶点，输出，并删除2顶点对应的所有的出边</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0NDA4MzY3LnBuZw?x-oss-process=image/format,png"></p>
+<p>同样删除之后修改数组，<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0NDI2NzI1LnBuZw?x-oss-process=image/format,png">，最后还剩3顶点，同样删除，输出。这样我们就得到这个有向无环图的拓扑排序序列：{0，1，2，3}。我们下面看一个有环的例子</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0NzAzNjg2LnBuZw?x-oss-process=image/format,png"></p>
+<p>同样首先我们初始化一个数组<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0NzI2MDIxLnBuZw?x-oss-process=image/format,png">，然后找到值为0的顶点0，接着删除顶点0，并输出，并删除顶点0对应的出边</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0ODU4NzUwLnBuZw?x-oss-process=image/format,png"></p>
+<p>然后修改数组：<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE0OTEzMzY2LnBuZw?x-oss-process=image/format,png">，然后我们发现没有顶点的入度为0，即为算法描述中第三个步骤当前图中不存在无前驱的顶点，此时图为有环图。</p>
+<p>即：<strong>算法结束时没有访问所有顶点，则存在以剩下顶点组成的环</strong>。</p>
+<p>然后我们继续看一个例子：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE1MTAxNDY5LnBuZw?x-oss-process=image/format,png"></p>
+<p>首先我们初始化一个数组：<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE1MTE2OTcyLnBuZw?x-oss-process=image/format,png">，然后找出值为0的顶点，找到了0顶点，然后删除0顶点，输出，并删除0顶点对应的出边</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE1MjI0Nzg3LnBuZw?x-oss-process=image/format,png"></p>
+<p>接着修改数组：<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjE1MjM4OTcyLnBuZw?x-oss-process=image/format,png">，此时我们发现有两个顶点的入度都为0，此时选择那个一个顶点先开始都可以，那么到最后我们发现此有向无环图有两种拓扑排序的序列：{0，1，2，3} 或 {0，2，1，3}</p>
+<p>即：<strong>拓扑排序的结果不一定唯一</strong></p>
+<p>代码实现，时间复杂度：O(V+E)</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjIwNTQ4MTU4LnBuZw?x-oss-process=image/format,png"></p>
+<p>拓扑排序的特点：</p>
+<ul>
+<li>若邻接矩阵为三角矩阵，则存在拓扑排序；反之不一定成立</li>
+</ul>
+<p>例如：<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIyMjIwNzE2NjAzLnBuZw?x-oss-process=image/format,png">，上三角矩阵，它如果是某一个有向图的邻接矩阵的话，则对应在该有向图中一定满足如下条件：<code>Vi-&gt;Vj</code>中的<code>i&lt;j</code>，那么在该有向图中一定不存在环状结构，那么一定存在拓扑排序的排序序列，下三角矩阵同理。</p>
+<p>反之不一定成立因为比如：0-&gt;2，2-&gt;1，我们也可以得到一个拓扑排序序列，但是这个图对应的邻接矩阵不是一个三角矩阵。</p>
+<h2 id="4-关键路径"><a href="#4-关键路径" class="headerlink" title="4.关键路径"></a>4.关键路径</h2><p>上面我们讲解了拓扑排序的<code>AVO网</code>这里我们讲另外一种网<code>AOE网</code>，使用每一个有向边表示活动，权值常常代表一个活动所需要的金钱或者时间开销等等，顶点表示的是事件</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjAxNDU1MTg5LnBuZw?x-oss-process=image/format,png"></p>
+<p><code>AOE网</code>：在有向带权图中，以顶点表示事件，以有向边表示活动，以边上权值表示完成该活动的开销(如完成活动所需要的时间)，则称这种有向图为用边表示活动的网络，简称<code>AOE网</code></p>
+<blockquote>
+<p>上面讲的AOV网是没有权重的</p>
+</blockquote>
+<p><code>AOE网</code>有以下<code>特点</code>：</p>
+<ul>
+<li>它始终<code>只有一个</code>顶点是完全没有入边的，我们称为源点，如上图的<code>V1</code></li>
+<li>它始终<code>只有一个</code>顶点是完全没有出边的，我们称为汇点，如上图的<code>V6</code></li>
+</ul>
+<p>顶点与入边的关系：如上图<code>V4</code>顶点和入边<code>a3</code>、<code>a5</code>，边代表活动，点代表事件，只有<code>a3</code>和<code>a5</code>的活动都结束才能开始<code>V4</code>顶点的事件（上图<code>V2</code>和<code>V3</code>事件同时开始）</p>
+<p>顶点与出边的关系：如上图<code>V4</code>顶点和出边<code>a7</code>，表示只有<code>V4</code>顶点的事件完成后才能进行<code>a7</code>活动</p>
+<p><code>关键路径</code>：从原点到汇点最大路径长度的路径（权重和最大的路径）称为关键路径，关键路径上的活动为 <strong>关键活动</strong></p>
+<p>关键路径为什么关键？我们知道例如一个工程，关键路径上的关键活动直接决定的工程的完成事件，我们知道了关键路径，我们就可以进行优化关键路径，提升工程的完成效率等等</p>
+<h3 id="4-1关键路径的计算"><a href="#4-1关键路径的计算" class="headerlink" title="4.1关键路径的计算"></a>4.1关键路径的计算</h3><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjAxNDU1MTg5LnBuZw?x-oss-process=image/format,png"></p>
+<p>1、事件<code>Vk</code>的最早发生时间<code>Ve(k)</code></p>
+<p>我们可以看一下图中的顶点<code>V4</code>，从<code>V1</code>到顶点<code>V4</code>(我们默认<code>V1</code>耗时为0)，有两条路径：<code>V1-&gt;V2-&gt;V4</code>；<code>V1-&gt;V3-&gt;V4</code>；路径1耗时3+2=5，路径2耗时2+4=6；那么事件<code>V4</code>最早发生时间是？这时可能有人会说5小时，其实答案是6，因为事件<code>V4</code>的发生必须满足<code>a3</code>和<code>a5</code>同时完成。</p>
+<p><code>Ve(源点)=0; Ve(k)=Max&#123;Ve(j)+Weight(Vj,Vk)&#125; </code></p>
+<p><code>Weight(Vj,Vk)</code>：顶点<code>Vj</code>到当前顶入边的权值</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjEwMjE4MjU5LnBuZw?x-oss-process=image/format,png"></p>
+<blockquote>
+<p>上图各个顶点的最早发生时间</p>
+</blockquote>
+<p>2、事件<code>Vk</code>的最迟发生时间<code>Vl(k)</code></p>
+<p>解释：我们在不推迟整个工程的完成时间的情况下，每个事件它最迟可以什么时间开始</p>
+<p>计算方式其实和最早发生事件是相反的，我们从汇点向源点。</p>
+<p><code>Vl(汇点)=Ve(汇点);//令汇点的最迟发生时间等于汇点的最早发生时间，如果我们汇点的最迟发生时间大于汇点的最早发生时间那么我们就等于推迟了工程的结束时间，所以只能相等</code></p>
+<p> <code>Vl(j)=Min&#123;Vl(k)-Weight(Vj,Vk)&#125; </code>  我们计算最早发生时间使用了入边，这里我们使用出边向源点进行逆推。</p>
+<p>例如：<code>Vl(2)</code>的最迟发生时间，我们可以使用<code>Ve(4)-a3=4</code>和<code>Ve(5)-a4=3</code>进行比较找出最小值</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjEwMTAzMTc2LnBuZw?x-oss-process=image/format,png" alt="上图各个顶点的最迟发生时间"></p>
+<blockquote>
+<p>上图各个顶点的最迟发发生时间</p>
+</blockquote>
+<p>3、活动<code>ai</code>的最早开始时间<code>e(i)</code></p>
+<p>我们知道每一个事件所需事件为0，那么每一个活动的最早开始时间就是整个活动的弧的弧头这个事件的最早开始时间即</p>
+<p>若存在<code>&lt;Vk,Vj&gt;</code>表示活动<code>ai</code>，则<code>e(i)=Ve(k)</code> </p>
+<p>我们只需找到每个事件的最早开始事件，然后对应每个活动即可找到每个活动的最早开始时间</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjEzMTIwNTk1LnBuZw?x-oss-process=image/format,png"></p>
+<p>4、活动<code>ai</code>的最迟开始时间<code>l(j)</code></p>
+<p>若存在<code>&lt;Vk,Vj&gt;</code>表示活动<code>ai</code>，则<code>l(i)=Vl(j)-Weight(Vk,Vj)</code> </p>
+<p>我们只需找到每个事件的最迟开始时间，然后依次计算每个活动的最迟开始时间：例如<code>a1</code>的最迟开始时间等于<code>Vl2-a1的权重=4-3=1</code></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjEzNjU3ODU0LnBuZw?x-oss-process=image/format,png"></p>
+<p>5、活动<code>ai</code>的差额<code>d(i)=l(i)-e(i)</code></p>
+<p>最迟发生时间减去最早发生时间等与活动的差额，我们先计算出每个活动的最迟发生时间和最早发生时间然后做个减法</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjEzOTA2MTA0LnBuZw?x-oss-process=image/format,png"></p>
+<p>我们通过活动的差额可以找到关键活动，其中值为零的就是关键活动，值为零说明此活动的最迟发生时间和最早发生时间相同，对于这些活动我们不能早开始也不能晚开始，都会影响整个工程的时间，这些活动当然就是工程的关键活动，我们利用这些关键活动可以组成关键路径：<code>V1-&gt;V3-&gt;V4-&gt;V6</code>，我们如果想优化整个工程就要优化整个工程的关键路径上的关键活动。</p>
+<p>注意：<strong>缩短关键活动时间可以加快整个工程，但缩短到一定大小时关键路径会发生改变</strong></p>
+<p>例子：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20veHpsbWsvbG1rbWtpbWdzL3Jhdy9tYXN0ZXIvaW1nL2ltYWdlLTIwMjAwNjIzMjE1MjU4OTQ0LnBuZw?x-oss-process=image/format,png"></p>
+<p>在该<code>AOE网</code>中有以下关键活动路径：<code>&#123;a2，a4，a3，a7&#125;；&#123;a2，a4，a5，a8&#125;；&#123;a2,a6,a8&#125;</code></p>
+<p>由此可以看出不是所有的<code>AOE网</code>只有一条关键路径，其实<code>AOE网</code>可能有多条关键路径。那么就出现了一个问题，如果我们想要缩减整个工程的时间的话，如果只缩减一条关键路径上的关键活动就可以吗？答案是可能可以，如果该关键活动包含在所有的关键活动中。就如上图，如果我们缩减<code>a2</code>即可达到缩减整个工程的目的。但是如果我们缩减<code>a5</code>，不能改变整个工程的时间。</p>
+<p>即：<strong>当网中关键路径不唯一时,只有加快的关键活动或关键活动组合包括在所有的关键路径上才能缩短工期</strong>。</p>
+<h2 id="7-理木客"><a href="#7-理木客" class="headerlink" title="7.理木客"></a>7.理木客</h2><p>数据结构相关知识，公众号理木客同步更新中，欢迎关注<br><img src="https://img-blog.csdnimg.cn/20200505182018216.jpg"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/18/data-structure-20/" rel="next" title="学习数据结构--第五章：图（图的遍历操作）">
+                <i class="fa fa-chevron-left"></i> 学习数据结构--第五章：图（图的遍历操作）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/24/dsfctr/" rel="prev" title="数据结构课程设计农夫过河">
+                数据结构课程设计农夫过河 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0%EF%BC%9A%E5%9B%BE%EF%BC%88%E5%9B%BE%E7%9A%84%E5%BA%94%E7%94%A8%EF%BC%89"><span class="nav-text">第五章：图（图的应用）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-text">1.最小生成树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E6%80%A7%E8%B4%A8"><span class="nav-text">1.1性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E7%AE%97%E6%B3%95"><span class="nav-text">1.2算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3Prim"><span class="nav-text">1.3Prim</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4Kruskal"><span class="nav-text">1.4Kruskal</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84"><span class="nav-text">2.最短路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1Dijkstra-%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89"><span class="nav-text">2.1Dijkstra(迪杰斯特拉)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2Floyd-%E5%BC%97%E6%B4%9B%E4%BC%8A%E5%BE%B7%E7%AE%97%E6%B3%95"><span class="nav-text">3.2Floyd(弗洛伊德算法)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="nav-text">3.拓扑排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84"><span class="nav-text">4.关键路径</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-text">4.1关键路径的计算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E7%90%86%E6%9C%A8%E5%AE%A2"><span class="nav-text">7.理木客</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

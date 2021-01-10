@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="环境ubuntu 开始想要在java中还是在其他方式访问dockerAPI都需要设置一个端口,运行以下命令：进入docker.service 1vi &#x2F;lib&#x2F;systemd&#x2F;system&#x2F;docker.service 找到Execstart&#x3D;&#x2F;usr&#x2F;bin&#x2F;dockerd后加上 -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock  退出并且保">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java---DockerApi">
+<meta property="og:url" content="http://example.com/2020/07/22/java-aqdk/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="环境ubuntu 开始想要在java中还是在其他方式访问dockerAPI都需要设置一个端口,运行以下命令：进入docker.service 1vi &#x2F;lib&#x2F;systemd&#x2F;system&#x2F;docker.service 找到Execstart&#x3D;&#x2F;usr&#x2F;bin&#x2F;dockerd后加上 -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock  退出并且保">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190821143402643.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/201908211517558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxOTQxODc1,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2020-07-21T23:24:06.000Z">
+<meta property="article:modified_time" content="2021-01-10T13:19:47.599Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190821143402643.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/07/22/java-aqdk/"/>
+
+
+
+
+
+  <title>Java---DockerApi | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/22/java-aqdk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java---DockerApi</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-22T07:24:06+08:00">
+                2020-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="环境"><a href="#环境" class="headerlink" title="环境"></a><strong>环境</strong></h5><p><code>ubuntu</code></p>
+<h5 id="开始"><a href="#开始" class="headerlink" title="开始"></a><strong>开始</strong></h5><p>想要在java中还是在其他方式访问dockerAPI都需要设置一个端口,运行以下命令：进入docker.service</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /lib/systemd/system/docker.service</span><br></pre></td></tr></table></figure>
+<p>找到Execstart=/usr/bin/dockerd后加上 <code>-H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock </code> 退出并且保存,运行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">service docker restart//重启启动docker</span><br></pre></td></tr></table></figure>
+<p>运行：<code>netstat -nlp |grep 2375</code>可以查看2375是否已经被监听<br><img src="https://img-blog.csdnimg.cn/20190821143402643.png" alt="在这里插入图片描述"><br>这时可以通过java来访问docker了，或者可以在浏览器的地址栏中访问docker了,在浏览器地址栏中访问：<a target="_blank" rel="noopener" href="http://ip:2375/info">http://ip:2375/info</a> 返回的数据是以json的格式展示 ,IP地址为centos机器的IP地址，如果是云服务器则是公网IP地址。格式如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ID: &quot;XLNC:EK3V:NIND:4P2R:PWXT:RRCX:YG3G:LJAH:QT3D:6J2O:6RVG:T2RL&quot;,Containers:6,ContainersRunning: 0,ContainersPaused: 0,ContainersStopped: 6,Images: 36,Driver:&quot;overlay2&quot;,DriverStatus:[[&quot;Backing Filesystem&quot;,&quot;extfs&quot;],[&quot;Supports d_type&quot;,&quot;true&quot;],[&quot;Native Overlay Diff&quot;,&quot;true&quot;]],SystemStatus: null,Plugins: &#123;Volume: [&quot;local&quot;],Network: [&quot;bridge&quot;,&quot;host&quot;,&quot;ipvlan&quot;,&quot;macvlan&quot;,&quot;null&quot;,&quot;overlay&quot;],Authorization: null,Log: [&quot;awslogs&quot;,&quot;fluentd&quot;,&quot;gcplogs&quot;,&quot;gelf&quot;,&quot;journald&quot;,&quot;json-file&quot;,&quot;local&quot;,&quot;logentries&quot;,&quot;splunk&quot;,&quot;syslog&quot;]&#125;,</span><br></pre></td></tr></table></figure>
+<p>还有其它的操作比如—列出容器：（更多的操作参考<code>https://docs.docker.com/engine/api/v1.24/</code>）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://ip:2375//v1.24/containers/json?all=1&amp;before=8dfafdbc3a40&amp;size=1 HTTP/1.1</span><br></pre></td></tr></table></figure>
+<h5 id="安全链接"><a href="#安全链接" class="headerlink" title="安全链接"></a><strong>安全链接</strong></h5><p>上面简单的进行docker的连接，但是会有暴露端口的漏洞存在，也就是说黑客获取了你的ip地址以及端口号以后可以对你的docker进行破坏（为所欲为），这种方式在实际项目中不可取，必须做安全连接，通过密钥的方式做认证。<br>如何在服务器上或者本地虚拟机上生成密钥文件可参考官方文档：<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/security/https/#create-a-ca-server-and-client-keys-with-openssl">https://docs.docker.com/engine/security/https/#create-a-ca-server-and-client-keys-with-openssl</a></p>
+<p>1.首先选择一个存放密钥文件的地方 我这里选择/home/user/certs来存放 /user/certs是我自己创建的  进到certs文件中运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -aes256 -out ca-key.pem 4096 </span><br><span class="line">[root@ywh certs]<span class="comment"># openssl genrsa -aes256 -out ca-key.pem 4096</span></span><br><span class="line">Generating RSA private key, 4096 bit long modulus</span><br><span class="line">.........................++</span><br><span class="line">..............................................................................................................................................++</span><br><span class="line">e is 65537 (0x10001)</span><br><span class="line">Enter pass phrase <span class="keyword">for</span> ca-key.pem:               //这里会让设置密码我设置的是123456 这个以后会用到</span><br><span class="line">Verifying - Enter pass phrase <span class="keyword">for</span> ca-key.pem:   //这里是让你再次输入密码确认密码不会显示出来，你只管输入按回车就可以了</span><br><span class="line">[root@ywh certs]<span class="comment"># </span></span><br></pre></td></tr></table></figure>
+<p>2.运行：<code>openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem </code> 最后还有个邮箱的我没有放上来 填什么都行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@ywh certs]<span class="comment"># openssl genrsa -aes256 -out ca-key.pem 4096</span></span><br><span class="line">Generating RSA private key, 4096 bit long modulus</span><br><span class="line">.........................++</span><br><span class="line">..............................................................................................................................................++</span><br><span class="line">e is 65537 (0x10001)</span><br><span class="line">Enter pass phrase <span class="keyword">for</span> ca-key.pem:   //输入你刚才的密码</span><br><span class="line">Verifying - Enter pass phrase <span class="keyword">for</span> ca-key.pem:</span><br><span class="line">[root@ywh certs]<span class="comment"># openssl req -new -x509 -days 365 -key ca-key.pem -sha256 -out ca.pem</span></span><br><span class="line">Enter pass phrase <span class="keyword">for</span> ca-key.pem:</span><br><span class="line">You are about to be asked to enter information that will be incorporated</span><br><span class="line">into your certificate request.</span><br><span class="line">What you are about to enter is what is called a Distinguished Name or a DN.</span><br><span class="line">There are quite a few fields but you can leave some blank</span><br><span class="line">For some fields there will be a default value,</span><br><span class="line">If you enter <span class="string">&#x27;.&#x27;</span>, the field will be left blank.</span><br><span class="line">-----</span><br><span class="line">Country Name (2 letter code) [XX]:cn       //从这开始让你输入一些信息以便进行加密，其实填什么也无所谓</span><br><span class="line">State or Province Name (full name) []:ywh</span><br><span class="line">Locality Name (eg, city) [Default City]:bj</span><br><span class="line">Organization Name (eg, company) [Default Company Ltd]:xx</span><br><span class="line">Organizational Unit Name (eg, section) []:xx</span><br><span class="line">Common Name (eg, your name or your server<span class="string">&#x27;s hostname) []:192.168.80.93   //值得注意的是这里要填写你的ip地址</span></span><br></pre></td></tr></table></figure>
+<p>3.运行：<code>openssl genrsa -out server-key.pem 4096</code> 生成server-key.pem</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root@ywh certs]<span class="comment"># openssl genrsa -out server-key.pem 4096</span></span><br><span class="line">Generating RSA private key, 4096 bit long modulus</span><br><span class="line">................................................................++</span><br><span class="line">.........................++</span><br><span class="line">e is 65537 (0x10001)</span><br></pre></td></tr></table></figure>
+<p>4.运行：<code>openssl req -subj &quot;/CN=192.168.80.93&quot; -sha256 -new -key server-key.pem -out server.csr</code>  CN中写你在上面填写的IP</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -subj <span class="string">&quot;/CN=192.168.80.93&quot;</span> -sha256 -new -key server-key.pem -out server.csr</span><br></pre></td></tr></table></figure>
+<p>5.运行：<code>echo subjectAltName = DNS:192.168.80.93,IP:192.168.80.93,IP:0.0.0.0,IP:127.0.0.1 &gt;&gt; extfile.cnf</code>  配置哪些主机可以访问你 0.0.0.0代表所有主机都可以通过密钥文件的方式访问</p>
+<p>6.运行 <code>echo extendedKeyUsage = serverAuth &gt;&gt; extfile.cnf</code></p>
+<p>7.运行：<code>openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem  -CAcreateserial -out server-cert.pem -extfile extfile.cnf</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@ywh certs]<span class="comment"># openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem \</span></span><br><span class="line">&gt;   -CAcreateserial -out server-cert.pem -extfile extfile.cnf</span><br><span class="line">Signature ok</span><br><span class="line">subject=/CN=192.168.0.3</span><br><span class="line">Getting CA Private Key</span><br><span class="line">Enter pass phrase <span class="keyword">for</span> ca-key.pem:</span><br></pre></td></tr></table></figure>
+<p>8.运行：<code>openssl genrsa -out key.pem 4096</code></p>
+<p>9.运行：<code>openssl req -subj &#39;/CN=client&#39; -new -key key.pem -out client.csr</code></p>
+<p>10.运行：<code>echo extendedKeyUsage = clientAuth &gt;&gt; extfile.cnf</code></p>
+<p>11.运行：<code>openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile.cnf</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@ywh certs]<span class="comment"># openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem \</span></span><br><span class="line">&gt;   -CAcreateserial -out cert.pem -extfile extfile.cnf</span><br><span class="line">Signature ok</span><br><span class="line">subject=/CN=client</span><br><span class="line">Getting CA Private Key</span><br><span class="line">Enter pass phrase <span class="keyword">for</span> ca-key.pem:</span><br></pre></td></tr></table></figure>
+<p>12.<code>rm -v client.csr server.csr</code> 删除临时文件,配置权限<code>chmod -v 0400 ca-key.pem key.pem server-key.pem </code> 和<code>chmod -v 0444 ca.pem server-cert.pem cert.pem</code><br>现在在/home/user/certs下应该有8个文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@ywh certs]<span class="comment"># ll</span></span><br><span class="line">总用量 40</span><br><span class="line">-r--------. 1 root root 3326 8月  30 10:44 ca-key.pem</span><br><span class="line">-r--r--r--. 1 root root 2065 8月  30 10:48 ca.pem</span><br><span class="line">-rw-r--r--. 1 root root   17 8月  30 11:04 ca.srl</span><br><span class="line">-r--r--r--. 1 root root 1895 8月  30 11:04 cert.pem</span><br><span class="line">-rw-r--r--. 1 root root  117 8月  30 11:04 extfile.cnf</span><br><span class="line">-r--------. 1 root root 3243 8月  30 11:03 key.pem</span><br><span class="line">-r--r--r--. 1 root root 1899 8月  30 11:02 server-cert.pem</span><br><span class="line">-r--------. 1 root root 3247 8月  30 10:53 server-key.pem</span><br></pre></td></tr></table></figure>
+<p>13.找docker.service文件<code> vi /lib/systemd/system/docker.service</code> 改成如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/bin/dockerd -D --tlsverify=<span class="literal">true</span> --tlscert=/home/user/certs/server-cert.pem --tlskey=/home/user/certs/server-key.pem --tlscacert=/home/user/certs/ca.pem -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock</span><br></pre></td></tr></table></figure>
+<p>14.运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload </span><br><span class="line">service docker restart  //重启docker</span><br><span class="line">systemctl status docker //这条命令可以看见你是否设置的生效</span><br></pre></td></tr></table></figure>
+<p>配置好安全连接以后在地址栏中是不可以访问的了，如果还可以访问是不对的 因为你没有使用密钥文件的方式访问<br>这时候需要通过密钥来认证以后才能访问了，可以把密钥文件下载到本机的磁盘上.<br>需要下载到本地的文件有：1.ca-key.pem     2.ca.pem    3.cert.pem    4.key.pem<br>Docekr-java官方推荐的连接方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//进行安全认证</span></span><br><span class="line">DockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder().withDockerTlsVerify(<span class="keyword">true</span>)</span><br><span class="line">		.withDockerCertPath(<span class="string">&quot;F:/data/local/&quot;</span>).withDockerHost(<span class="string">&quot;tcp://192.168.0.3:2375&quot;</span>)</span><br><span class="line">		.withDockerConfig(<span class="string">&quot;F:/data/local/&quot;</span>).withApiVersion(<span class="string">&quot;1.38&quot;</span>).withRegistryUrl(<span class="string">&quot;https://index.docker.io/v1/&quot;</span>)</span><br><span class="line">		.withRegistryUsername(<span class="string">&quot;dockeruser&quot;</span>).withRegistryPassword(<span class="string">&quot;ilovedocker&quot;</span>)</span><br><span class="line">		.withRegistryEmail(<span class="string">&quot;dockeruser@github.com&quot;</span>).build();</span><br><span class="line">DockerCmdExecFactory dockerCmdExecFactory =  <span class="keyword">new</span>  JerseyDockerCmdExecFactory()</span><br><span class="line">		  .withReadTimeout(<span class="number">1000</span>)</span><br><span class="line">		  .withConnectTimeout(<span class="number">1000</span>)</span><br><span class="line">		  .withMaxTotalConnections(<span class="number">100</span>)</span><br><span class="line">		  .withMaxPerRouteConnections(<span class="number">10</span>);</span><br><span class="line"><span class="comment">//进行连接</span></span><br><span class="line">DockerClient dockerClient = DockerClientBuilder.getInstance(config).withDockerCmdExecFactory(dockerCmdExecFactory).build();</span><br><span class="line">Info info = dockerClient.infoCmd().exec();</span><br><span class="line">System.out.println(info);</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">dockerHost：地址是你docker所在的宿主机的外网地址以及你开放的端口号</span><br><span class="line"></span><br><span class="line">dockercertPath：放入的是你密钥在windows的文件存放地址</span><br><span class="line"></span><br><span class="line">dockerconfig：放的是什么我不太清楚，但是我放入密钥文件地址也没出错</span><br><span class="line"></span><br><span class="line">apiVersion：dockerAPI的版本，可通过docker version命令在宿主机上获取版本号</span><br><span class="line"></span><br><span class="line">RegistryUrl：这个按着默认的写即可</span><br><span class="line"></span><br><span class="line">.withRegistryUsername(<span class="string">&quot;dockeruser&quot;</span>)：默认</span><br><span class="line"></span><br><span class="line">.withRegistryPassword(<span class="string">&quot;ilovedocker&quot;</span>)：默认</span><br><span class="line"></span><br><span class="line">.withRegistryEmail(<span class="string">&quot;dockeruser@github.com&quot;</span>)：默认</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/201908211517558.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxOTQxODc1,size_16,color_FFFFFF,t_70" alt="结果"></p>
+<p>以上就可以在java中连接docker-api了，可以进行安全的连接了，没有密钥文件是不可能访问到的。如果直接通过ip访问出现如下：<code>Client sent an HTTP request to an HTTPS server.</code></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/20/ys-jar/" rel="next" title="Spring Boot 项目Jar包瘦身">
+                <i class="fa fa-chevron-left"></i> Spring Boot 项目Jar包瘦身
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/09/back-template/" rel="prev" title="【后台模板】免费开源好看的后台模板">
+                【后台模板】免费开源好看的后台模板 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-text">环境</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B"><span class="nav-text">开始</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E9%93%BE%E6%8E%A5"><span class="nav-text">安全链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

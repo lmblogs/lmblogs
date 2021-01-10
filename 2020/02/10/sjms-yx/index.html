@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="原型（Prototype）是什么意思？工业生产中通常是指在量产之前研发出的概念实现，如果可行性满足即可参照原型进行量产。有人说了，那不就是印章？其实这并不怎么贴切，印章并不是最终实例，我更愿意称其为“类”！  呃……僵尸脸花泽类经世名言：想哭的时候就道理，这样眼泪就不会流出来了。(。。。。。) 言归正传，大家一定见过这种印章吧，就是皮带轮可以转动，可随意调整成自己需要的文字，其实跟我们的四大发明活">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式是什么鬼（原型）">
+<meta property="og:url" content="http://example.com/2020/02/10/sjms-yx/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="原型（Prototype）是什么意思？工业生产中通常是指在量产之前研发出的概念实现，如果可行性满足即可参照原型进行量产。有人说了，那不就是印章？其实这并不怎么贴切，印章并不是最终实例，我更愿意称其为“类”！  呃……僵尸脸花泽类经世名言：想哭的时候就道理，这样眼泪就不会流出来了。(。。。。。) 言归正传，大家一定见过这种印章吧，就是皮带轮可以转动，可随意调整成自己需要的文字，其实跟我们的四大发明活">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190922084354434.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190922084433926.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190922084500737.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019092208453822.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019092208463232.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190922084743112.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190922084904225.png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X2dpZi9NM0Y2a2p5MmljbmI2SHJYYUNReFBlbTk0MWliUkhyeW1JdXZ1dUVsU3V6aGhXaWF3QkVjODk2NXJITHFjcmNaZkZBNUY1UElhZDVhRkt5N2lhRVZBMzBVRXcvNjQw?x-oss-process=image/format,png">
+<meta property="article:published_time" content="2020-02-10T04:18:52.000Z">
+<meta property="article:modified_time" content="2021-01-10T13:19:47.648Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190922084354434.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/02/10/sjms-yx/"/>
+
+
+
+
+
+  <title>设计模式是什么鬼（原型） | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/02/10/sjms-yx/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式是什么鬼（原型）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-10T12:18:52+08:00">
+                2020-02-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原型（Prototype）是什么意思？工业生产中通常是指在量产之前研发出的概念实现，如果可行性满足即可参照原型进行量产。有人说了，那不就是印章？其实这并不怎么贴切，印章并不是最终实例，我更愿意称其为“类”！</p>
+<p><img src="https://img-blog.csdnimg.cn/20190922084354434.png" alt="在这里插入图片描述"></p>
+<p>呃……僵尸脸花泽类经世名言：想哭的时候就道理，这样眼泪就不会流出来了。(。。。。。)</p>
+<p>言归正传，大家一定见过这种印章吧，就是皮带轮可以转动，可随意调整成自己需要的文字，其实跟我们的四大发明活字印刷同出一辙，我们填完表格签好字，行政人员拿这个往上一盖，一个日期便出现在落款出。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190922084433926.png" alt="在这里插入图片描述"></p>
+<p>其实当行政人员调整好了文字，照纸上盖下去那一刹那，其实就类似于实例化的过程了，new Stamp();每个盖出的印都可以不一样，例如我们更换了日期，那么每天都有不同日期的实例了，那有人意识到了，同一天的那些实例们，其实是完全一模一样的实例拷贝，那这就比较麻烦，每个文档都要用章子（类）去盖（实例化）一下。</p>
+<p>好了，让我们忘掉盖章实例化模式吧。通常我们都是怎样做协议书的呢？搞一个Word文档吧，写好后复制给别人修改就好了。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190922084500737.png" alt="在这里插入图片描述"></p>
+<p>注意了，行政人员要新建一个word文档了，这个过程其实是在实例化，我们暂且叫它“零号”文件，那当写好了文档后，把这个文件复制给其他公司员工去填写，那么这个零号文件我们就称之为“原型”。</p>
+<p><img src="https://img-blog.csdnimg.cn/2019092208453822.png" alt="在这里插入图片描述"></p>
+<p>想必我们已经搞明白了，原型模式，实际上是<strong>从原型实例复制克隆出新实例</strong>，而<strong>绝不是从类去实例化</strong>，这个过程的区别一定要搞清楚！OK，那开始我们的实战部分。</p>
+<p>假设我们要做一个打飞机游戏，游戏设定位纵版移动，单打。</p>
+<p><img src="https://img-blog.csdnimg.cn/2019092208463232.png" alt="在这里插入图片描述"></p>
+<p>既然是单打，那我们的主角飞机当然只有一架，于是我们写一个单例模式（<a target="_blank" rel="noopener" href="http://toptech.top/exam/article/detail/121" title="设计模式是什么鬼（初探）">设计模式是什么鬼（初探）</a>），此处我们省略主角代码。那么敌机呢？当然有很多架了，好，为了说明问题我们去繁就简，先写一个敌机类。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190922084743112.png" alt="在这里插入图片描述"></p>
+<p>代码第5行，初始化只接收x坐标，因为敌机一开始是从顶部出来所以纵坐标y必然是0。此类只提供getter而没有setter，也就是说只能在初始化时确定敌机的横坐标x，后续是不需要更改坐标了，只要连续调用第17行的fly方法即可让飞机跟雨点一样往下砸。</p>
+<p>好了，我们开始绘制敌机动画了，先实例化出50架吧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;EnemyPlane&gt; enemyPlanes = <span class="keyword">new</span> ArrayList&lt;EnemyPlane&gt;();</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">50</span>; i++) &#123;</span><br><span class="line">             <span class="comment">//此处随机位置产生敌机</span></span><br><span class="line">             EnemyPlane ep = <span class="keyword">new</span> EnemyPlane(<span class="keyword">new</span> Random().nextInt(<span class="number">200</span>));</span><br><span class="line">             enemyPlanes.add(ep);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意代码第7行，觉不觉得每个迭代都实例化new出一个对象存在性能问题呢？答案是肯定的，这个实例化的过程是得不偿失的，构造方法会被调用50次，cpu被极大浪费了，内存被极大浪费了，尤其对于游戏来说性能瓶颈绝对是大忌，这会造成用户体验问题，谁也不希望玩游戏会卡帧吧。</p>
+<p>那到底什么时候去new？游戏场景初始化就new敌机（如以上代码）？这关会出现500个敌机那我们一次都new出来吧？浪费内存！那我们实时的去new，每到一个地方才new出来一个！浪费CPU！如果敌机线程过多造成CPU资源耗尽，每出一个敌机游戏会卡一下，试想一下这种极端情况下，游戏对象实例很多的话就是在作死。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190922084904225.png" alt="在这里插入图片描述"></p>
+<p>解决方案到底是什么呢？好，原型模式Prototype！上代码！我们把上面的敌机类改造一下，让它支持原型拷贝。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EnemyPlane</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;<span class="comment">//此处实现克隆接口</span></span><br><span class="line">	 <span class="keyword">private</span> <span class="keyword">int</span> x;<span class="comment">//敌机横坐标</span></span><br><span class="line">     <span class="keyword">private</span> <span class="keyword">int</span> y = <span class="number">0</span>;<span class="comment">//敌机纵坐标</span></span><br><span class="line"> </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="title">EnemyPlane</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;<span class="comment">//构造器</span></span><br><span class="line">         <span class="keyword">this</span>.x = x;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getY</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> y;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fly</span><span class="params">()</span></span>&#123;<span class="comment">//让敌机飞</span></span><br><span class="line">        y++;<span class="comment">//每调用一次，敌机飞行时纵坐标＋1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//此处开放setX，为了让克隆后的实例重新修改x坐标</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setX</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.x = x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//为了保证飞机飞行的连贯性</span></span><br><span class="line">    <span class="comment">//这里我们关闭setY方法，不支持随意更改Y纵坐标</span></span><br><span class="line"><span class="comment">//    public void setY(int y) &#123;</span></span><br><span class="line"><span class="comment">//        this.y = y;</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//重写克隆方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> EnemyPlane <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (EnemyPlane)<span class="keyword">super</span>.clone();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意看从第21行开始的修改，setX()方法为了保证克隆飞机的个性化，因为它们出现的位置是不同的。第34行的克隆方法重写我们调用了父类Object的克隆方法，这里JVM会进行内存操作直接拷贝原始数据流，简单粗暴，不会有其他更多的复杂操作（类加载，实例化，初始化等等），速度远远快于实例化操作。OK，我们看怎么克隆这些敌机，做一个造飞机的工厂吧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EnemyPlaneFactory</span> </span>&#123;</span><br><span class="line">     <span class="comment">//此处用痴汉模式造一个敌机原型</span></span><br><span class="line">     <span class="keyword">private</span> <span class="keyword">static</span> EnemyPlane protoType = <span class="keyword">new</span> EnemyPlane(<span class="number">200</span>);</span><br><span class="line"> </span><br><span class="line">     <span class="comment">//获取敌机克隆实例</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EnemyPlane <span class="title">getInstance</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">         EnemyPlane clone = protoType.clone();<span class="comment">//复制原型机</span></span><br><span class="line">         clone.setX(x);<span class="comment">//重新设置克隆机的x坐标</span></span><br><span class="line">         <span class="keyword">return</span> clone;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此处我们省去抓异常，随后的事情就非常简单了，我们只需要很简单地调用EnemyPlaneFactory.getInstance(int x)并声明x坐标位置，一架敌机很快地就做好了，并且我们保证是在敌机出现的时候再去克隆，确保不要一开局就全部克隆出来，如此一来，既保证了实时性节省了内存空间，又保证了敌机实例化的速度，游戏绝不会卡帧！至于此处代码中的懒汉原型还可以怎样优化那就要根据具体场景了，交给大家自由发挥吧，这里只说明主要问题。</p>
+<p>最后，还要强调一点就是浅拷贝和深拷贝的问题。假如我们的敌机类里有一颗子弹bullet可以射击我们的主角，如下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EnemyPlane</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Bullet bullet = <span class="keyword">new</span> Bullet();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x;<span class="comment">//敌机横坐标</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> y = <span class="number">0</span>;<span class="comment">//敌机纵坐标</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//之后代码省略……</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们都知道Java中的变量分为原始类型和引用类型，所谓浅拷贝只是拷贝原始类型的指，比如坐标x, y的指会被拷贝到克隆对象中，对于对象bullet也会被拷贝，但是请注意拷贝的只是地址而已，那么多个地址其实真正指向的对象还是同一个bullet。</p>
+<p>由于我们调用父类Object的clone方法进行的是浅拷贝，所以此处的bullet并没有被克隆成功，比如我们每架敌机必须携带的子弹是不同的实例，那么我们就必须进行深拷贝，于是我们的代码就得做这样的改动。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EnemyPlane</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">     <span class="keyword">private</span> Bullet bullet = <span class="keyword">new</span> Bullet();</span><br><span class="line"> </span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBullet</span><span class="params">(Bullet bullet)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.bullet = bullet;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">protected</span> EnemyPlane <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</span><br><span class="line">        EnemyPlane clonePlane = (EnemyPlane) <span class="keyword">super</span>.clone();<span class="comment">//先克隆出敌机，其中子弹还未进行克隆。</span></span><br><span class="line">        clonePlane.setBullet(<span class="keyword">this</span>.bullet.clone());<span class="comment">//对子弹进行深拷贝</span></span><br><span class="line">        <span class="keyword">return</span> clonePlane;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//之后代码省略……</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>相信大家看注释就能懂了，这里就不做过多解释，当然对于Bullet类也同样实现了克隆接口，代码不用再写了吧？相信大家都学会了举一反三。至此，我们的每个敌机携带的弹药也同样被克隆完毕了，再也不必担心游戏的流畅性了。</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X2dpZi9NM0Y2a2p5MmljbmI2SHJYYUNReFBlbTk0MWliUkhyeW1JdXZ1dUVsU3V6aGhXaWF3QkVjODk2NXJITHFjcmNaZkZBNUY1UElhZDVhRkt5N2lhRVZBMzBVRXcvNjQw?x-oss-process=image/format,png" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>转自：公众号：Java知音 ，原文地址：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI4Njc5NjM1NQ==&mid=2247485830&idx=1&sn=a3164e131d4ed08cc6cfcdaec4425ff4&chksm=ebd636aadca1bfbcd1df059f9795350157c600f37238ba2f334e03064e25e8359b0acfc177b4&scene=21#wechat_redirect" title="设计模式是什么鬼（原型）">设计模式是什么鬼（原型）</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/10/sjms-ct/" rel="next" title="设计模式是什么鬼（初探）">
+                <i class="fa fa-chevron-left"></i> 设计模式是什么鬼（初探）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/10/sjms-dl/" rel="prev" title="设计模式是什么鬼（单例）">
+                设计模式是什么鬼（单例） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

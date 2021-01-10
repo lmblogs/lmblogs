@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/icon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第五章：图（图的基本知识）1.图的基本概念图 图G由顶点集V和边集E组成,记为G&#x3D;(V,E),其中V(G)表示图G中顶点的有限非空集；E(G)表示图G中顶点之间的关系(边)集合  |V| 表示图G中顶点的个数，也称图G的阶；|E|表示图G中边的条数(| |代表绝对值)  注意：线性表、树都可以为空，但是图不能为空 2.无向图&amp;有向图上面我们讲解的图，就是一个无向图，它的边集使用的圆括号组成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习数据结构--第五章：图（图的基本知识）">
+<meta property="og:url" content="http://example.com/2020/06/08/data-structure-17/index.html">
+<meta property="og:site_name" content="理木客">
+<meta property="og:description" content="第五章：图（图的基本知识）1.图的基本概念图 图G由顶点集V和边集E组成,记为G&#x3D;(V,E),其中V(G)表示图G中顶点的有限非空集；E(G)表示图G中顶点之间的关系(边)集合  |V| 表示图G中顶点的个数，也称图G的阶；|E|表示图G中边的条数(| |代表绝对值)  注意：线性表、树都可以为空，但是图不能为空 2.无向图&amp;有向图上面我们讲解的图，就是一个无向图，它的边集使用的圆括号组成">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607142532529.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607144020816.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607144308964.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607144332784.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607144758146.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607144805285.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607145308883.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607145344897.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607145445622.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607145503644.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607145529658.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020060714581174.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607150011901.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020060714591897.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607150052645.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020060715064120.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607150738280.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607151929515.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607152147346.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607152306864.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607152528687.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020060715310016.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607153345750.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607153736514.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607154200330.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607154249556.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607154500213.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607154642430.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607155534556.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607155729698.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607155832552.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200607155923778.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200505182018216.jpg">
+<meta property="article:published_time" content="2020-06-07T22:02:06.000Z">
+<meta property="article:modified_time" content="2021-01-10T13:19:47.870Z">
+<meta property="article:author" content="理木客">
+<meta property="article:tag" content="理木客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200607142532529.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2020/06/08/data-structure-17/"/>
+
+
+
+
+
+  <title>学习数据结构--第五章：图（图的基本知识） | 理木客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3af7f875665a8b9ae007586dc9e11e23";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">理木客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">理木客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resources">
+          <a href="/resources" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-file"></i> <br />
+            
+            资源
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/06/08/data-structure-17/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/xz.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="理木客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">学习数据结构--第五章：图（图的基本知识）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-08T06:02:06+08:00">
+                2020-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%8E%8B%E9%81%93%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">王道数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="第五章：图（图的基本知识）"><a href="#第五章：图（图的基本知识）" class="headerlink" title="第五章：图（图的基本知识）"></a>第五章：图（图的基本知识）</h1><h2 id="1-图的基本概念"><a href="#1-图的基本概念" class="headerlink" title="1.图的基本概念"></a>1.图的基本概念</h2><p><code>图</code> 图G由顶点集V和边集E组成,记为G=(V,E),其中V(G)表示图G中顶点的<strong>有限非空集</strong>；E(G)表示图G中顶点之间的关系(边)集合</p>
+<blockquote>
+<p>|V| 表示图G中顶点的个数，也称图G的阶；|E|表示图G中边的条数(| |代表绝对值)</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200607142532529.png"><br><code>注意</code>：线性表、树都可以为空，但是图不能为空</p>
+<h2 id="2-无向图-amp-有向图"><a href="#2-无向图-amp-有向图" class="headerlink" title="2.无向图&amp;有向图"></a>2.无向图&amp;有向图</h2><p>上面我们讲解的图，就是一个无向图，它的边集使用的圆括号组成的一个集合，为什么使用的圆括号？其实这样的圆括号表示的就是<strong>无向边</strong>。</p>
+<p><code>无向边</code>：表示这个边是没有方向的，它并不区分起始和终止，所以我们可以使用这样的<code>无序对(V,W) = (W,V)</code>来表示，也可以说V,W互为邻接点</p>
+<p><code>无向图</code>：在该图中所有的边都是<code>无向边</code></p>
+<p><code>有向图</code>：在该图中所有的边都是<code>有向边</code></p>
+<p><code>有向边</code>：该边是有方向的，它区分起始位置和终止位置，V——-&gt;W，我们也称这样有向边为<code>弧</code>，称起始位置为弧头，终止位置为弧尾。我们使用<code>有序对&lt;V,W&gt;</code>来表示，这时候就要区分&lt;V,W&gt;和&lt;W,V&gt;了，我们也称V邻接到W或W邻接自V</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607144020816.png"></p>
+<h2 id="3-简单图-amp-多重图"><a href="#3-简单图-amp-多重图" class="headerlink" title="3.简单图&amp;多重图"></a>3.简单图&amp;多重图</h2><p><code>简单图</code>：无重复边，或不存在节点到自身的边。</p>
+<p><code>多重图</code>：存在重复的边，或存在结点到自身的边。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607144308964.png"></p>
+<p><code>注意</code>：下面的图虽然出现了A指向B，B指向A，但这不是重复的边，不是多重图，我们在上面讲有向图的时候讲到&lt;A,B&gt;和&lt;B,A&gt;是代表不同的边的，所以它不是多重图。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607144332784.png"></p>
+<h2 id="4-完全图"><a href="#4-完全图" class="headerlink" title="4.完全图"></a>4.完全图</h2><p><code>完全图</code>：分为<code>无向完全图</code>和<code>有向完全图</code></p>
+<p><code>无向完全图</code>：</p>
+<ul>
+<li>任意两个顶点之间都存在边</li>
+<li>n个顶点有 n(n-1)/2个边</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200607144758146.png"></p>
+<p><code>有向完全图</code>：</p>
+<ul>
+<li>任意两个顶点之间都存方向相反的在弧</li>
+<li>n个顶点有 n(n-1)个边</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200607144805285.png"></p>
+<h2 id="5-子图"><a href="#5-子图" class="headerlink" title="5.子图"></a>5.子图</h2><p>设有两个图 <code>G=(V,E) </code>和 <code>G&#39;=(V&#39;,E&#39;)</code>，若 <code>V‘</code> 是 <code>V </code>的子集，且 <code>E’ </code>是 <code>E </code>的子集，则称 <code>G‘</code> 为 <code>G </code>的子图，<code>且</code>若 <code>V(G) = V(G&#39;) </code>则称<code>G&#39; </code>为<code>G</code>的生成子图</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607145308883.png"><br><img src="https://img-blog.csdnimg.cn/20200607145344897.png"><br><img src="https://img-blog.csdnimg.cn/20200607145445622.png"><br><img src="https://img-blog.csdnimg.cn/20200607145503644.png"><br><img src="https://img-blog.csdnimg.cn/20200607145529658.png"></p>
+<h2 id="6-无向图-amp-有向图"><a href="#6-无向图-amp-有向图" class="headerlink" title="6.无向图&amp;有向图"></a>6.无向图&amp;有向图</h2><p><code>无向图</code>：只有<code>连通</code>：若从顶点V到顶点W有<code>路径</code>存在，则称V和W是连通</p>
+<p><img src="https://img-blog.csdnimg.cn/2020060714581174.png"></p>
+<p><code>连通图</code>：任意两个结点都是连通的</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607150011901.png"></p>
+<p><code>有向图</code>：只有<code>强连通</code>：若从顶点V到顶点W 和 从顶点W到顶点V都有<code>路径</code>存在，则称V和W是强连通</p>
+<p><img src="https://img-blog.csdnimg.cn/2020060714591897.png"></p>
+<p><code>强连通图</code>：任意两个结点都是强连通的</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607150052645.png"></p>
+<p><strong>n个顶点的连通图（强连通图）最少有多少条边？</strong></p>
+<p>连通图：n-1 【某一个顶点与剩余的每一个顶点(n-1)有一条边】</p>
+<p><img src="https://img-blog.csdnimg.cn/2020060715064120.png"></p>
+<p>强连通图：n  </p>
+<p><img src="https://img-blog.csdnimg.cn/20200607150738280.png"></p>
+<p>无向图的<code>连通分量</code>：极大连通子图</p>
+<p>有向图的<code>强连通分量</code>：极大强连通子图</p>
+<p>对于G的一个(强)连通子图<code>G&#39;</code>·,如果不存在<code>G</code>的另一个(强)连通子图<code>G&quot;</code>,使得<code>G属于G&quot;</code>,则称<code>G&#39;</code>为<code>G</code>的(强)连通分量（就是该连通分量一定是最大的那个，不存在另外的连通子图或者强连通子图能够把它包含起来，即保证他是连通的或者强连通的情况下能够包含更多的顶点和边）</p>
+<p>我们看几个例子：<strong>找出无向图立的连通分量</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200607151929515.png"></p>
+<p>首先画出它的几个连通子图，找出连通分量（极大连通子图）</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607152147346.png"><br>我们可以看出下面两个是连通分量（极大连通子图），因为其他的连通子图，都不能包含他们。</p>
+<p><strong>找出有向图立的连通分量</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200607152306864.png"><br><img src="https://img-blog.csdnimg.cn/20200607152528687.png"><br>上面的无向图有两个连通分量，而有向图只有一个连通分量。其实我们可以得出一个<code>结论</code>：如果一个图他是连通图或者强连通图，那个它的连通分量或强连通分量就是他自己，而如果一个图不是连通图或者强连通图，那么它的连通分量或者强连通分量则会有许多个。</p>
+<h2 id="7-生成树、生成森林"><a href="#7-生成树、生成森林" class="headerlink" title="7.生成树、生成森林"></a>7.生成树、生成森林</h2><p><code>极小连通子图</code>：连通子图且包含的边最少</p>
+<p>在满足连通的情况下达到边最少<br><img src="https://img-blog.csdnimg.cn/2020060715310016.png"><br><code>生成树</code>：连通图包含全部顶点的一个极小连通子图</p>
+<p>首先原图一定是一个连通通，然后包含全部顶点的一个极小连通子图</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607153345750.png"><br><strong>n个顶点的图的生成树有n-1条</strong></p>
+<p>（连通图只能生成生成树，非连通图只能生成生成森林）</p>
+<p><code>生成森林</code>：非连通图所有连通分量的生成树组成森林</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607153736514.png"></p>
+<h2 id="8-顶点的度"><a href="#8-顶点的度" class="headerlink" title="8.顶点的度"></a>8.顶点的度</h2><p><code>顶点的度</code>：以该顶点为一个断点的边的数目</p>
+<p><strong>无向图</strong>：顶点V的度以V为断点边的个数记为TD(V)</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607154200330.png"></p>
+<p><strong>n个顶点，e条边的无向图中度的总数为：2e</strong></p>
+<p><strong>有向图</strong>：</p>
+<ul>
+<li>出度：以V为起点的有向边的条数，记作 OD(V)</li>
+<li>入度：以V为终点的有向边的条数，记作 ID(V)</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200607154249556.png"></p>
+<p><strong>n个顶点，e条边的有向图中出度，入度总数分别为：e</strong>:</p>
+<h2 id="9-网"><a href="#9-网" class="headerlink" title="9.网"></a>9.网</h2><p>为边赋予权重（在实际情况中可能是花费时间等）</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607154500213.png"></p>
+<h2 id="10-稠密图-amp-稀疏图"><a href="#10-稠密图-amp-稀疏图" class="headerlink" title="10.稠密图&amp;稀疏图"></a>10.稠密图&amp;稀疏图</h2><p><img src="https://img-blog.csdnimg.cn/20200607154642430.png"><br>稀疏稠密的界定：|E|&lt;|V|log|V|</p>
+<p>当变数小于结点数乘以log结点数的时候称为稀疏图</p>
+<h2 id="11-有向树"><a href="#11-有向树" class="headerlink" title="11.有向树"></a>11.有向树</h2><p><code>有向树</code>：一个顶点的入度为0、其余顶点的入度均为1的<code>有向图</code></p>
+<p><img src="https://img-blog.csdnimg.cn/20200607155534556.png"></p>
+<h2 id="12-路径"><a href="#12-路径" class="headerlink" title="12.路径"></a>12.路径</h2><p><code>路径</code>：途中顶点V到顶点W的顶点序列，序列中顶点不重复的路径称为简单路径</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607155729698.png"><br><code>路径长度</code>：路径上边的数目，若该路径最短则称其为<code>距离</code></p>
+<p><img src="https://img-blog.csdnimg.cn/20200607155832552.png"></p>
+<p><code>回路</code>：第一个顶点和最后一个顶点相同的路径（环状结构）</p>
+<p><img src="https://img-blog.csdnimg.cn/20200607155923778.png"></p>
+<p>关于数据结构的知识公众号 <strong>理木客</strong>同步更新中，下次将会讲解：<strong>图的存储及基本操作</strong>，期待大家的关注</p>
+<p><img src="https://img-blog.csdnimg.cn/20200505182018216.jpg"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/lmk.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的个人公众号！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持技术分享！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wx.png" alt=" 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/zfb.jpg" alt=" 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/08/mobaxterm/" rel="next" title="请卸载你的xshell和winscp">
+                <i class="fa fa-chevron-left"></i> 请卸载你的xshell和winscp
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/09/lmkztw-cs/" rel="prev" title="出售【易试验】项目的考试系统模块">
+                出售【易试验】项目的考试系统模块 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/xz.png"
+                alt="" />
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0%EF%BC%9A%E5%9B%BE%EF%BC%88%E5%9B%BE%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%EF%BC%89"><span class="nav-text">第五章：图（图的基本知识）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9B%BE%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">1.图的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%97%A0%E5%90%91%E5%9B%BE-amp-%E6%9C%89%E5%90%91%E5%9B%BE"><span class="nav-text">2.无向图&amp;有向图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%AE%80%E5%8D%95%E5%9B%BE-amp-%E5%A4%9A%E9%87%8D%E5%9B%BE"><span class="nav-text">3.简单图&amp;多重图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AE%8C%E5%85%A8%E5%9B%BE"><span class="nav-text">4.完全图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%AD%90%E5%9B%BE"><span class="nav-text">5.子图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%97%A0%E5%90%91%E5%9B%BE-amp-%E6%9C%89%E5%90%91%E5%9B%BE"><span class="nav-text">6.无向图&amp;有向图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E7%94%9F%E6%88%90%E6%A0%91%E3%80%81%E7%94%9F%E6%88%90%E6%A3%AE%E6%9E%97"><span class="nav-text">7.生成树、生成森林</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E9%A1%B6%E7%82%B9%E7%9A%84%E5%BA%A6"><span class="nav-text">8.顶点的度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E7%BD%91"><span class="nav-text">9.网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E7%A8%A0%E5%AF%86%E5%9B%BE-amp-%E7%A8%80%E7%96%8F%E5%9B%BE"><span class="nav-text">10.稠密图&amp;稀疏图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E6%9C%89%E5%90%91%E6%A0%91"><span class="nav-text">11.有向树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-%E8%B7%AF%E5%BE%84"><span class="nav-text">12.路径</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">理木客</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
